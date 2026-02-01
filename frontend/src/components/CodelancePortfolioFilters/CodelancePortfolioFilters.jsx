@@ -1,0 +1,55 @@
+import React, { useState } from 'react'
+import useScrollReveal from '../../hooks/useScrollReveal'
+
+const CodelancePortfolioFilters = ({
+  filters = [
+    { id: 'all', label: 'All Projects' },
+    { id: 'website', label: 'Websites' },
+    { id: 'mobile', label: 'Mobile Apps' },
+    { id: 'pos', label: 'POS' },
+    { id: 'dashboard', label: 'Dashboards' }
+  ],
+  activeFilter = 'all',
+  onFilterChange = null,
+  className = ""
+}) => {
+  const [currentFilter, setCurrentFilter] = useState(activeFilter)
+  const [isVisible, ref] = useScrollReveal({ threshold: 0.2 })
+
+  const handleFilterClick = (filterId) => {
+    setCurrentFilter(filterId)
+    if (onFilterChange) {
+      onFilterChange(filterId)
+    }
+  }
+
+  return (
+    <div 
+      ref={ref}
+      className={`flex justify-center mb-16 transition-all duration-1000 ease-out delay-200 ${
+        isVisible 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-8'
+      } ${className}`}
+    >
+      <div className="bg-gray-200/50 dark:bg-gray-800/50 p-1.5 rounded-full flex flex-wrap justify-center gap-1">
+        {filters.map((filter) => (
+          <button
+            key={filter.id}
+            onClick={() => handleFilterClick(filter.id)}
+            className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
+              currentFilter === filter.id
+                ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                : 'text-navy-deep/60 dark:text-white/60 hover:bg-white dark:hover:bg-gray-700 hover:text-navy-deep dark:hover:text-white hover:shadow-md'
+            }`}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default CodelancePortfolioFilters
+

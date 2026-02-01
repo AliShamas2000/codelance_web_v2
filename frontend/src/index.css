@@ -1,0 +1,634 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* React Phone Number Input Styles - Clean Integrated Design */
+.phone-input-custom {
+  position: relative;
+  width: 100%;
+}
+
+.phone-input-custom .PhoneInput {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 3rem;
+  position: relative;
+  min-height: 3rem;
+}
+
+/* Country Selector Container - Positioned inside input */
+.phone-input-custom .PhoneInputCountry {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  z-index: 10;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  height: 100%;
+  line-height: 1;
+}
+
+/* Country Flag Icon */
+.phone-input-custom .PhoneInputCountryIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 0.125rem;
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Country Code Selector */
+.phone-input-custom .PhoneInputCountrySelect {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgb(17 24 39);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  min-width: 2rem;
+  max-width: 3rem;
+  transition: color 0.2s ease;
+  outline: none;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+}
+
+.dark .phone-input-custom .PhoneInputCountrySelect {
+  color: rgb(255 255 255);
+}
+
+.phone-input-custom .PhoneInputCountrySelect:hover {
+  color: rgb(17 212 147);
+}
+
+.phone-input-custom .PhoneInputCountrySelect:focus {
+  color: rgb(17 212 147);
+}
+
+/* Dropdown Arrow - Smaller size */
+.phone-input-custom .PhoneInputCountrySelectArrow {
+  opacity: 0.4;
+  margin-left: 0.125rem;
+  width: 0.4rem;
+  height: 0.4rem;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.phone-input-custom .PhoneInputCountrySelect:hover .PhoneInputCountrySelectArrow {
+  opacity: 0.7;
+}
+
+/* Phone Number Input Field - Full width with left padding for country selector */
+.phone-input-custom .phone-input-field {
+  flex: 1;
+  width: 100%;
+  background-color: rgb(255 255 255);
+  border: 1px solid rgb(219 230 226);
+  border-radius: 0.5rem;
+  padding: 0.625rem 1rem 0.625rem 4.5rem;
+  font-size: 1rem;
+  color: rgb(17 24 39);
+  transition: all 0.2s ease;
+  font-family: inherit;
+  height: 3rem;
+  min-height: 3rem;
+  outline: none;
+  box-sizing: border-box;
+  font-weight: normal;
+  line-height: normal;
+}
+
+.dark .phone-input-custom .phone-input-field {
+  background-color: rgb(11 26 21);
+  border-color: rgb(42 62 54);
+  color: rgb(255 255 255);
+}
+
+.phone-input-custom .phone-input-field::placeholder {
+  color: rgb(156 163 175);
+  font-weight: normal;
+}
+
+.dark .phone-input-custom .phone-input-field::placeholder {
+  color: rgb(156 163 175);
+}
+
+/* Focus States */
+.phone-input-custom .phone-input-field:focus {
+  outline: none;
+  border-color: rgb(17 212 147);
+  background-color: rgb(255 255 255);
+  box-shadow: 0 0 0 2px rgba(17, 212, 147, 0.2);
+}
+
+.dark .phone-input-custom .phone-input-field:focus {
+  background-color: rgb(11 26 21);
+  border-color: rgb(17 212 147);
+  box-shadow: 0 0 0 2px rgba(17, 212, 147, 0.2);
+}
+
+/* Error States */
+.phone-input-error .phone-input-field {
+  border-color: rgb(239 68 68) !important;
+  background-color: rgb(254 242 242);
+}
+
+.dark .phone-input-error .phone-input-field {
+  background-color: rgb(127 29 29 / 0.2);
+  border-color: rgb(239 68 68) !important;
+}
+
+.phone-input-error .phone-input-field:focus {
+  border-color: rgb(239 68 68) !important;
+  box-shadow: 0 0 0 1px rgb(239 68 68) !important;
+}
+
+/* Disabled State */
+.phone-input-custom .phone-input-field:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: rgb(243 244 246);
+}
+
+.dark .phone-input-custom .phone-input-field:disabled {
+  background-color: rgb(55 65 81);
+  opacity: 0.5;
+}
+
+.phone-input-custom .phone-input-field:disabled ~ .PhoneInputCountry {
+  
+}
+
+/* OTP Input Styles */
+.otp-input {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+.otp-input::-webkit-inner-spin-button,
+.otp-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: #00D998;
+  box-shadow: 0 0 0 4px rgba(0, 217, 152, 0.1);
+}
+
+/* Hide browser default date picker icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-clear-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar to match the sleek theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #444;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Custom scrollbar hide for horizontal scrolling areas */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Fade in animation */
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.6s ease-out;
+}
+
+/* Fade in animation for lightbox */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Card zoom image effect */
+.card-zoom-image {
+  transition: transform 0.4s ease-out;
+}
+
+.group:hover .card-zoom-image {
+  transform: scale(1.05);
+}
+
+/* Map filter for Google Maps embed */
+.map-filter {
+  filter: grayscale(100%);
+}
+
+.dark .map-filter {
+  filter: grayscale(100%) invert(90%) hue-rotate(180deg);
+}
+
+/* Custom checkbox tick style */
+.custom-checkbox:checked {
+  background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAzYDh0mXWhikjdEWBJJhCNos8umoceX9lZ77Nqj4TGJwb47EkypxmhjCV1MfuYDgCNX0FEvg6pCIpQSFvVg16cm9t29XB8Bky7d2zQS257-NJHZOksn5duxHH0MJOtyDAn9VON2R7aE7xv-vl4tyeQJQmIhrESu4ouvE_QguFoaz_p0T1rAZGwE6pwKKcWFlSoRSUdfFmLRUTwwI25Vhs9d_KdG9hVKi2w92u29kQUVkXWUCI78DCWqZ2RHeWSLvTMW8g9QHu9Lug);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Fade in up animation for login */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.card-hover {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Star Rating Styles */
+.star-rating-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.star-rating-wrapper input:checked ~ label .material-symbols-outlined,
+.star-rating-wrapper input:checked + label .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+  color: #fbbf24;
+}
+
+.star-rating-wrapper label .material-symbols-outlined {
+  font-variation-settings: 'FILL' 0;
+  color: #d1d5db;
+  transition: color 0.2s;
+}
+
+.star-rating-wrapper label:hover .material-symbols-outlined,
+.star-rating-wrapper label:hover ~ label .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+  color: #fbbf24;
+}
+
+/* Fade In Animation for Success Modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* CODELANCE Test Page Styles */
+.glass-header {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass-header {
+  background: rgba(15, 30, 35, 0.7);
+}
+
+.bg-mesh {
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(0, 176, 240, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(0, 43, 73, 0.03) 0px, transparent 50%);
+}
+
+.dark .bg-mesh {
+  background-color: #0f1e23;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(0, 176, 240, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(0, 43, 73, 0.2) 0px, transparent 50%);
+}
+
+.floating {
+  animation: floating 6s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Line Draw Effect for About Section */
+.line-draw {
+  position: relative;
+}
+
+.line-draw::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background-color: #00b0f0;
+}
+
+/* Services Page Styles */
+.icon-rotate {
+  transition: transform 0.4s ease;
+}
+
+.glass-card:hover .icon-rotate {
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Enhanced glass-card for services */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 176, 240, 0.1), 0 10px 10px -5px rgba(0, 176, 240, 0.04);
+}
+
+/* Reveal Animation */
+.reveal {
+  animation: revealUp 0.8s ease-out forwards;
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+.stagger-7 { animation-delay: 0.7s; }
+.stagger-8 { animation-delay: 0.8s; }
+
+/* Team Section Styles */
+.social-reveal {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.group:hover .social-reveal {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.accent-border {
+  width: 0;
+  transition: width 0.4s ease-out;
+}
+
+.group:hover .accent-border {
+  width: 100%;
+}
+
+.parallax-img {
+  transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.group:hover .parallax-img {
+  transform: scale(1.05);
+}
+
+/* Reviews Section Styles */
+.signature-line {
+  width: 0;
+  height: 3px;
+  background: #00b0f0;
+  border-radius: 99px;
+  animation: draw 1.2s ease-out forwards;
+}
+
+@keyframes draw {
+  to {
+    width: 80px;
+  }
+}
+
+.testimonial-container {
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+/* Contact Section Styles */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 30, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.blob {
+  position: absolute;
+  filter: blur(60px);
+  z-index: 0;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Footer Styles */
+.hover-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #00b0f0;
+  transition: width 0.3s ease;
+}
+
+.hover-underline:hover::after {
+  width: 100%;
+}
+
+.social-icon-hover {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+}
+
+.social-icon-hover:hover {
+  transform: scale(1.1) rotate(10deg);
+  color: #00b0f0;
+}
+
+/* Pricing Section Styles */
+.pricing-card {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 176, 240, 0.15);
+}
+
+.pricing-card:hover .cta-btn-arrow {
+  transform: translateX(5px);
+}
+
+/* Pulse Animation for Badge */
+@keyframes custom-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 176, 240, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 176, 240, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 176, 240, 0);
+  }
+}
+
+.badge-pulse {
+  animation: custom-pulse 2s infinite;
+}
+
