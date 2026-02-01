@@ -45,12 +45,7 @@ const CodelanceContactSection = ({
       href: '#'
     }
   ],
-  services = [
-    { value: 'web', label: 'Web Development' },
-    { value: 'mobile', label: 'Mobile App Development' },
-    { value: 'design', label: 'UI/UX Design' },
-    { value: 'cloud', label: 'Cloud Solutions' }
-  ],
+  projects = [],
   onSubmit = null,
   className = ""
 }) => {
@@ -81,8 +76,9 @@ const CodelanceContactSection = ({
 
         {/* Right Side: Contact Form */}
         <CodelanceContactForm
-          services={services}
+          projects={projects}
           onSubmit={onSubmit}
+          key="contact-form" // Force re-render if onSubmit changes
         />
       </div>
     </section>

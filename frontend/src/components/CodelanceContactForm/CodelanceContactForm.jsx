@@ -1,24 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useScrollReveal from '../../hooks/useScrollReveal'
+import SuccessModal from '../SuccessModal/SuccessModal'
+import contactSubmissionsApi from '../../api/contactSubmissions'
 
 const CodelanceContactForm = ({
-  services = [
-    { value: 'web', label: 'Web Development' },
-    { value: 'mobile', label: 'Mobile App Development' },
-    { value: 'design', label: 'UI/UX Design' },
-    { value: 'cloud', label: 'Cloud Solutions' }
-  ],
+  projects = [],
   onSubmit = null,
   className = ""
 }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    service: '',
+    project_id: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [isVisible, ref] = useScrollReveal({ threshold: 0.2 })
+
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -31,7 +30,7 @@ const CodelanceContactForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    if (onSubmit) {
+    if (onSubmit && typeof onSubmit === 'function') {
       setIsSubmitting(true)
       try {
         await onSubmit(formData)
@@ -39,24 +38,41 @@ const CodelanceContactForm = ({
         setFormData({
           name: '',
           email: '',
-          service: '',
+          project_id: '',
           message: ''
         })
+        // Show success modal
+        setShowSuccessModal(true)
       } catch (error) {
-        console.error('Error submitting form:', error)
+        // Error is handled by parent component, but don't show success modal on error
+        alert(error.response?.data?.message || 'Failed to send message. Please try again.')
       } finally {
         setIsSubmitting(false)
       }
     } else {
-      // Frontend-only: Just log the data
-      console.log('Form submitted:', formData)
-      alert('Thank you for your message! We will get back to you soon.')
-      setFormData({
-        name: '',
-        email: '',
-        service: '',
-        message: ''
-      })
+      // Fallback: Submit directly to API if no handler provided
+      setIsSubmitting(true)
+      try {
+        await contactSubmissionsApi.submitContactForm({
+          name: formData.name,
+          email: formData.email,
+          project_id: formData.project_id ? parseInt(formData.project_id) : null,
+          message: formData.message
+        })
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          email: '',
+          project_id: '',
+          message: ''
+        })
+        // Show success modal
+        setShowSuccessModal(true)
+      } catch (error) {
+        alert(error.response?.data?.message || 'Failed to send message. Please try again.')
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -106,16 +122,16 @@ const CodelanceContactForm = ({
             Required Service
           </label>
           <select
-            name="service"
-            value={formData.service}
+            name="project_id"
+            value={formData.project_id}
             onChange={handleChange}
             className="w-full px-5 py-4 rounded-lg bg-white/50 dark:bg-background-dark/50 border border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none cursor-pointer"
             required
           >
             <option disabled value="">Select a service</option>
-            {services.map((service) => (
-              <option key={service.value} value={service.value}>
-                {service.label}
+            {projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.title}
               </option>
             ))}
           </select>
@@ -161,6 +177,14 @@ const CodelanceContactForm = ({
           .
         </p>
       </form>
+
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        title="Message Sent Successfully!"
+        message="Thank you for reaching out! We've received your message and will get back to you as soon as possible."
+      />
     </div>
   )
 }

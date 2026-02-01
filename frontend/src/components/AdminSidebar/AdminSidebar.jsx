@@ -72,6 +72,12 @@ const AdminSidebar = ({
       href: "/admin/reviews"
     },
     {
+      id: "contact-submissions",
+      label: "Contact Submissions",
+      icon: "mail",
+      href: "/admin/contact-submissions"
+    },
+    {
       type: "divider",
       label: "System"
     },

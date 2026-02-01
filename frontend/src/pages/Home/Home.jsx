@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CodelanceHeader from '../../components/CodelanceHeader/CodelanceHeader'
 import CodelanceHero from '../../components/CodelanceHero/CodelanceHero'
@@ -29,6 +29,7 @@ import packagesApi from '../../api/packages'
 import processStepsApi from '../../api/processSteps'
 import projectsApi from '../../api/projects'
 import reviewsApi from '../../api/reviews'
+import contactSubmissionsApi from '../../api/contactSubmissions'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -314,6 +315,23 @@ const Home = () => {
       setIsLoadingReviews(false)
     }
   }
+
+  // Handle contact form submission
+  const handleContactSubmit = useCallback(async (formData) => {
+    try {
+      await contactSubmissionsApi.submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        project_id: formData.project_id ? parseInt(formData.project_id) : null,
+        message: formData.message
+      })
+      // Success is handled by the form component's SuccessModal
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Failed to send message. Please try again.'
+      alert(errorMessage)
+      throw error
+    }
+  }, [])
 
   useEffect(() => {
     fetchFooterData()
@@ -634,6 +652,8 @@ const Home = () => {
         title="Let's Build"
         titleHighlight="Something Great"
         description="Have a vision for the next big thing? Our team of experts is ready to transform your ideas into world-class digital solutions."
+        projects={projects}
+        onSubmit={handleContactSubmit}
         contactItems={[
           {
             type: 'email',
