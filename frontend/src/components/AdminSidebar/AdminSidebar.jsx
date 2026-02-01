@@ -78,6 +78,12 @@ const AdminSidebar = ({
       href: "/admin/contact-submissions"
     },
     {
+      id: "newsletter-subscriptions",
+      label: "Newsletter",
+      icon: "campaign",
+      href: "/admin/newsletter-subscriptions"
+    },
+    {
       type: "divider",
       label: "System"
     },

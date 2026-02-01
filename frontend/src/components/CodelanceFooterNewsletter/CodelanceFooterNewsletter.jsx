@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import useScrollReveal from '../../hooks/useScrollReveal'
+import SuccessModal from '../SuccessModal/SuccessModal'
+import newsletterSubscriptionsApi from '../../api/newsletterSubscriptions'
 
 const CodelanceFooterNewsletter = ({
   title = "Subscribe to our newsletter",
@@ -9,28 +11,37 @@ const CodelanceFooterNewsletter = ({
 }) => {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [error, setError] = useState(null)
   const [isVisible, ref] = useScrollReveal({ threshold: 0.1 })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    if (!email) return
+    if (!email.trim()) return
 
-    if (onSubmit) {
-      setIsSubmitting(true)
-      try {
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      if (onSubmit && typeof onSubmit === 'function') {
         await onSubmit(email)
-        setEmail('')
-      } catch (error) {
-        console.error('Error subscribing:', error)
-      } finally {
-        setIsSubmitting(false)
+      } else {
+        // Fallback: Submit directly to API
+        await newsletterSubscriptionsApi.subscribe(email)
       }
-    } else {
-      // Frontend-only: Just log the email
-      console.log('Newsletter subscription:', email)
-      alert('Thank you for subscribing!')
+      
       setEmail('')
+      setShowSuccessModal(true)
+    } catch (error) {
+      // Handle duplicate email error
+      if (error.response?.data?.error === 'duplicate_email' || error.response?.status === 422) {
+        setError(error.response?.data?.message || 'This email is already subscribed to our newsletter.')
+      } else {
+        setError(error.response?.data?.message || 'Failed to subscribe. Please try again.')
+      }
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -48,23 +59,50 @@ const CodelanceFooterNewsletter = ({
           {title}
         </p>
       )}
-      <form onSubmit={handleSubmit} className="flex">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={placeholder}
-          className="bg-white dark:bg-white/5 border border-navy-deep/10 dark:border-white/10 rounded-l px-4 py-2 text-sm w-full focus:outline-none focus:ring-1 focus:ring-primary text-navy-deep dark:text-white placeholder:text-navy-deep/40 dark:placeholder:text-white/40"
-          required
-        />
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-primary text-navy-deep font-bold text-sm px-4 py-2 rounded-r hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span className="material-symbols-outlined">send</span>
-        </button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <div className="flex">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              setError(null)
+            }}
+            placeholder={placeholder}
+            className={`bg-white dark:bg-white/5 border rounded-l px-4 py-2 text-sm w-full focus:outline-none focus:ring-1 text-navy-deep dark:text-white placeholder:text-navy-deep/40 dark:placeholder:text-white/40 ${
+              error 
+                ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
+                : 'border-navy-deep/10 dark:border-white/10 focus:ring-primary focus:border-primary'
+            }`}
+            required
+            disabled={isSubmitting}
+          />
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="bg-primary text-navy-deep font-bold text-sm px-4 py-2 rounded-r hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? (
+              <span className="material-symbols-outlined animate-spin">hourglass_empty</span>
+            ) : (
+              <span className="material-symbols-outlined">send</span>
+            )}
+          </button>
+        </div>
+        {error && (
+          <p className="text-xs text-red-500 dark:text-red-400 mt-1">
+            {error}
+          </p>
+        )}
       </form>
+
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        title="Successfully Subscribed!"
+        message="Thank you for subscribing to our newsletter! You'll receive the latest updates and news from us."
+      />
     </div>
   )
 }

@@ -28,6 +28,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/reviews', [App\Http\Controllers\Api\ReviewController::class, 'index']);
     Route::get('/reviews/{id}', [App\Http\Controllers\Api\ReviewController::class, 'show']);
     Route::post('/contact', [App\Http\Controllers\Api\ContactSubmissionController::class, 'store']);
+    Route::post('/newsletter/subscribe', [App\Http\Controllers\Api\NewsletterSubscriptionController::class, 'store']);
     Route::get('/barbers', [App\Http\Controllers\Api\BarberController::class, 'index']);
     Route::get('/barbers/{id}', [App\Http\Controllers\Api\BarberController::class, 'show']);
     Route::get('/available-slots', [App\Http\Controllers\Api\AppointmentController::class, 'getAvailableSlots']);
@@ -63,6 +64,9 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         
         // Contact Submissions management
         Route::apiResource('contact-submissions', \App\Http\Controllers\Api\Admin\ContactSubmissionController::class);
+        
+        // Newsletter Subscriptions management
+        Route::apiResource('newsletter-subscriptions', \App\Http\Controllers\Api\Admin\NewsletterSubscriptionController::class);
         
         // Services management
         Route::apiResource('services', App\Http\Controllers\Api\Admin\ServiceController::class);
