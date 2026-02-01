@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     // Public endpoints (no authentication required)
     Route::get('/services', [App\Http\Controllers\Api\ServiceController::class, 'index']);
+    Route::get('/packages', [App\Http\Controllers\Api\PackageController::class, 'index']);
+    Route::get('/packages/{id}', [App\Http\Controllers\Api\PackageController::class, 'show']);
+    Route::get('/process-steps', [App\Http\Controllers\Api\ProcessStepController::class, 'index']);
+    Route::get('/process-steps/{id}', [App\Http\Controllers\Api\ProcessStepController::class, 'show']);
     Route::get('/barbers', [App\Http\Controllers\Api\BarberController::class, 'index']);
     Route::get('/barbers/{id}', [App\Http\Controllers\Api\BarberController::class, 'show']);
     Route::get('/available-slots', [App\Http\Controllers\Api\AppointmentController::class, 'getAvailableSlots']);
@@ -31,11 +35,19 @@ Route::prefix('v1')->group(function () {
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     // Admin endpoints
     Route::prefix('admin')->group(function () {
+        // Packages management - Define as apiResource to match services pattern exactly
+        Route::apiResource('packages', \App\Http\Controllers\Api\Admin\PackageController::class);
+        Route::post('packages/update-order', [\App\Http\Controllers\Api\Admin\PackageController::class, 'updateOrder']);
+        
+        // Process Steps management
+        Route::apiResource('process-steps', \App\Http\Controllers\Api\Admin\ProcessStepController::class);
+        Route::post('process-steps/update-order', [\App\Http\Controllers\Api\Admin\ProcessStepController::class, 'updateOrder']);
+        
         // Services management
         Route::apiResource('services', App\Http\Controllers\Api\Admin\ServiceController::class);
         
-        // Barbers management
-        Route::apiResource('barbers', App\Http\Controllers\Api\Admin\BarberController::class);
+        // Barbers/Team management (uses TeamController)
+        Route::apiResource('barbers', App\Http\Controllers\Api\Admin\TeamController::class);
         
         // Appointments management
         Route::get('appointments', [App\Http\Controllers\Api\Admin\AppointmentController::class, 'index']);

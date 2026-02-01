@@ -18,6 +18,8 @@ import Dashboard from '../pages/Admin/Dashboard/Dashboard'
 import AppointmentsPage from '../pages/Admin/Appointments/Appointments'
 import Team from '../pages/Admin/Team/Team'
 import Services from '../pages/Admin/Services/Services'
+import Packages from '../pages/Admin/Packages/Packages'
+import ProcessSteps from '../pages/Admin/ProcessSteps/ProcessSteps'
 import Gallery from '../pages/Admin/Gallery/Gallery'
 import Banners from '../pages/Admin/Banners/Banners'
 import InformativeSections from '../pages/Admin/InformativeSections/InformativeSections'
@@ -38,7 +40,6 @@ import { BarberUserProvider } from '../contexts/BarberUserContext'
 import AdminLayout from '../components/AdminLayout/AdminLayout'
 import { AdminUserProvider } from '../contexts/AdminUserContext'
 import ReviewPage from '../pages/Review/Review'
-import Test from '../pages/Test/Test'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 import footerApi from '../api/footer'
 
@@ -169,12 +170,6 @@ const AppRouter = () => {
           element={<ReviewPage />}
         />
 
-        {/* Test Route (Public - No Layout) */}
-        <Route
-          path="/test"
-          element={<Test />}
-        />
-
         {/* User Login Route */}
         <Route
           path="/login"
@@ -250,6 +245,8 @@ const AppRouter = () => {
           <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="team" element={<Team />} />
           <Route path="services" element={<Services />} />
+          <Route path="packages" element={<Packages />} />
+          <Route path="process-steps" element={<ProcessSteps />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="banners" element={<Banners />} />
           <Route path="informative-sections" element={<InformativeSections />} />

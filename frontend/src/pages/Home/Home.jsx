@@ -25,6 +25,8 @@ import footerApi from '../../api/footer'
 import aboutUsApi from '../../api/aboutUs'
 import servicesApi from '../../api/services'
 import barbersApi from '../../api/barbers'
+import packagesApi from '../../api/packages'
+import processStepsApi from '../../api/processSteps'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -33,11 +35,15 @@ const Home = () => {
   const [services, setServices] = useState([])
   const [projects, setProjects] = useState([])
   const [teamMembers, setTeamMembers] = useState([])
+  const [packages, setPackages] = useState([])
+  const [processSteps, setProcessSteps] = useState([])
   const [activePortfolioFilter, setActivePortfolioFilter] = useState('all')
   const [isLoadingAbout, setIsLoadingAbout] = useState(true)
   const [isLoadingServices, setIsLoadingServices] = useState(true)
   const [isLoadingProjects, setIsLoadingProjects] = useState(true)
   const [isLoadingTeam, setIsLoadingTeam] = useState(true)
+  const [isLoadingPackages, setIsLoadingPackages] = useState(true)
+  const [isLoadingProcessSteps, setIsLoadingProcessSteps] = useState(true)
 
   // Fetch footer data for dynamic content
   const fetchFooterData = async () => {
@@ -195,12 +201,91 @@ const Home = () => {
     }
   }
 
+  // Fetch packages from API
+  const fetchPackages = async () => {
+    try {
+      setIsLoadingPackages(true)
+      const response = await packagesApi.getPublicPackages({ limit: 6 })
+      const packagesData = response.data || response || []
+      // Transform packages to match CodelancePricingCard format
+      const transformedPackages = Array.isArray(packagesData)
+        ? packagesData.map(pkg => {
+            // Format price - extract currency symbol and format number
+            const priceRaw = pkg.priceRaw || 0
+            const originalPrice = pkg.originalPrice || pkg.original_price || null
+            const currency = pkg.currency || 'USD'
+            const currencySymbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency === 'GBP' ? '£' : currency + ' '
+            const formattedPrice = priceRaw >= 1000 
+              ? `${currencySymbol}${priceRaw.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
+              : `${currencySymbol}${priceRaw.toFixed(2)}`
+            
+            // Format original price if it exists and is greater than current price
+            let formattedOriginalPrice = null
+            let originalPriceNumeric = null
+            if (originalPrice && originalPrice > priceRaw) {
+              originalPriceNumeric = originalPrice
+              formattedOriginalPrice = originalPrice >= 1000
+                ? `${currencySymbol}${originalPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
+                : `${currencySymbol}${originalPrice.toFixed(2)}`
+            }
+            
+            return {
+              id: pkg.id,
+              name: pkg.name,
+              price: formattedPrice,
+              originalPrice: originalPriceNumeric, // Pass numeric value for calculation
+              originalPriceFormatted: formattedOriginalPrice, // Pass formatted string for display
+              pricePeriod: pkg.pricePeriod || pkg.period || '/month',
+              description: pkg.description || '',
+              features: pkg.features || [],
+              badge: pkg.badge || null,
+              isHighlighted: pkg.isHighlighted || pkg.isFeatured || pkg.is_featured || false,
+              buttonText: 'Get Started'
+            }
+          })
+        : []
+      setPackages(transformedPackages)
+    } catch (error) {
+      console.error('Error fetching packages:', error)
+      setPackages([])
+    } finally {
+      setIsLoadingPackages(false)
+    }
+  }
+
+  // Fetch process steps from API
+  const fetchProcessSteps = async () => {
+    try {
+      setIsLoadingProcessSteps(true)
+      const response = await processStepsApi.getPublicProcessSteps()
+      const stepsData = response.data || response || []
+      // Transform steps to match CodelanceProcessTimeline format
+      const transformedSteps = Array.isArray(stepsData)
+        ? stepsData.map((step, index) => ({
+            stepNumber: step.stepNumber || step.step_number || String(index + 1).padStart(2, '0'),
+            title: step.title || '',
+            description: step.description || '',
+            icon: step.icon || 'code',
+            position: step.position || (index % 2 === 0 ? 'left' : 'right')
+          }))
+        : []
+      setProcessSteps(transformedSteps)
+    } catch (error) {
+      console.error('Error fetching process steps:', error)
+      setProcessSteps([])
+    } finally {
+      setIsLoadingProcessSteps(false)
+    }
+  }
+
   useEffect(() => {
     fetchFooterData()
     fetchAboutData()
     fetchServices()
     fetchProjects()
     fetchTeamMembers()
+    fetchPackages()
+    fetchProcessSteps()
   }, [])
 
   // Navigation items - can be fetched from backend later
@@ -415,9 +500,15 @@ const Home = () => {
           description="We follow a structured, transparent process to turn your complex ideas into high-performance digital realities."
         />
 
-        <CodelanceProcessTimeline
-          steps={[]} // Can be fetched from backend later - will use scroll-based animation
-        />
+        {isLoadingProcessSteps ? (
+          <div className="text-center py-12">
+            <p className="text-[#5e808d] dark:text-gray-400">Loading process steps...</p>
+          </div>
+        ) : (
+          <CodelanceProcessTimeline
+            steps={processSteps} // Fetched from backend
+          />
+        )}
 
         <CodelanceProcessCTA
           title="Ready to build something amazing?"
@@ -460,21 +551,27 @@ const Home = () => {
         />
 
         <section className="max-w-[1200px] mx-auto px-6 py-12">
-          <CodelancePricingGrid
-            packages={[]} // Frontend-only, uses default packages
-            onPackageSelect={(pkg) => {
-              navigate('/contact', {
-                state: {
-                  formData: {
-                    packageId: pkg.id,
-                    packageName: pkg.name,
-                    packagePrice: pkg.price
+          {isLoadingPackages ? (
+            <div className="text-center py-12">
+              <p className="text-[#5e808d] dark:text-gray-400">Loading packages...</p>
+            </div>
+          ) : (
+            <CodelancePricingGrid
+              packages={packages}
+              onPackageSelect={(pkg) => {
+                navigate('/contact', {
+                  state: {
+                    formData: {
+                      packageId: pkg.id,
+                      packageName: pkg.name,
+                      packagePrice: pkg.price
+                    }
                   }
-                }
-              })
-            }}
-            columns={3}
-          />
+                })
+              }}
+              columns={3}
+            />
+          )}
         </section>
 
         <CodelancePricingCTA

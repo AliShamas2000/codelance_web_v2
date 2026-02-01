@@ -55,6 +55,18 @@ const AdminSidebar = ({
       href: "/admin/services"
     },
     {
+      id: "packages",
+      label: "Packages",
+      icon: "inventory_2",
+      href: "/admin/packages"
+    },
+    {
+      id: "process-steps",
+      label: "How We Work",
+      icon: "timeline",
+      href: "/admin/process-steps"
+    },
+    {
       id: "gallery",
       label: "Gallery",
       icon: "collections",
