@@ -73,6 +73,9 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         // About Us Content management
         Route::apiResource('about-us-content', \App\Http\Controllers\Api\Admin\AboutUsContentController::class);
         
+        // Dashboard
+        Route::get('dashboard', [\App\Http\Controllers\Api\Admin\DashboardController::class, 'index']);
+        
         // Services management
         Route::apiResource('services', App\Http\Controllers\Api\Admin\ServiceController::class);
         

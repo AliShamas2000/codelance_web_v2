@@ -7,7 +7,8 @@ const StatCard = ({
   color = "blue",
   progress = 0,
   description,
-  className = ""
+  className = "",
+  onClick
 }) => {
   const colorClasses = {
     yellow: {
@@ -39,13 +40,52 @@ const StatCard = ({
       text: "text-blue-600 dark:text-blue-400",
       progress: "bg-blue-500",
       value: "text-blue-500 dark:text-blue-400"
+    },
+    purple: {
+      bg: "bg-purple-50 dark:bg-purple-900/20",
+      text: "text-purple-600 dark:text-purple-400",
+      progress: "bg-purple-500",
+      value: "text-purple-500 dark:text-purple-400"
+    },
+    pink: {
+      bg: "bg-pink-50 dark:bg-pink-900/20",
+      text: "text-pink-600 dark:text-pink-400",
+      progress: "bg-pink-500",
+      value: "text-pink-500 dark:text-pink-400"
+    },
+    cyan: {
+      bg: "bg-cyan-50 dark:bg-cyan-900/20",
+      text: "text-cyan-600 dark:text-cyan-400",
+      progress: "bg-cyan-500",
+      value: "text-cyan-500 dark:text-cyan-400"
+    },
+    orange: {
+      bg: "bg-orange-50 dark:bg-orange-900/20",
+      text: "text-orange-600 dark:text-orange-400",
+      progress: "bg-orange-500",
+      value: "text-orange-500 dark:text-orange-400"
+    },
+    teal: {
+      bg: "bg-teal-50 dark:bg-teal-900/20",
+      text: "text-teal-600 dark:text-teal-400",
+      progress: "bg-teal-500",
+      value: "text-teal-500 dark:text-teal-400"
+    },
+    gray: {
+      bg: "bg-gray-50 dark:bg-gray-900/20",
+      text: "text-gray-600 dark:text-gray-400",
+      progress: "bg-gray-500",
+      value: "text-gray-500 dark:text-gray-400"
     }
   }
 
   const colors = colorClasses[color] || colorClasses.blue
 
   return (
-    <div className={`bg-white dark:bg-card-dark rounded-xl shadow-soft p-6 border border-gray-100 dark:border-gray-700 ${className}`}>
+    <div 
+      className={`bg-white dark:bg-card-dark rounded-xl shadow-soft p-6 border border-gray-100 dark:border-gray-700 transition-all ${onClick ? 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5' : ''} ${className}`}
+      onClick={onClick}
+    >
       <div className="flex justify-between items-start mb-4">
         <div>
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{label}</p>
