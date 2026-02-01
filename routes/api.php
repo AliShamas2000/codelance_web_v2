@@ -25,6 +25,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/projects', [App\Http\Controllers\Api\ProjectController::class, 'index']);
     Route::get('/projects/categories', [App\Http\Controllers\Api\ProjectController::class, 'categories']);
     Route::get('/projects/{id}', [App\Http\Controllers\Api\ProjectController::class, 'show']);
+    Route::get('/reviews', [App\Http\Controllers\Api\ReviewController::class, 'index']);
+    Route::get('/reviews/{id}', [App\Http\Controllers\Api\ReviewController::class, 'show']);
     Route::get('/barbers', [App\Http\Controllers\Api\BarberController::class, 'index']);
     Route::get('/barbers/{id}', [App\Http\Controllers\Api\BarberController::class, 'show']);
     Route::get('/available-slots', [App\Http\Controllers\Api\AppointmentController::class, 'getAvailableSlots']);
@@ -53,6 +55,10 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         // Projects management
         Route::apiResource('projects', \App\Http\Controllers\Api\Admin\ProjectController::class);
         Route::post('projects/update-order', [\App\Http\Controllers\Api\Admin\ProjectController::class, 'updateOrder']);
+        
+        // Reviews management
+        Route::apiResource('reviews', \App\Http\Controllers\Api\Admin\ReviewController::class);
+        Route::post('reviews/update-order', [\App\Http\Controllers\Api\Admin\ReviewController::class, 'updateOrder']);
         
         // Services management
         Route::apiResource('services', App\Http\Controllers\Api\Admin\ServiceController::class);

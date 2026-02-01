@@ -66,6 +66,12 @@ const AdminSidebar = ({
       href: "/admin/team"
     },
     {
+      id: "reviews",
+      label: "Reviews",
+      icon: "star",
+      href: "/admin/reviews"
+    },
+    {
       type: "divider",
       label: "System"
     },

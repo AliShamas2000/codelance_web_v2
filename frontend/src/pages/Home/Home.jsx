@@ -28,6 +28,7 @@ import barbersApi from '../../api/barbers'
 import packagesApi from '../../api/packages'
 import processStepsApi from '../../api/processSteps'
 import projectsApi from '../../api/projects'
+import reviewsApi from '../../api/reviews'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -39,6 +40,7 @@ const Home = () => {
   const [teamMembers, setTeamMembers] = useState([])
   const [packages, setPackages] = useState([])
   const [processSteps, setProcessSteps] = useState([])
+  const [reviews, setReviews] = useState([])
   const [activePortfolioFilter, setActivePortfolioFilter] = useState('all')
   const [isLoadingAbout, setIsLoadingAbout] = useState(true)
   const [isLoadingServices, setIsLoadingServices] = useState(true)
@@ -46,6 +48,7 @@ const Home = () => {
   const [isLoadingTeam, setIsLoadingTeam] = useState(true)
   const [isLoadingPackages, setIsLoadingPackages] = useState(true)
   const [isLoadingProcessSteps, setIsLoadingProcessSteps] = useState(true)
+  const [isLoadingReviews, setIsLoadingReviews] = useState(true)
 
   // Fetch footer data for dynamic content
   const fetchFooterData = async () => {
@@ -284,6 +287,34 @@ const Home = () => {
     }
   }
 
+  // Fetch reviews from API
+  const fetchReviews = async () => {
+    try {
+      setIsLoadingReviews(true)
+      const response = await reviewsApi.getPublicReviews()
+      const reviewsData = response.data || response || []
+      
+      // Transform reviews to match CodelanceReviewsCarousel format
+      const transformedReviews = Array.isArray(reviewsData)
+        ? reviewsData.map(review => ({
+            id: review.id,
+            quote: review.quote || '',
+            authorName: review.authorName || review.author_name || '',
+            authorTitle: review.authorTitle || review.author_title || null,
+            authorCompany: review.authorCompany || review.author_company || null,
+            authorImage: review.authorImage || review.author_image || null
+          }))
+        : []
+      
+      setReviews(transformedReviews)
+    } catch (error) {
+      console.error('Error fetching reviews:', error)
+      setReviews([])
+    } finally {
+      setIsLoadingReviews(false)
+    }
+  }
+
   useEffect(() => {
     fetchFooterData()
     fetchAboutData()
@@ -293,6 +324,7 @@ const Home = () => {
     fetchTeamMembers()
     fetchPackages()
     fetchProcessSteps()
+    fetchReviews()
   }, [])
 
   // Navigation items - can be fetched from backend later
@@ -542,11 +574,17 @@ const Home = () => {
             description="Hear from the innovative teams we've partnered with to build the future of digital infrastructure."
           />
 
-          <CodelanceReviewsCarousel
-            reviews={[]} // Frontend-only, uses default reviews
-            autoPlay={true}
-            autoPlayInterval={5000}
-          />
+          {isLoadingReviews ? (
+            <div className="text-center py-12">
+              <p className="text-[#5e808d] dark:text-gray-400">Loading reviews...</p>
+            </div>
+          ) : (
+            <CodelanceReviewsCarousel
+              reviews={reviews} // Fetched from backend
+              autoPlay={true}
+              autoPlayInterval={5000}
+            />
+          )}
         </div>
       </section>
 

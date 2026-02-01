@@ -21,6 +21,7 @@ import Packages from '../pages/Admin/Packages/Packages'
 import ProcessSteps from '../pages/Admin/ProcessSteps/ProcessSteps'
 import ProjectCategories from '../pages/Admin/ProjectCategories/ProjectCategories'
 import Projects from '../pages/Admin/Projects/Projects'
+import Reviews from '../pages/Admin/Reviews/Reviews'
 import Settings from '../pages/Admin/Settings/Settings'
 import BarberDashboard from '../pages/Barber/Dashboard/BarberDashboard'
 import BarberAppointments from '../pages/Barber/Appointments/Appointments'
@@ -244,6 +245,7 @@ const AppRouter = () => {
           <Route path="process-steps" element={<ProcessSteps />} />
           <Route path="project-categories" element={<ProjectCategories />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="reviews" element={<Reviews />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 
