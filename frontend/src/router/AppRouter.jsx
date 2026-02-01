@@ -24,6 +24,7 @@ import Projects from '../pages/Admin/Projects/Projects'
 import Reviews from '../pages/Admin/Reviews/Reviews'
 import ContactSubmissions from '../pages/Admin/ContactSubmissions/ContactSubmissions'
 import NewsletterSubscriptions from '../pages/Admin/NewsletterSubscriptions/NewsletterSubscriptions'
+import AboutUsContent from '../pages/Admin/AboutUsContent/AboutUsContent'
 import Settings from '../pages/Admin/Settings/Settings'
 import BarberDashboard from '../pages/Barber/Dashboard/BarberDashboard'
 import BarberAppointments from '../pages/Barber/Appointments/Appointments'
@@ -250,6 +251,7 @@ const AppRouter = () => {
           <Route path="reviews" element={<Reviews />} />
           <Route path="contact-submissions" element={<ContactSubmissions />} />
           <Route path="newsletter-subscriptions" element={<NewsletterSubscriptions />} />
+          <Route path="about-us-content" element={<AboutUsContent />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 

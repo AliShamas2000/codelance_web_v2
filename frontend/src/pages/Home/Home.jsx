@@ -30,6 +30,7 @@ import processStepsApi from '../../api/processSteps'
 import projectsApi from '../../api/projects'
 import reviewsApi from '../../api/reviews'
 import contactSubmissionsApi from '../../api/contactSubmissions'
+import aboutUsContentApi from '../../api/aboutUsContent'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -42,6 +43,7 @@ const Home = () => {
   const [packages, setPackages] = useState([])
   const [processSteps, setProcessSteps] = useState([])
   const [reviews, setReviews] = useState([])
+  const [aboutUsContent, setAboutUsContent] = useState(null)
   const [activePortfolioFilter, setActivePortfolioFilter] = useState('all')
   const [isLoadingAbout, setIsLoadingAbout] = useState(true)
   const [isLoadingServices, setIsLoadingServices] = useState(true)
@@ -50,6 +52,7 @@ const Home = () => {
   const [isLoadingPackages, setIsLoadingPackages] = useState(true)
   const [isLoadingProcessSteps, setIsLoadingProcessSteps] = useState(true)
   const [isLoadingReviews, setIsLoadingReviews] = useState(true)
+  const [isLoadingAboutUsContent, setIsLoadingAboutUsContent] = useState(true)
 
   // Fetch footer data for dynamic content
   const fetchFooterData = async () => {
@@ -316,6 +319,35 @@ const Home = () => {
     }
   }
 
+  // Fetch about us content from API
+  const fetchAboutUsContent = async () => {
+    try {
+      setIsLoadingAboutUsContent(true)
+      const response = await aboutUsContentApi.getPublicContent()
+      const contentData = response.data || response || null
+      
+      if (contentData) {
+        setAboutUsContent({
+          title: contentData.title || 'Who We Are',
+          description: contentData.description || '',
+          stats: Array.isArray(contentData.stats) ? contentData.stats : [],
+          primaryButtonText: contentData.primaryButtonText || contentData.primary_button_text || 'Our Mission',
+          secondaryButtonText: contentData.secondaryButtonText || contentData.secondary_button_text || 'View Team',
+          codeSnippet: contentData.codeSnippet || contentData.code_snippet || {
+            mission: 'Excellence',
+            stack: ['AI', 'Cloud'],
+            deliver: true
+          }
+        })
+      }
+    } catch (error) {
+      console.error('Error fetching about us content:', error)
+      setAboutUsContent(null)
+    } finally {
+      setIsLoadingAboutUsContent(false)
+    }
+  }
+
   // Handle contact form submission
   const handleContactSubmit = useCallback(async (formData) => {
     try {
@@ -343,6 +375,7 @@ const Home = () => {
     fetchPackages()
     fetchProcessSteps()
     fetchReviews()
+    fetchAboutUsContent()
   }, [])
 
   // Navigation items - can be fetched from backend later
@@ -447,19 +480,19 @@ const Home = () => {
       />
 
       <CodelanceAbout
-        title={aboutData?.title || "Who We Are"}
-        description={aboutData?.description || "CODELANCE is a premier technology agency dedicated to sculpting the digital landscape of tomorrow. We bridge the gap between complex engineering and human-centric design, delivering high-performance solutions that empower enterprises to thrive in an ever-evolving market."}
-        stats={aboutData?.stats || [
+        title={aboutUsContent?.title || aboutData?.title || "Who We Are"}
+        description={aboutUsContent?.description || aboutData?.description || "CODELANCE is a premier technology agency dedicated to sculpting the digital landscape of tomorrow. We bridge the gap between complex engineering and human-centric design, delivering high-performance solutions that empower enterprises to thrive in an ever-evolving market."}
+        stats={aboutUsContent?.stats || aboutData?.stats || [
           { value: "150+", label: "Projects Delivered" },
           { value: "8+", label: "Years Experience" },
           { value: "< 2hr", label: "Support Response" }
         ]}
-        primaryButtonText="Our Mission"
+        primaryButtonText={aboutUsContent?.primaryButtonText || "Our Mission"}
         primaryButtonAction={() => navigate('/about')}
-        secondaryButtonText="View Team"
+        secondaryButtonText={aboutUsContent?.secondaryButtonText || "View Team"}
         secondaryButtonAction={() => navigate('/team')}
         showIllustrations={true}
-        codeSnippet={{
+        codeSnippet={aboutUsContent?.codeSnippet || {
           mission: "Excellence",
           stack: ["AI", "Cloud"],
           deliver: true

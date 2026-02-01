@@ -29,6 +29,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/reviews/{id}', [App\Http\Controllers\Api\ReviewController::class, 'show']);
     Route::post('/contact', [App\Http\Controllers\Api\ContactSubmissionController::class, 'store']);
     Route::post('/newsletter/subscribe', [App\Http\Controllers\Api\NewsletterSubscriptionController::class, 'store']);
+    Route::get('/about-us-content', [App\Http\Controllers\Api\AboutUsContentController::class, 'index']);
+    Route::get('/about-us-content/{id}', [App\Http\Controllers\Api\AboutUsContentController::class, 'show']);
     Route::get('/barbers', [App\Http\Controllers\Api\BarberController::class, 'index']);
     Route::get('/barbers/{id}', [App\Http\Controllers\Api\BarberController::class, 'show']);
     Route::get('/available-slots', [App\Http\Controllers\Api\AppointmentController::class, 'getAvailableSlots']);
@@ -67,6 +69,9 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         
         // Newsletter Subscriptions management
         Route::apiResource('newsletter-subscriptions', \App\Http\Controllers\Api\Admin\NewsletterSubscriptionController::class);
+        
+        // About Us Content management
+        Route::apiResource('about-us-content', \App\Http\Controllers\Api\Admin\AboutUsContentController::class);
         
         // Services management
         Route::apiResource('services', App\Http\Controllers\Api\Admin\ServiceController::class);

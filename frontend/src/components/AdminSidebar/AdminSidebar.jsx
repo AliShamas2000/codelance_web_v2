@@ -84,6 +84,12 @@ const AdminSidebar = ({
       href: "/admin/newsletter-subscriptions"
     },
     {
+      id: "about-us-content",
+      label: "About Us Content",
+      icon: "info",
+      href: "/admin/about-us-content"
+    },
+    {
       type: "divider",
       label: "System"
     },
