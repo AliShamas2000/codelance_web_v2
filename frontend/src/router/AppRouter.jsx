@@ -15,16 +15,12 @@ import ResetPassword from '../pages/User/ResetPassword/ResetPassword'
 import Register from '../pages/User/Register/Register'
 import UserProfile from '../pages/User/Profile/Profile'
 import Dashboard from '../pages/Admin/Dashboard/Dashboard'
-import AppointmentsPage from '../pages/Admin/Appointments/Appointments'
 import Team from '../pages/Admin/Team/Team'
 import Services from '../pages/Admin/Services/Services'
 import Packages from '../pages/Admin/Packages/Packages'
 import ProcessSteps from '../pages/Admin/ProcessSteps/ProcessSteps'
-import Gallery from '../pages/Admin/Gallery/Gallery'
-import Banners from '../pages/Admin/Banners/Banners'
-import InformativeSections from '../pages/Admin/InformativeSections/InformativeSections'
-import Footer from '../pages/Admin/Footer/Footer'
-import AboutUs from '../pages/Admin/AboutUs/AboutUs'
+import ProjectCategories from '../pages/Admin/ProjectCategories/ProjectCategories'
+import Projects from '../pages/Admin/Projects/Projects'
 import Settings from '../pages/Admin/Settings/Settings'
 import BarberDashboard from '../pages/Barber/Dashboard/BarberDashboard'
 import BarberAppointments from '../pages/Barber/Appointments/Appointments'
@@ -242,16 +238,12 @@ const AppRouter = () => {
           }
         >
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="team" element={<Team />} />
           <Route path="services" element={<Services />} />
           <Route path="packages" element={<Packages />} />
           <Route path="process-steps" element={<ProcessSteps />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="banners" element={<Banners />} />
-          <Route path="informative-sections" element={<InformativeSections />} />
-          <Route path="footer" element={<Footer />} />
-          <Route path="about-us" element={<AboutUs />} />
+          <Route path="project-categories" element={<ProjectCategories />} />
+          <Route path="projects" element={<Projects />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 

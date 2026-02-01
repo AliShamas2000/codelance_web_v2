@@ -27,6 +27,7 @@ import servicesApi from '../../api/services'
 import barbersApi from '../../api/barbers'
 import packagesApi from '../../api/packages'
 import processStepsApi from '../../api/processSteps'
+import projectsApi from '../../api/projects'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -34,6 +35,7 @@ const Home = () => {
   const [aboutData, setAboutData] = useState(null)
   const [services, setServices] = useState([])
   const [projects, setProjects] = useState([])
+  const [projectCategories, setProjectCategories] = useState([])
   const [teamMembers, setTeamMembers] = useState([])
   const [packages, setPackages] = useState([])
   const [processSteps, setProcessSteps] = useState([])
@@ -124,61 +126,65 @@ const Home = () => {
   const fetchProjects = async () => {
     try {
       setIsLoadingProjects(true)
-      // TODO: Replace with actual portfolio API endpoint
-      // const response = await portfolioApi.getPublicProjects({ limit: 6 })
-      // const projectsData = response.data || response || []
-      // setProjects(projectsData)
+      const response = await projectsApi.getPublicProjects()
+      const projectsData = response.data || response || []
       
-      // Temporary default projects for demonstration
-      setProjects([
-        {
-          id: 1,
-          title: "NeoBank Ecosystem",
-          imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuAzpe-WmUGXz34p9osFvUtRThVZYCfDkTBejyZZOsDfPHHGvz-LvkVFVaD28iJin-x2T-v6ItXgXg2dWlHZstmIOA-xHEJkVkPyS1AirYXiMs_5ubRPPIuHKSxUcXTUldVjIj5KsFObMRMVoZ_WE5eo3FNWdFEgBDtNrjyL0SQBaK9UIyEbIjSa3ZhbxrwepkQFdfbTClrpR7SFMqELkDNFDOlGiZZ4qJ_Dji8QAZE2Sio_zftqCP6x0ptdlQYjP5zspgEQ2NUrIwE",
-          tags: ["Next.js", "Fintech", "UI/UX"],
-          category: "website"
-        },
-        {
-          id: 2,
-          title: "LuxeDelivery Mobile",
-          imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuAYd3zHyXLteCvn-pZH6i04sm0beI-Xrl4T4Wn1ShJlHsyFfHBZMXzrXBBni76AWOtuo1bDH8BtSzKVBH6NukK55_HvGQpEvjn6SRJBmc3h5aYxglnoUyKSaOKChorEuNpLl2xiXbRbvRaO3hNLFSZoBSmeI_8Ps39ICfDOhg76fxhYRPofZH0j4vJrG16Ht7ii8J969yugGG8b32dptcu82AI_86JUZDQIWOa9Mjk0_3WJSo3VPEQ3PnkMxlE-j2l6D5dy5QQom_U",
-          tags: ["Flutter", "E-Commerce", "Mobile"],
-          category: "mobile"
-        },
-        {
-          id: 3,
-          title: "DataPulse Analytics",
-          imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuAx5qqkBFA6wzk4QSxh73Zfsi-7BjhXQbvc5d0ZuUEviS70R0OH3mDTjwZPGYv-iStnhjnURRsfmI2CGuktRY4PIGmVar2piKWHhhf-ZThNuEz26deZnAg21SBqFyLpNEiUTDuJjQFjxil7hbRhMbGGQsNEvQrvSQz1Feg2TyQcYPc1phXgqL4VqqHM3TaVntPX_x1LAi4eLt_9dydDnHLc5icJ8Fo33OqvYK2k3Z2LVJLb0_1dW7tg4RTL19dILDA7vvR5n71OUuE",
-          tags: ["React", "SaaS", "Dashboard"],
-          category: "dashboard"
-        },
-        {
-          id: 4,
-          title: "OmniPOS Retail",
-          imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuC1AV_gHIN39Yjg05djPoEY5VvypcUWpuCGYqnddmL0I-YmBmWsOoXp-Mc02emm1spWJ4MAUSWeOb0CKXa-KRVdR4kEWvI09UFCn9UdmEWJpyKX2yyOyU-CwPvqbBmWkqNqJb_vM7nbX065cHyBngMy_7zJW1fTIOMxI1Sx_gxIzytsZm57fn0I6rVHsZGLqUAdSdkmOtG05-Irht4XMzRAX9p-HFjKAZ3QhXyElVfZGsCccFkp6OWYhG83SQLtsZDC4XztgCx9fQw",
-          tags: ["C# / .NET", "Retail", "ERP"],
-          category: "pos"
-        },
-        {
-          id: 5,
-          title: "CloudSync Portal",
-          imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuDm1SeqkOoqugndw7ly9OEF6JiSyNc-ypDbNl-VFwQh8dQYxaALjAaRfxD39C_47MkSotInNhYD9WjHcgCKkUOV42G-8QTXOnkkmqJAvCbpA_ouM0CW9QAJJTIzhetTyrjPm3wguK_sEFdTO0oGZP9q_ocT40rrImj72DZucjPgnY1bWm19jmT7s7_MxfRL_nt15RJSiCZIIQNBH6uUd8aw55XZHkW813fVh2GVr1HoIn8ivad6l0iokcKig98EeIo4WrW3bRILRH4",
-          tags: ["Vue.js", "Cloud", "Enterprise"],
-          category: "website"
-        },
-        {
-          id: 6,
-          title: "FitFlow Health App",
-          imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuDEvHucOcqMqIwvmzdcN2fHPZhzw0E0VUgX3mYyoEE_IzF9xgswCHMLmin2tQO03Fo18RuJgp_HTYF-wR27PfXQ-KCLmZ-RZnSqfWXuWUfuri-7j9HcqG8IFSZzpLr-Ed1V3NQPFRw9SS_lywTBlDqU_hBmxdSDWEtIsuwKR1ZsZXFYySYfim23AZr2owE7X-bPc7ehciykWOFmAUrDJzREBDX-dnvPjhGP6om6uTMYb6Vr111JHoPRd-iWsZVFVN7kWQ4beEX4AVQ",
-          tags: ["React Native", "Health", "AI"],
-          category: "mobile"
-        }
-      ])
+      // Transform projects to match CodelancePortfolioCard format
+      const transformedProjects = Array.isArray(projectsData)
+        ? projectsData.map(project => ({
+            id: project.id,
+            title: project.title || '',
+            imageUrl: project.image || project.imageUrl || project.image_url || null,
+            imageAlt: project.title || 'Project image',
+            tags: project.tags || [],
+            category: project.category || project.categorySlug || null,
+            // Keep original data for potential future use
+            description: project.description || null,
+            projectUrl: project.projectUrl || project.project_url || null,
+            githubUrl: project.githubUrl || project.github_url || null,
+            clientName: project.clientName || project.client_name || null,
+            isFeatured: project.isFeatured || project.is_featured || false
+          }))
+        : []
+      
+      setProjects(transformedProjects)
     } catch (error) {
       console.error('Error fetching projects:', error)
       setProjects([])
     } finally {
       setIsLoadingProjects(false)
+    }
+  }
+
+  // Fetch project categories for filters
+  const fetchProjectCategories = async () => {
+    try {
+      const response = await projectsApi.getPublicCategories()
+      const categoriesData = response.data || response || []
+      
+      // Transform categories to match filter format
+      const transformedCategories = Array.isArray(categoriesData)
+        ? categoriesData.map(category => ({
+            id: category.slug || category.id,
+            label: category.name || category.slug || 'Category'
+          }))
+        : []
+      
+      // Add "All Projects" filter at the beginning
+      setProjectCategories([
+        { id: 'all', label: 'All Projects' },
+        ...transformedCategories
+      ])
+    } catch (error) {
+      console.error('Error fetching project categories:', error)
+      // Fallback to default filters
+      setProjectCategories([
+        { id: 'all', label: 'All Projects' },
+        { id: 'website', label: 'Websites' },
+        { id: 'mobile', label: 'Mobile Apps' },
+        { id: 'pos', label: 'POS' },
+        { id: 'dashboard', label: 'Dashboards' }
+      ])
     }
   }
 
@@ -283,6 +289,7 @@ const Home = () => {
     fetchAboutData()
     fetchServices()
     fetchProjects()
+    fetchProjectCategories()
     fetchTeamMembers()
     fetchPackages()
     fetchProcessSteps()
@@ -438,7 +445,7 @@ const Home = () => {
         />
 
         <CodelancePortfolioFilters
-          filters={[
+          filters={projectCategories.length > 0 ? projectCategories : [
             { id: 'all', label: 'All Projects' },
             { id: 'website', label: 'Websites' },
             { id: 'mobile', label: 'Mobile Apps' },

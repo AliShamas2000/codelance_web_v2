@@ -8,13 +8,16 @@ const CodelancePortfolioCard = ({
   imageAlt = "",
   tags = [],
   category = null,
+  projectUrl = null,
   onClick = null,
   className = ""
 }) => {
   const [isVisible, ref] = useScrollReveal({ threshold: 0.1 })
 
   const handleClick = () => {
-    if (onClick) {
+    if (projectUrl) {
+      window.open(projectUrl, '_blank', 'noopener,noreferrer')
+    } else if (onClick) {
       onClick({ id, title, imageUrl, tags, category })
     }
   }
@@ -22,7 +25,9 @@ const CodelancePortfolioCard = ({
   return (
     <article
       ref={ref}
-      className={`relative overflow-hidden bg-white dark:bg-gray-900 rounded-xl transition-all duration-500 ease-out group cursor-pointer hover:-translate-y-2 hover:shadow-[0_25px_50px_-12px_rgba(0,43,73,0.15)] dark:hover:shadow-[0_25px_50px_-12px_rgba(0,176,240,0.15)] ${
+      className={`relative overflow-hidden bg-white dark:bg-gray-900 rounded-xl transition-all duration-500 ease-out group ${
+        projectUrl ? 'cursor-pointer hover:-translate-y-2 hover:shadow-[0_25px_50px_-12px_rgba(0,43,73,0.15)] dark:hover:shadow-[0_25px_50px_-12px_rgba(0,176,240,0.15)]' : ''
+      } ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'
@@ -48,12 +53,14 @@ const CodelancePortfolioCard = ({
           </div>
         )}
         
-        {/* Overlay on Hover */}
-        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-500 backdrop-blur-[2px]">
-          <div className="w-14 h-14 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center text-primary shadow-xl">
-            <span className="material-symbols-outlined text-3xl font-bold">arrow_forward</span>
+        {/* Overlay on Hover - Only show if project has a URL */}
+        {projectUrl && (
+          <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-500 backdrop-blur-[2px]">
+            <div className="w-14 h-14 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center text-primary shadow-xl">
+              <span className="material-symbols-outlined text-3xl font-bold">arrow_forward</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Content */}

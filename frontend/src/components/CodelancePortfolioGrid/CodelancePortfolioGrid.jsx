@@ -47,6 +47,7 @@ const CodelancePortfolioGrid = ({
           imageAlt={project.imageAlt || project.title || "Project image"}
           tags={project.tags || project.technologies || project.tech_stack || []}
           category={project.category || project.type || null}
+          projectUrl={project.projectUrl || project.project_url || null}
           onClick={onProjectClick}
           className=""
         />

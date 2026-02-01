@@ -30,25 +30,6 @@ const AdminSidebar = ({
       label: "CMS Modules"
     },
     {
-      id: "appointments",
-      label: "Appointments",
-      icon: "calendar_month",
-      href: "/admin/appointments",
-      badge: 24
-    },
-    {
-      id: "banners",
-      label: "Banners",
-      icon: "view_carousel",
-      href: "/admin/banners"
-    },
-    {
-      id: "informative-sections",
-      label: "Informative Sections",
-      icon: "article",
-      href: "/admin/informative-sections"
-    },
-    {
       id: "services",
       label: "Services",
       icon: "handyman",
@@ -67,28 +48,22 @@ const AdminSidebar = ({
       href: "/admin/process-steps"
     },
     {
-      id: "gallery",
-      label: "Gallery",
-      icon: "collections",
-      href: "/admin/gallery"
+      id: "project-categories",
+      label: "Project Categories",
+      icon: "category",
+      href: "/admin/project-categories"
+    },
+    {
+      id: "projects",
+      label: "Projects",
+      icon: "folder",
+      href: "/admin/projects"
     },
     {
       id: "team",
       label: "Team",
       icon: "groups",
       href: "/admin/team"
-    },
-    {
-      id: "about-us",
-      label: "About Us",
-      icon: "info",
-      href: "/admin/about-us"
-    },
-    {
-      id: "footer",
-      label: "Footer",
-      icon: "call_to_action",
-      href: "/admin/footer"
     },
     {
       type: "divider",

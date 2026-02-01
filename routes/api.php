@@ -22,6 +22,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/packages/{id}', [App\Http\Controllers\Api\PackageController::class, 'show']);
     Route::get('/process-steps', [App\Http\Controllers\Api\ProcessStepController::class, 'index']);
     Route::get('/process-steps/{id}', [App\Http\Controllers\Api\ProcessStepController::class, 'show']);
+    Route::get('/projects', [App\Http\Controllers\Api\ProjectController::class, 'index']);
+    Route::get('/projects/categories', [App\Http\Controllers\Api\ProjectController::class, 'categories']);
+    Route::get('/projects/{id}', [App\Http\Controllers\Api\ProjectController::class, 'show']);
     Route::get('/barbers', [App\Http\Controllers\Api\BarberController::class, 'index']);
     Route::get('/barbers/{id}', [App\Http\Controllers\Api\BarberController::class, 'show']);
     Route::get('/available-slots', [App\Http\Controllers\Api\AppointmentController::class, 'getAvailableSlots']);
@@ -42,6 +45,14 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         // Process Steps management
         Route::apiResource('process-steps', \App\Http\Controllers\Api\Admin\ProcessStepController::class);
         Route::post('process-steps/update-order', [\App\Http\Controllers\Api\Admin\ProcessStepController::class, 'updateOrder']);
+        
+        // Project Categories management
+        Route::apiResource('project-categories', \App\Http\Controllers\Api\Admin\ProjectCategoryController::class);
+        Route::post('project-categories/update-order', [\App\Http\Controllers\Api\Admin\ProjectCategoryController::class, 'updateOrder']);
+        
+        // Projects management
+        Route::apiResource('projects', \App\Http\Controllers\Api\Admin\ProjectController::class);
+        Route::post('projects/update-order', [\App\Http\Controllers\Api\Admin\ProjectController::class, 'updateOrder']);
         
         // Services management
         Route::apiResource('services', App\Http\Controllers\Api\Admin\ServiceController::class);
