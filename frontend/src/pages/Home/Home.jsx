@@ -1,25 +1,27 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react'
 import { useNavigate } from 'react-router-dom'
+// Critical above-the-fold components - load immediately
 import CodelanceHeader from '../../components/CodelanceHeader/CodelanceHeader'
 import CodelanceHero from '../../components/CodelanceHero/CodelanceHero'
 import CodelanceAbout from '../../components/CodelanceAbout/CodelanceAbout'
 import CodelanceServicesHeader from '../../components/CodelanceServicesHeader/CodelanceServicesHeader'
 import CodelanceServicesGrid from '../../components/CodelanceServicesGrid/CodelanceServicesGrid'
-import CodelanceProcessHeader from '../../components/CodelanceProcessHeader/CodelanceProcessHeader'
-import CodelanceProcessTimeline from '../../components/CodelanceProcessTimeline/CodelanceProcessTimeline'
-import CodelanceProcessCTA from '../../components/CodelanceProcessCTA/CodelanceProcessCTA'
-import CodelancePortfolioHeader from '../../components/CodelancePortfolioHeader/CodelancePortfolioHeader'
-import CodelancePortfolioFilters from '../../components/CodelancePortfolioFilters/CodelancePortfolioFilters'
-import CodelancePortfolioGrid from '../../components/CodelancePortfolioGrid/CodelancePortfolioGrid'
-import CodelancePortfolioCTA from '../../components/CodelancePortfolioCTA/CodelancePortfolioCTA'
-import CodelanceTeamShowcase from '../../components/CodelanceTeamShowcase/CodelanceTeamShowcase'
-import CodelanceReviewsHeader from '../../components/CodelanceReviewsHeader/CodelanceReviewsHeader'
-import CodelanceReviewsCarousel from '../../components/CodelanceReviewsCarousel/CodelanceReviewsCarousel'
-import CodelancePricingHeader from '../../components/CodelancePricingHeader/CodelancePricingHeader'
-import CodelancePricingGrid from '../../components/CodelancePricingGrid/CodelancePricingGrid'
-import CodelancePricingCTA from '../../components/CodelancePricingCTA/CodelancePricingCTA'
-import CodelanceContactSection from '../../components/CodelanceContactSection/CodelanceContactSection'
-import CodelanceFooter from '../../components/CodelanceFooter/CodelanceFooter'
+// Below-the-fold components - lazy load for better performance
+const CodelanceProcessHeader = lazy(() => import('../../components/CodelanceProcessHeader/CodelanceProcessHeader'))
+const CodelanceProcessTimeline = lazy(() => import('../../components/CodelanceProcessTimeline/CodelanceProcessTimeline'))
+const CodelanceProcessCTA = lazy(() => import('../../components/CodelanceProcessCTA/CodelanceProcessCTA'))
+const CodelancePortfolioHeader = lazy(() => import('../../components/CodelancePortfolioHeader/CodelancePortfolioHeader'))
+const CodelancePortfolioFilters = lazy(() => import('../../components/CodelancePortfolioFilters/CodelancePortfolioFilters'))
+const CodelancePortfolioGrid = lazy(() => import('../../components/CodelancePortfolioGrid/CodelancePortfolioGrid'))
+const CodelancePortfolioCTA = lazy(() => import('../../components/CodelancePortfolioCTA/CodelancePortfolioCTA'))
+const CodelanceTeamShowcase = lazy(() => import('../../components/CodelanceTeamShowcase/CodelanceTeamShowcase'))
+const CodelanceReviewsHeader = lazy(() => import('../../components/CodelanceReviewsHeader/CodelanceReviewsHeader'))
+const CodelanceReviewsCarousel = lazy(() => import('../../components/CodelanceReviewsCarousel/CodelanceReviewsCarousel'))
+const CodelancePricingHeader = lazy(() => import('../../components/CodelancePricingHeader/CodelancePricingHeader'))
+const CodelancePricingGrid = lazy(() => import('../../components/CodelancePricingGrid/CodelancePricingGrid'))
+const CodelancePricingCTA = lazy(() => import('../../components/CodelancePricingCTA/CodelancePricingCTA'))
+const CodelanceContactSection = lazy(() => import('../../components/CodelanceContactSection/CodelanceContactSection'))
+const CodelanceFooter = lazy(() => import('../../components/CodelanceFooter/CodelanceFooter'))
 import servicesApi from '../../api/services'
 import barbersApi from '../../api/barbers'
 import packagesApi from '../../api/packages'
@@ -61,7 +63,7 @@ const Home = () => {
         : []
       setServices(activeServices)
     } catch (error) {
-      console.error('Error fetching services:', error)
+      // Silently handle errors - already logged by API layer
       setServices([])
     } finally {
       setIsLoadingServices(false)
@@ -95,7 +97,7 @@ const Home = () => {
       
       setProjects(transformedProjects)
     } catch (error) {
-      console.error('Error fetching projects:', error)
+      // Silently handle errors
       setProjects([])
     } finally {
       setIsLoadingProjects(false)
@@ -122,7 +124,7 @@ const Home = () => {
         ...transformedCategories
       ])
     } catch (error) {
-      console.error('Error fetching project categories:', error)
+      // Silently handle errors
       // Fallback to default filters
       setProjectCategories([
         { id: 'all', label: 'All Projects' },
@@ -146,7 +148,7 @@ const Home = () => {
         : []
       setTeamMembers(activeMembers)
     } catch (error) {
-      console.error('Error fetching team members:', error)
+      // Silently handle errors
       setTeamMembers([])
     } finally {
       setIsLoadingTeam(false)
@@ -198,7 +200,7 @@ const Home = () => {
         : []
       setPackages(transformedPackages)
     } catch (error) {
-      console.error('Error fetching packages:', error)
+      // Silently handle errors
       setPackages([])
     } finally {
       setIsLoadingPackages(false)
@@ -223,7 +225,7 @@ const Home = () => {
         : []
       setProcessSteps(transformedSteps)
     } catch (error) {
-      console.error('Error fetching process steps:', error)
+      // Silently handle errors
       setProcessSteps([])
     } finally {
       setIsLoadingProcessSteps(false)
@@ -251,7 +253,7 @@ const Home = () => {
       
       setReviews(transformedReviews)
     } catch (error) {
-      console.error('Error fetching reviews:', error)
+      // Silently handle errors
       setReviews([])
     } finally {
       setIsLoadingReviews(false)
@@ -280,7 +282,7 @@ const Home = () => {
         })
       }
     } catch (error) {
-      console.error('Error fetching about us content:', error)
+      // Silently handle errors
       setAboutUsContent(null)
     } finally {
       setIsLoadingAboutUsContent(false)
@@ -304,15 +306,32 @@ const Home = () => {
     }
   }, [])
 
+  // Load critical data immediately (above the fold)
   useEffect(() => {
-    fetchServices()
-    fetchProjects()
-    fetchProjectCategories()
-    fetchTeamMembers()
-    fetchPackages()
-    fetchProcessSteps()
-    fetchReviews()
-    fetchAboutUsContent()
+    fetchServices() // Critical - shown early
+    fetchAboutUsContent() // Critical - shown early
+  }, [])
+
+  // Defer non-critical data loading (below the fold)
+  useEffect(() => {
+    // Use requestIdleCallback or setTimeout to defer non-critical API calls
+    const deferredLoad = () => {
+      // Load after initial render
+      setTimeout(() => {
+        fetchProjects()
+        fetchProjectCategories()
+        fetchTeamMembers()
+        fetchPackages()
+        fetchProcessSteps()
+        fetchReviews()
+      }, 100) // Small delay to prioritize initial render
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(deferredLoad, { timeout: 2000 })
+    } else {
+      setTimeout(deferredLoad, 100)
+    }
   }, [])
 
   // Navigation items - can be fetched from backend later
@@ -433,7 +452,7 @@ const Home = () => {
       />
 
       {/* Services Section */}
-      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 lg:py-24" id="services">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 lg:py-4 py-2 lg:py-24" id="services">
         <CodelanceServicesHeader
           badge="Our Expertise"
           title="Our Services"
@@ -456,126 +475,146 @@ const Home = () => {
       {/* Portfolio Section */}
       <section className="py-20" id="portfolio">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <CodelancePortfolioHeader
-            badge="Showcase"
-            title="Our Portfolio"
-          />
+          <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+            <CodelancePortfolioHeader
+              badge="Showcase"
+              title="Our Portfolio"
+            />
 
-          <CodelancePortfolioFilters
-            filters={projectCategories.length > 0 ? projectCategories : [
-              { id: 'all', label: 'All Projects' },
-              { id: 'website', label: 'Websites' },
-              { id: 'mobile', label: 'Mobile Apps' },
-              { id: 'pos', label: 'POS' },
-              { id: 'dashboard', label: 'Dashboards' }
-            ]}
-            activeFilter={activePortfolioFilter}
-            onFilterChange={handlePortfolioFilterChange}
-          />
+            <CodelancePortfolioFilters
+              filters={projectCategories.length > 0 ? projectCategories : [
+                { id: 'all', label: 'All Projects' },
+                { id: 'website', label: 'Websites' },
+                { id: 'mobile', label: 'Mobile Apps' },
+                { id: 'pos', label: 'POS' },
+                { id: 'dashboard', label: 'Dashboards' }
+              ]}
+              activeFilter={activePortfolioFilter}
+              onFilterChange={handlePortfolioFilterChange}
+            />
+          </Suspense>
 
           {isLoadingProjects ? (
             <div className="text-center py-12">
               <p className="text-[#5e808d] dark:text-gray-400">Loading projects...</p>
             </div>
           ) : (
-            <CodelancePortfolioGrid
-              projects={projects}
-              activeFilter={activePortfolioFilter}
-              onProjectClick={handleProjectClick}
-              columns={3}
-            />
+            <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+              <CodelancePortfolioGrid
+                projects={projects}
+                activeFilter={activePortfolioFilter}
+                onProjectClick={handleProjectClick}
+                columns={3}
+              />
+            </Suspense>
           )}
 
-          <CodelancePortfolioCTA
-            title="Have a visionary project in mind?"
-            subtitle="From concept to deployment, we build the digital future of your business with precision and passion."
-            primaryButtonText="Get Started"
-            primaryButtonAction={scrollToContact}
-            secondaryButtonText="Our Process"
-            secondaryButtonAction={() => {
-              const processSection = document.getElementById('process')
-              if (processSection) {
-                processSection.scrollIntoView({ behavior: 'smooth' })
-              } else {
-                navigate('/#process')
-              }
-            }}
-          />
+          <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+            <CodelancePortfolioCTA
+              title="Have a visionary project in mind?"
+              subtitle="From concept to deployment, we build the digital future of your business with precision and passion."
+              primaryButtonText="Get Started"
+              primaryButtonAction={scrollToContact}
+              secondaryButtonText="Our Process"
+              secondaryButtonAction={() => {
+                const processSection = document.getElementById('process')
+                if (processSection) {
+                  processSection.scrollIntoView({ behavior: 'smooth' })
+                } else {
+                  navigate('/#process')
+                }
+              }}
+            />
+          </Suspense>
         </div>
       </section>
 
-      {/* Team Section */}
-      {isLoadingTeam ? (
+      {/* Team Section - Hidden for now */}
+      {/* {isLoadingTeam ? (
         <div className="text-center py-24">
           <p className="text-[#5e808d] dark:text-gray-400">Loading team members...</p>
         </div>
       ) : (
-        <CodelanceTeamShowcase teamMembers={teamMembers} />
-      )}
+        <Suspense fallback={<div className="text-center py-24"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+          <CodelanceTeamShowcase teamMembers={teamMembers} />
+        </Suspense>
+      )} */}
 
       {/* How We Work / Process Section */}
       <section id="process">
-        <CodelanceProcessHeader
-          badge="Our Methodology"
-          title="How We Work"
-          description="We follow a structured, transparent process to turn your complex ideas into high-performance digital realities."
-        />
+        <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+          <CodelanceProcessHeader
+            badge="Our Methodology"
+            title="How We Work"
+            description="We follow a structured, transparent process to turn your complex ideas into high-performance digital realities."
+          />
+        </Suspense>
 
         {isLoadingProcessSteps ? (
           <div className="text-center py-12">
             <p className="text-[#5e808d] dark:text-gray-400">Loading process steps...</p>
           </div>
         ) : (
-          <CodelanceProcessTimeline
-            steps={processSteps} // Fetched from backend
-          />
+          <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+            <CodelanceProcessTimeline
+              steps={processSteps} // Fetched from backend
+            />
+          </Suspense>
         )}
 
-        <CodelanceProcessCTA
-          title="Ready to build something amazing?"
-          subtitle="Join dozens of successful companies scaling with our proven process."
-          primaryButtonText="Contact Us Today"
-          primaryButtonAction={scrollToContact}
-          secondaryButtonText="View Portfolio"
-          secondaryButtonAction={() => {
-            const portfolioSection = document.getElementById('portfolio')
-            if (portfolioSection) {
-              portfolioSection.scrollIntoView({ behavior: 'smooth' })
-            } else {
-              navigate('/#portfolio')
-            }
-          }}
-        />
+        <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+          <CodelanceProcessCTA
+            title="Ready to build something amazing?"
+            subtitle="Join dozens of successful companies scaling with our proven process."
+            primaryButtonText="Contact Us Today"
+            primaryButtonAction={scrollToContact}
+            secondaryButtonText="View Portfolio"
+            secondaryButtonAction={() => {
+              const portfolioSection = document.getElementById('portfolio')
+              if (portfolioSection) {
+                portfolioSection.scrollIntoView({ behavior: 'smooth' })
+              } else {
+                navigate('/#portfolio')
+              }
+            }}
+          />
+        </Suspense>
       </section>
 
       {/* Reviews / Testimonials Section */}
       <section className="lg:py-16 py-0 overflow-hidden bg-background-light dark:bg-background-dark" id="reviews">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <CodelanceReviewsHeader
-            title="Client Success Stories"
-            description="Hear from the innovative teams we've partnered with to build the future of digital infrastructure."
-          />
+          <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+            <CodelanceReviewsHeader
+              title="Client Success Stories"
+              description="Hear from the innovative teams we've partnered with to build the future of digital infrastructure."
+            />
+          </Suspense>
 
           {isLoadingReviews ? (
             <div className="text-center py-12">
               <p className="text-[#5e808d] dark:text-gray-400">Loading reviews...</p>
             </div>
           ) : (
-            <CodelanceReviewsCarousel
-              reviews={reviews} // Fetched from backend
-              autoPlay={true}
-              autoPlayInterval={5000}
-            />
+            <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+              <CodelanceReviewsCarousel
+                reviews={reviews} // Fetched from backend
+                autoPlay={true}
+                autoPlayInterval={5000}
+              />
+            </Suspense>
           )}
         </div>
       </section>
 
       {/* Pricing / Packages Section */}
       <section className="bg-background-light dark:bg-background-dark" id="packages">
-        <CodelancePricingHeader
-          title="Pricing Packages"
-          description="Choose the perfect plan for your technical needs. Our flexible packages are designed to scale with your business and deliver premium GSAP-powered experiences."
-        />
+        <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+          <CodelancePricingHeader
+            title="Pricing Packages"
+            description="Choose the perfect plan for your technical needs. Our flexible packages are designed to scale with your business and deliver premium GSAP-powered experiences."
+          />
+        </Suspense>
 
         <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
           {isLoadingPackages ? (
@@ -583,64 +622,71 @@ const Home = () => {
               <p className="text-[#5e808d] dark:text-gray-400">Loading packages...</p>
             </div>
           ) : (
-            <CodelancePricingGrid
-              packages={packages}
-              onPackageSelect={(pkg) => {
-                scrollToContact()
-                // Note: Package data could be stored in state or URL params if needed for form pre-fill
-              }}
-              columns={3}
-            />
+            <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+              <CodelancePricingGrid
+                packages={packages}
+                onPackageSelect={(pkg) => {
+                  scrollToContact()
+                  // Note: Package data could be stored in state or URL params if needed for form pre-fill
+                }}
+                columns={3}
+              />
+            </Suspense>
           )}
         </section>
 
-        <CodelancePricingCTA
-          title="Need a custom solution?"
-          description="Our team can build a tailor-made package specifically for your enterprise requirements, including specialized integrations and dedicated server architecture."
-          primaryButtonText="Schedule a Call"
-          primaryButtonAction={scrollToContact}
-          secondaryButtonText="View Full Services"
-          secondaryButtonAction={() => {
-            const servicesSection = document.getElementById('services')
-            if (servicesSection) {
-              servicesSection.scrollIntoView({ behavior: 'smooth' })
-            } else {
-              navigate('/services')
-            }
-          }}
-        />
+        <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+          <CodelancePricingCTA
+            title="Need a custom solution?"
+            description="Our team can build a tailor-made package specifically for your enterprise requirements, including specialized integrations and dedicated server architecture."
+            primaryButtonText="Schedule a Call"
+            primaryButtonAction={scrollToContact}
+            secondaryButtonText="View Full Services"
+            secondaryButtonAction={() => {
+              const servicesSection = document.getElementById('services')
+              if (servicesSection) {
+                servicesSection.scrollIntoView({ behavior: 'smooth' })
+              } else {
+                navigate('/services')
+              }
+            }}
+          />
+        </Suspense>
       </section>
 
       {/* Contact Section */}
-      <CodelanceContactSection
-        title="Let's Build"
-        titleHighlight="Something Great"
-        description="Have a vision for the next big thing? Our team of experts is ready to transform your ideas into world-class digital solutions."
-        projects={projects}
-        onSubmit={handleContactSubmit}
-        contactItems={[
-          {
-            type: 'email',
-            label: 'Email',
-            value: 'info@codelancelb.com',
-            icon: 'mail'
-          },
-          {
-            type: 'phone',
-            label: 'Phone',
-            value: '+96176505353',
-            icon: 'call'
-          },
-          {
-            type: 'phone',
-            label: 'Phone',
-            value: '+9613122606',
-            icon: 'call'
-          }
-        ]}
-      />
+      <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+        <CodelanceContactSection
+          title="Let's Build"
+          titleHighlight="Something Great"
+          description="Have a vision for the next big thing? Our team of experts is ready to transform your ideas into world-class digital solutions."
+          projects={projects}
+          onSubmit={handleContactSubmit}
+          contactItems={[
+            {
+              type: 'email',
+              label: 'Email',
+              value: 'info@codelancelb.com',
+              icon: 'mail'
+            },
+            {
+              type: 'phone',
+              label: 'Phone',
+              value: '+96176505353',
+              icon: 'call'
+            },
+            {
+              type: 'phone',
+              label: 'Phone',
+              value: '+9613122606',
+              icon: 'call'
+            }
+          ]}
+        />
+      </Suspense>
 
-      <CodelanceFooter
+      <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+        <CodelanceFooter
         logoUrl={footerData?.logo || footerData?.logo_url || null}
         brandName="CODELANCE"
         description="Empowering businesses through cutting-edge digital solutions and innovative engineering."
@@ -662,9 +708,10 @@ const Home = () => {
           { label: "Terms of Service", href: "#terms" },
           { label: "Cookies Settings", href: "#cookies" }
         ]}
-        copyright={`© ${new Date().getFullYear()} CODELANCE. All rights reserved.`}
-        onNewsletterSubmit={null} // Frontend-only for now
-      />
+          copyright={`© ${new Date().getFullYear()} CODELANCE. All rights reserved.`}
+          onNewsletterSubmit={null} // Frontend-only for now
+        />
+      </Suspense>
     </div>
   )
 }

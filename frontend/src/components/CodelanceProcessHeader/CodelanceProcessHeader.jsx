@@ -12,7 +12,7 @@ const CodelanceProcessHeader = ({
   return (
     <section 
       ref={ref}
-      className={`pt-20 pb-10 transition-all duration-1000 ease-out ${
+      className={`pb-10 transition-all duration-1000 ease-out ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'
