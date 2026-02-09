@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 // import Layout from '../components/Layout/Layout'
 import Home from '../pages/Home/Home'
@@ -41,11 +41,8 @@ import AdminLayout from '../components/AdminLayout/AdminLayout'
 import { AdminUserProvider } from '../contexts/AdminUserContext'
 // import ReviewPage from '../pages/Review/Review'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
-import footerApi from '../api/footer'
 
 const AppRouter = () => {
-  const [footerData, setFooterData] = useState(null)
-
   const navigationItems = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -54,46 +51,21 @@ const AppRouter = () => {
     { label: "Contact", href: "/contact" },
   ]
 
-  // Fetch footer data on mount
-  useEffect(() => {
-    const fetchFooterData = async () => {
-      try {
-        const response = await footerApi.getPublicFooterData()
-        const data = response.data || response
-        setFooterData(data)
-      } catch (error) {
-        console.error('Error fetching footer data:', error)
-        setFooterData(null)
-      }
-    }
-    fetchFooterData()
-  }, [])
-
-  // Handle newsletter subscription
-  const handleNewsletterSubmit = async (email) => {
-    try {
-      await footerApi.subscribeNewsletter(email)
-      // You can add a success notification here
-      console.log('Newsletter subscription successful')
-    } catch (error) {
-      console.error('Newsletter subscription failed:', error)
-      throw error // Re-throw to let FooterContact handle it
-    }
-  }
-
-  // Format footer data for Footer component props
-  const footerProps = footerData ? formatFooterData(footerData) : getDefaultFooterData()
-  
   // Format header props from footer data
   const getHeaderProps = () => ({
     logoHref: "/",
-    logoUrl: footerData?.logo || footerData?.logo_url || null,
+    logoUrl: null,
     navigationItems: navigationItems,
-    phone: footerData?.phone || "(555) 123-4567"
+    phone: "(555) 123-4567"
   })
 
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <Routes>
         {/* Default/Home Route - Uses its own header and footer */}
         <Route

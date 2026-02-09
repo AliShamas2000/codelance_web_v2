@@ -199,7 +199,7 @@ const aboutUsApi = {
       })
       return response.data
     } catch (error) {
-      console.error('Error fetching public About Us sections:', error)
+      // Silently handle 404s - about-us endpoint may not exist
       // Return empty array on error instead of throwing
       return { success: false, data: [] }
     }

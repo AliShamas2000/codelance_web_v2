@@ -20,8 +20,6 @@ import CodelancePricingGrid from '../../components/CodelancePricingGrid/Codelanc
 import CodelancePricingCTA from '../../components/CodelancePricingCTA/CodelancePricingCTA'
 import CodelanceContactSection from '../../components/CodelanceContactSection/CodelanceContactSection'
 import CodelanceFooter from '../../components/CodelanceFooter/CodelanceFooter'
-import footerApi from '../../api/footer'
-import aboutUsApi from '../../api/aboutUs'
 import servicesApi from '../../api/services'
 import barbersApi from '../../api/barbers'
 import packagesApi from '../../api/packages'
@@ -33,8 +31,7 @@ import aboutUsContentApi from '../../api/aboutUsContent'
 
 const Home = () => {
   const navigate = useNavigate()
-  const [footerData, setFooterData] = useState(null)
-  const [aboutData, setAboutData] = useState(null)
+  const [footerData] = useState(null)
   const [services, setServices] = useState([])
   const [projects, setProjects] = useState([])
   const [projectCategories, setProjectCategories] = useState([])
@@ -44,7 +41,6 @@ const Home = () => {
   const [reviews, setReviews] = useState([])
   const [aboutUsContent, setAboutUsContent] = useState(null)
   const [activePortfolioFilter, setActivePortfolioFilter] = useState('all')
-  const [isLoadingAbout, setIsLoadingAbout] = useState(true)
   const [isLoadingServices, setIsLoadingServices] = useState(true)
   const [isLoadingProjects, setIsLoadingProjects] = useState(true)
   const [isLoadingTeam, setIsLoadingTeam] = useState(true)
@@ -52,62 +48,6 @@ const Home = () => {
   const [isLoadingProcessSteps, setIsLoadingProcessSteps] = useState(true)
   const [isLoadingReviews, setIsLoadingReviews] = useState(true)
   const [isLoadingAboutUsContent, setIsLoadingAboutUsContent] = useState(true)
-
-  // Fetch footer data for dynamic content
-  const fetchFooterData = async () => {
-    try {
-      const response = await footerApi.getPublicFooterData()
-      const data = response.data || response
-      setFooterData(data)
-    } catch (error) {
-      console.error('Error fetching footer data:', error)
-      setFooterData(null)
-    }
-  }
-
-  // Fetch about us data for dynamic content
-  const fetchAboutData = async () => {
-    try {
-      setIsLoadingAbout(true)
-      const response = await aboutUsApi.getPublicAboutUs()
-      // Handle different response structures
-      let data = null
-      if (response && response.data && Array.isArray(response.data)) {
-        // API returned { data: [...] }
-        data = response.data
-      } else if (Array.isArray(response)) {
-        // API returned array directly
-        data = response
-      } else if (response && response.success === false && Array.isArray(response.data)) {
-        // API error but returned { success: false, data: [] }
-        data = response.data
-      }
-      
-      // Format the data for the component
-      if (data && Array.isArray(data) && data.length > 0) {
-        // Use the first active about us entry
-        const activeAbout = data.find(item => item.is_active !== false) || data[0]
-        setAboutData({
-          title: activeAbout.title_en || activeAbout.title || "Who We Are",
-          description: activeAbout.description_en || activeAbout.description || "",
-          stats: [
-            { value: "150+", label: "Projects Delivered" },
-            { value: "8+", label: "Years Experience" },
-            { value: "< 2hr", label: "Support Response" }
-          ]
-        })
-      } else {
-        // Use default data if API returns empty or different structure
-        setAboutData(null)
-      }
-    } catch (error) {
-      console.error('Error fetching about data:', error)
-      // Use default data on error
-      setAboutData(null)
-    } finally {
-      setIsLoadingAbout(false)
-    }
-  }
 
   // Fetch services from API
   const fetchServices = async () => {
@@ -365,8 +305,6 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    fetchFooterData()
-    fetchAboutData()
     fetchServices()
     fetchProjects()
     fetchProjectCategories()
@@ -475,9 +413,9 @@ const Home = () => {
       />
 
       <CodelanceAbout
-        title={aboutUsContent?.title || aboutData?.title || "Who We Are"}
-        description={aboutUsContent?.description || aboutData?.description || "CODELANCE is a premier technology agency dedicated to sculpting the digital landscape of tomorrow. We bridge the gap between complex engineering and human-centric design, delivering high-performance solutions that empower enterprises to thrive in an ever-evolving market."}
-        stats={aboutUsContent?.stats || aboutData?.stats || [
+        title={aboutUsContent?.title || "Who We Are"}
+        description={aboutUsContent?.description || "CODELANCE is a premier technology agency dedicated to sculpting the digital landscape of tomorrow. We bridge the gap between complex engineering and human-centric design, delivering high-performance solutions that empower enterprises to thrive in an ever-evolving market."}
+        stats={aboutUsContent?.stats || [
           { value: "150+", label: "Projects Delivered" },
           { value: "8+", label: "Years Experience" },
           { value: "< 2hr", label: "Support Response" }

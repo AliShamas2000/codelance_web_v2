@@ -37,7 +37,10 @@ const footerApi = {
       const response = await axios.get(`${API_BASE_URL}/footer`)
       return response.data
     } catch (error) {
-      console.error('Error fetching public footer data:', error)
+      // Silently handle 404s - footer endpoint may not exist
+      if (error.response?.status === 404) {
+        return null
+      }
       throw error
     }
   },
