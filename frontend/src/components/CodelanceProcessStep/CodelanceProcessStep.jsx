@@ -47,7 +47,7 @@ const CodelanceProcessStep = ({
         <>
           <div 
             ref={cardRef}
-            className={`w-full md:w-5/12 text-right pr-0 md:pr-12 order-2 md:order-1 transition-all duration-1000 ease-out ${
+            className={`w-full md:w-5/12 text-center md:text-right pr-0 md:pr-12 order-2 md:order-1 transition-all duration-1000 ease-out ${
               isVisible 
                 ? 'opacity-100 translate-x-0' 
                 : 'opacity-0 -translate-x-8'
@@ -106,7 +106,7 @@ const CodelanceProcessStep = ({
           </div>
           <div 
             ref={cardRef}
-            className={`w-full md:w-5/12 text-left pl-0 md:pl-12 order-3 md:order-3 transition-all duration-1000 ease-out ${
+            className={`w-full md:w-5/12 text-center md:text-left pl-0 md:pl-12 order-3 md:order-3 transition-all duration-1000 ease-out ${
               isVisible 
                 ? 'opacity-100 translate-x-0' 
                 : 'opacity-0 translate-x-8'
