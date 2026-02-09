@@ -12,39 +12,23 @@ const CodelanceContactSection = ({
     {
       type: 'email',
       label: 'Email',
-      value: 'hello@codelance.tech',
+      value: 'info@codelancelb.com',
       icon: 'mail'
     },
     {
       type: 'phone',
       label: 'Phone',
-      value: '+1 (555) 000-CODELANCE',
+      value: '+96176505353',
       icon: 'call'
     },
     {
-      type: 'address',
-      label: 'Address',
-      value: 'Tech Hub Plaza, Silicon Valley, CA',
-      icon: 'location_on'
+      type: 'phone',
+      label: 'Phone',
+      value: '+9613122606',
+      icon: 'call'
     }
   ],
-  socialLinks = [
-    {
-      name: 'LinkedIn',
-      icon: 'linkedin',
-      href: '#'
-    },
-    {
-      name: 'GitHub',
-      icon: 'github',
-      href: '#'
-    },
-    {
-      name: 'Twitter',
-      icon: 'twitter',
-      href: '#'
-    }
-  ],
+  socialLinks = [],
   projects = [],
   onSubmit = null,
   className = ""

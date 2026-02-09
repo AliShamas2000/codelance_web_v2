@@ -21,12 +21,6 @@ const CodelanceFooter = ({
     { label: "AI Solutions", href: "#services" },
     { label: "Cloud Infrastructure", href: "#services" }
   ],
-  socialLinks = [
-    { icon: 'language', href: '#', label: 'Website' },
-    { icon: 'terminal', href: '#', label: 'GitHub' },
-    { icon: 'alternate_email', href: '#', label: 'Email' },
-    { icon: 'camera', href: '#', label: 'Instagram' }
-  ],
   legalLinks = [
     { label: "Privacy Policy", href: "#privacy" },
     { label: "Terms of Service", href: "#terms" },
@@ -64,7 +58,9 @@ const CodelanceFooter = ({
           <div>
             <CodelanceFooterSocial
               title="Follow Us"
-              socialLinks={socialLinks}
+              logoUrl={logoUrl}
+              websiteHref="/"
+              instagramHref="https://www.instagram.com/codelance.lb/"
             />
             <CodelanceFooterNewsletter
               title="Subscribe to our newsletter"
@@ -74,34 +70,12 @@ const CodelanceFooter = ({
           </div>
         </div>
 
-        {/* Bottom Row: Copyright and Legal */}
-        <div className="mt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        {/* Bottom Row: Copyright */}
+        <div className="mt-10 flex justify-center md:justify-start items-center">
           {copyright && (
-            <p className="text-navy-deep/50 dark:text-white/40 text-xs">
+            <p className="text-navy-deep/50 dark:text-white/40 text-xs text-center md:text-left">
               {copyright}
             </p>
-          )}
-          {legalLinks.length > 0 && (
-            <div className="flex gap-8">
-              {legalLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="text-navy-deep/50 dark:text-white/40 text-xs hover:text-primary transition-colors"
-                  onClick={(e) => {
-                    if (link.href?.startsWith('#')) {
-                      e.preventDefault()
-                      const element = document.querySelector(link.href)
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' })
-                      }
-                    }
-                  }}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
           )}
         </div>
       </div>

@@ -96,7 +96,7 @@ const CodelanceContactForm = ({
               value={formData.name}
               onChange={handleChange}
               className="w-full px-5 py-4 rounded-lg bg-white/50 dark:bg-background-dark/50 border border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
-              placeholder="John Doe"
+              placeholder="Full Name"
               type="text"
               required
             />
@@ -110,7 +110,7 @@ const CodelanceContactForm = ({
               value={formData.email}
               onChange={handleChange}
               className="w-full px-5 py-4 rounded-lg bg-white/50 dark:bg-background-dark/50 border border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
-              placeholder="john@example.com"
+              placeholder="Email Address"
               type="email"
               required
             />

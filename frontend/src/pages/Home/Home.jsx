@@ -684,20 +684,20 @@ const Home = () => {
           {
             type: 'email',
             label: 'Email',
-            value: 'hello@codelance.tech',
+            value: 'info@codelancelb.com',
             icon: 'mail'
           },
           {
             type: 'phone',
             label: 'Phone',
-            value: '+1 (555) 000-CODELANCE',
+            value: '+96176505353',
             icon: 'call'
           },
           {
-            type: 'address',
-            label: 'Address',
-            value: 'Tech Hub Plaza, Silicon Valley, CA',
-            icon: 'location_on'
+            type: 'phone',
+            label: 'Phone',
+            value: '+9613122606',
+            icon: 'call'
           }
         ]}
       />
@@ -718,12 +718,6 @@ const Home = () => {
           { label: "Mobile Apps", href: "#services" },
           { label: "AI Solutions", href: "#services" },
           { label: "Cloud Infrastructure", href: "#services" }
-        ]}
-        socialLinks={[
-          { icon: 'language', href: '#', label: 'Website' },
-          { icon: 'terminal', href: '#', label: 'GitHub' },
-          { icon: 'alternate_email', href: '#', label: 'Email' },
-          { icon: 'camera', href: '#', label: 'Instagram' }
         ]}
         legalLinks={[
           { label: "Privacy Policy", href: "#privacy" },
