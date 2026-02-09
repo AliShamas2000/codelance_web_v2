@@ -16,6 +16,7 @@ class Service extends Model
         'duration',
         'category',
         'icon',
+        'svg',
         'is_active',
         'order',
     ];

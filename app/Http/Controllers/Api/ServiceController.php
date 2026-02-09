@@ -80,6 +80,8 @@ class ServiceController extends Controller
             'discount_percentage' => $service->discount_percentage ? (float) $service->discount_percentage : null,
             'duration' => $service->duration,
             'category' => $service->category,
+            'icon' => $service->icon,
+            'svg' => $service->svg,
             'imageUrl' => $service->icon ? URL::asset('storage/' . $service->icon) : null,
             'imageAlt' => $title . ' - Premium Grooming Service',
         ];

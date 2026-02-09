@@ -6,7 +6,8 @@ const CodelanceServiceCard = ({
   title,
   description,
   icon = "code", // Material Symbol name or icon URL
-  iconType = "material", // "material" or "image"
+  iconType = "material", // "material", "image", or "svg"
+  svg = null, // SVG code from database
   onClick = null,
   className = ""
 }) => {
@@ -14,7 +15,7 @@ const CodelanceServiceCard = ({
 
   const handleClick = () => {
     if (onClick) {
-      onClick({ id, title, description, icon })
+      onClick({ id, title, description, icon, svg })
     }
   }
 
@@ -29,7 +30,12 @@ const CodelanceServiceCard = ({
       onClick={handleClick}
     >
       <div className="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary icon-rotate">
-        {iconType === "material" ? (
+        {iconType === "svg" && svg ? (
+          <div 
+            className="w-8 h-8 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full [&>svg]:text-primary [&>svg]:fill-current"
+            dangerouslySetInnerHTML={{ __html: svg }}
+          />
+        ) : iconType === "material" ? (
           <span className="material-symbols-outlined text-3xl">{icon}</span>
         ) : (
           <img src={icon} alt={title} className="w-8 h-8 object-contain" />

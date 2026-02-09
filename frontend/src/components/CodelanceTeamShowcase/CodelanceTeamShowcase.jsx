@@ -60,13 +60,13 @@ const CodelanceTeamShowcase = ({
           <span className="text-primary text-sm font-black tracking-[0.4em] uppercase mb-4">
             Leadership Collective
           </span>
-          <h1 className="text-navy-deep dark:text-white text-3xl md:text-4xl font-extrabold tracking-tight mb-6">
+          <h1 className="text-navy-deep dark:text-white text-4xl lg:text-5xl font-black text-center mb-4">
             The Minds Behind CODELANCE
           </h1>
-          <p className="text-navy-light dark:text-gray-400 text-lg max-w-2xl leading-relaxed">
+          <div className="w-24 h-1 bg-primary rounded-full" style={{ width: '120px' }}></div>
+          <p className="text-navy-light dark:text-gray-400 text-lg max-w-2xl leading-relaxed mt-6">
             Our core leadership drives innovation with a focused approach to engineering excellence and strategic digital transformation.
           </p>
-          <div className="w-24 h-2 bg-primary rounded-full mt-6"></div>
         </div>
 
         {/* Team Members Grid */}

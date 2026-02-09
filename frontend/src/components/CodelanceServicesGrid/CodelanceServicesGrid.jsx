@@ -25,17 +25,24 @@ const CodelanceServicesGrid = ({
   return (
     <div className={`grid ${gridCols[columns] || gridCols[4]} gap-6 p-4 ${className}`}>
       {services.map((service, index) => {
-        // Map service category/name to Material Symbol icon
+        // Check for SVG first (from database)
         const getIcon = (service) => {
-          // If service has a material icon property, use it
-          if (service.materialIcon) return service.materialIcon
+          // Priority 1: SVG from database
+          if (service.svg) {
+            return { type: "svg", svg: service.svg }
+          }
           
-          // If service has icon URL, use it as image
+          // Priority 2: Material icon name from database
+          if (service.icon && !service.icon_url && !service.imageUrl) {
+            return { type: "material", name: service.icon }
+          }
+          
+          // Priority 3: Icon URL/image
           if (service.icon || service.icon_url || service.imageUrl) {
             return { type: "image", url: service.icon || service.icon_url || service.imageUrl }
           }
           
-          // Map service name/category to Material Symbols
+          // Priority 4: Map service name/category to Material Symbols (fallback)
           const title = (service.title || service.nameEn || service.name_en || "").toLowerCase()
           const category = (service.category || "").toLowerCase()
           
@@ -80,8 +87,9 @@ const CodelanceServicesGrid = ({
             id={service.id}
             title={service.title || service.nameEn || service.name_en || "Service"}
             description={service.description || service.descriptionEn || service.description_en || ""}
-            icon={iconData.type === "material" ? iconData.name : iconData.url}
+            icon={iconData.type === "material" ? iconData.name : iconData.url || ""}
             iconType={iconData.type}
+            svg={iconData.type === "svg" ? iconData.svg : null}
             onClick={onServiceClick ? () => onServiceClick(service) : null}
             className=""
           />

@@ -237,6 +237,7 @@ class ServiceController extends Controller
             'category' => $service->category,
             'icon' => $service->icon ? URL::asset('storage/' . $service->icon) : null,
             'icon_url' => $service->icon ? URL::asset('storage/' . $service->icon) : null,
+            'svg' => $service->svg,
             'isActive' => $service->is_active,
             'is_active' => $service->is_active,
             'order' => $service->order,
