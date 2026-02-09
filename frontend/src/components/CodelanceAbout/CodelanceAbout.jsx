@@ -174,36 +174,6 @@ const CodelanceAbout = ({
             </div>
           )}
 
-          {/* Action Buttons */}
-          <div className={`flex flex-nowrap items-center gap-2 md:gap-4 pt-2 transition-all duration-1000 ease-out delay-500 ${
-            isVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-8'
-          }`}>
-            {primaryButtonText && (
-              <button
-                onClick={handlePrimaryClick}
-                className="group relative bg-primary text-white text-sm md:text-base font-bold px-4 md:px-10 py-3 md:py-4 rounded-xl overflow-hidden transition-all shadow-xl shadow-primary/30 active:scale-[0.98] flex items-center justify-center gap-1 md:gap-2 w-full md:w-auto"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  {primaryButtonText}
-                  <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">
-                    arrow_forward
-                  </span>
-                </span>
-                {/* Shimmer Effect */}
-                <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
-              </button>
-            )}
-            {secondaryButtonText && (
-              <button
-                onClick={handleSecondaryClick}
-                className="border-2 border-navy-deep dark:border-white/20 text-navy-deep dark:text-white text-sm md:text-base font-bold px-4 md:px-10 py-3 md:py-4 rounded-xl hover:bg-navy-deep hover:text-white dark:hover:bg-white dark:hover:text-navy-deep transition-all active:scale-95 w-full md:w-auto"
-              >
-                {secondaryButtonText}
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </section>

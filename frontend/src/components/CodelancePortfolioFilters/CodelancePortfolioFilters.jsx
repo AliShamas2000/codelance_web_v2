@@ -26,26 +26,29 @@ const CodelancePortfolioFilters = ({
   return (
     <div 
       ref={ref}
-      className={`flex justify-center mb-16 transition-all duration-1000 ease-out delay-200 ${
+      className={`flex justify-center mb-8 md:mb-16 transition-all duration-1000 ease-out delay-200 ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'
       } ${className}`}
     >
-      <div className="bg-gray-200/50 dark:bg-gray-800/50 p-1.5 rounded-full flex flex-wrap justify-center gap-1">
-        {filters.map((filter) => (
-          <button
-            key={filter.id}
-            onClick={() => handleFilterClick(filter.id)}
-            className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
-              currentFilter === filter.id
-                ? 'bg-primary text-white shadow-lg shadow-primary/30'
-                : 'text-navy-deep/60 dark:text-white/60 hover:bg-white dark:hover:bg-gray-700 hover:text-navy-deep dark:hover:text-white hover:shadow-md'
-            }`}
-          >
-            {filter.label}
-          </button>
-        ))}
+      {/* Mobile: Horizontal Scrollable Container */}
+      <div className="w-full md:w-auto overflow-x-auto md:overflow-visible no-scrollbar">
+        <div className="bg-gray-200/50 dark:bg-gray-800/50 p-1 md:p-1.5 rounded-full flex gap-1 md:gap-1.5 justify-start md:justify-center min-w-max md:min-w-0 px-2 md:px-0">
+          {filters.map((filter) => (
+            <button
+              key={filter.id}
+              onClick={() => handleFilterClick(filter.id)}
+              className={`px-4 md:px-6 py-2 text-xs md:text-sm font-semibold rounded-full transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
+                currentFilter === filter.id
+                  ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                  : 'text-navy-deep/60 dark:text-white/60 hover:bg-white dark:hover:bg-gray-700 hover:text-navy-deep dark:hover:text-white hover:shadow-md'
+              }`}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
