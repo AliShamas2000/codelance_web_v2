@@ -18,12 +18,13 @@ const CodelancePricingHeader = ({
       } ${className}`}
     >
       {title && (
-        <h1 className="text-navy-deep dark:text-white text-4xl md:text-5xl font-black leading-tight tracking-tighter mb-4">
+        <h1 className="text-navy-deep dark:text-white text-4xl md:text-5xl font-black text-center mb-4">
           {title}
         </h1>
       )}
+      <div className="mx-auto w-24 h-1 bg-primary rounded-full" style={{ width: '120px' }}></div>
       {description && (
-        <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+        <p className="text-[#5e808d] dark:text-gray-400 text-lg font-normal leading-normal text-center mt-6 max-w-2xl mx-auto">
           {description}
         </p>
       )}

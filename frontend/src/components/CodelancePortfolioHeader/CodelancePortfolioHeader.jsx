@@ -19,16 +19,16 @@ const CodelancePortfolioHeader = ({
       } ${className}`}
     >
       {badge && (
-        <span className="text-primary text-xs font-black uppercase tracking-[0.3em] mb-4">
+        <p className="text-primary text-sm font-bold uppercase tracking-widest mb-2">
           {badge}
-        </span>
+        </p>
       )}
       {title && (
-        <h2 className="text-4xl lg:text-5xl font-black text-navy-deep dark:text-white text-center">
+        <h1 className="text-navy-deep dark:text-white text-4xl lg:text-5xl font-black text-center mb-4">
           {title}
-        </h2>
+        </h1>
       )}
-      <div className="mt-6 w-20 h-1.5 bg-primary rounded-full"></div>
+      <div className="w-24 h-1 bg-primary rounded-full" style={{ width: '120px' }}></div>
       {description && (
         <p className="text-[#5e808d] dark:text-gray-400 text-lg font-normal leading-normal text-center mt-6 max-w-2xl">
           {description}

@@ -11,9 +11,6 @@ const CodelanceHero = ({
   primaryButtonAction = null,
   secondaryButtonText = "See Our Work",
   secondaryButtonAction = null,
-  clientAvatars = [],
-  clientCount = "50+",
-  trustText = "Trusted by global startups and enterprises",
   showIllustrations = true
 }) => {
   const navigate = useNavigate()
@@ -105,30 +102,6 @@ const CodelanceHero = ({
               </button>
             )}
           </div>
-          {(clientAvatars.length > 0 || clientCount) && (
-            <div className="flex items-center gap-6 pt-4">
-              <div className="flex -space-x-3">
-                {clientAvatars.slice(0, 3).map((avatar, index) => (
-                  <div
-                    key={index}
-                    className="size-10 rounded-full border-2 border-white bg-slate-200 bg-cover"
-                    style={{ backgroundImage: `url('${avatar}')` }}
-                    alt={`Client profile photo ${index + 1}`}
-                  />
-                ))}
-                {clientCount && (
-                  <div className="size-10 rounded-full border-2 border-white bg-primary flex items-center justify-center text-[10px] text-white font-bold">
-                    {clientCount}
-                  </div>
-                )}
-              </div>
-              {trustText && (
-                <p className="text-sm font-semibold text-navy-deep/60 dark:text-white/60">
-                  {trustText}
-                </p>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Right Content: 3D/Glassy Illustration */}

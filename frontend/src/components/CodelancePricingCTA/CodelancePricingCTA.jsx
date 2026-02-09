@@ -59,7 +59,7 @@ const CodelancePricingCTA = ({
             {primaryButtonText && (
               <button
                 onClick={handlePrimaryClick}
-                className="flex items-center justify-center rounded-xl h-14 px-8 bg-primary text-white text-base font-black transition-all hover:scale-105 shadow-lg"
+                className="bg-primary text-white text-base font-bold px-10 py-4 rounded-xl hover:shadow-xl hover:shadow-primary/40 transition-all active:scale-95"
               >
                 {primaryButtonText}
               </button>
@@ -67,7 +67,7 @@ const CodelancePricingCTA = ({
             {secondaryButtonText && (
               <button
                 onClick={handleSecondaryClick}
-                className="flex items-center justify-center rounded-xl h-14 px-8 border border-white/20 text-white text-base font-bold transition-all hover:bg-white/10"
+                className="border-2 border-navy-deep dark:border-white/20 text-white text-base font-bold px-10 py-4 rounded-xl hover:bg-white hover:text-navy-deep transition-all active:scale-95"
               >
                 {secondaryButtonText}
               </button>

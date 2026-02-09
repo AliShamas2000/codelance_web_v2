@@ -46,7 +46,7 @@ const CodelanceServicesCTA = ({
             {primaryButtonText && (
               <button
                 onClick={handlePrimaryClick}
-                className="flex min-w-[180px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 bg-primary text-white text-lg font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
+                className="min-w-[180px] cursor-pointer bg-primary text-white text-base font-bold px-10 py-4 rounded-xl hover:shadow-xl hover:shadow-primary/40 transition-all active:scale-95"
               >
                 {primaryButtonText}
               </button>
@@ -54,7 +54,7 @@ const CodelanceServicesCTA = ({
             {secondaryButtonText && (
               <button
                 onClick={handleSecondaryClick}
-                className="flex min-w-[180px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 bg-transparent border-2 border-primary text-primary text-lg font-bold hover:bg-primary/10 transition-colors"
+                className="min-w-[180px] cursor-pointer border-2 border-navy-deep dark:border-white/20 text-white text-base font-bold px-10 py-4 rounded-xl hover:bg-white hover:text-navy-deep transition-all active:scale-95"
               >
                 {secondaryButtonText}
               </button>

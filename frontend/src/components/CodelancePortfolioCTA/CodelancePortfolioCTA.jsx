@@ -56,7 +56,7 @@ const CodelancePortfolioCTA = ({
             {primaryButtonText && (
               <button
                 onClick={handlePrimaryClick}
-                className="w-full sm:w-auto px-10 py-4 bg-primary text-white font-bold rounded-xl hover:scale-105 transition-transform"
+                className="w-full sm:w-auto bg-primary text-white text-base font-bold px-10 py-4 rounded-xl hover:shadow-xl hover:shadow-primary/40 transition-all active:scale-95"
               >
                 {primaryButtonText}
               </button>
@@ -64,7 +64,7 @@ const CodelancePortfolioCTA = ({
             {secondaryButtonText && (
               <button
                 onClick={handleSecondaryClick}
-                className="w-full sm:w-auto px-10 py-4 border-2 border-primary/50 text-primary font-bold rounded-xl hover:bg-primary/10 transition-colors"
+                className="w-full sm:w-auto border-2 border-navy-deep dark:border-white/20 text-white text-base font-bold px-10 py-4 rounded-xl hover:bg-white hover:text-navy-deep transition-all active:scale-95"
               >
                 {secondaryButtonText}
               </button>

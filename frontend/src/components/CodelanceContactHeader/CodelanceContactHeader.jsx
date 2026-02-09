@@ -19,15 +19,18 @@ const CodelanceContactHeader = ({
       } ${className}`}
     >
       {title && (
-        <h2 className="text-5xl md:text-6xl font-extrabold leading-[1.1] text-navy-deep dark:text-white">
-          {title} <br/>
-          {titleHighlight && (
-            <span className="text-primary">{titleHighlight}</span>
-          )}
-        </h2>
+        <div>
+          <h1 className="text-navy-deep dark:text-white text-4xl lg:text-5xl font-black">
+            {title}{' '}
+            {titleHighlight && (
+              <span className="text-primary">{titleHighlight}</span>
+            )}
+          </h1>
+          <div className="mt-4 w-24 h-1 bg-primary rounded-full" style={{ width: '120px' }}></div>
+        </div>
       )}
       {description && (
-        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-md">
+        <p className="text-[#5e808d] dark:text-gray-400 text-lg font-normal leading-normal max-w-md">
           {description}
         </p>
       )}

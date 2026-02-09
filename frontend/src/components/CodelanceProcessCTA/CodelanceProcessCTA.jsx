@@ -61,7 +61,7 @@ const CodelanceProcessCTA = ({
             {primaryButtonText && (
               <button
                 onClick={handlePrimaryClick}
-                className="bg-primary hover:bg-white hover:text-navy-deep text-white font-bold h-14 px-10 rounded-lg transition-all shadow-xl shadow-primary/30 whitespace-nowrap"
+                className="bg-primary text-white text-base font-bold px-10 py-4 rounded-xl hover:shadow-xl hover:shadow-primary/40 transition-all active:scale-95 whitespace-nowrap"
               >
                 {primaryButtonText}
               </button>
@@ -69,7 +69,7 @@ const CodelanceProcessCTA = ({
             {secondaryButtonText && (
               <button
                 onClick={handleSecondaryClick}
-                className="bg-transparent border-2 border-white/20 hover:border-white text-white font-bold h-14 px-10 rounded-lg transition-all whitespace-nowrap"
+                className="border-2 border-navy-deep/20 dark:border-white/20 text-white text-base font-bold px-10 py-4 rounded-xl hover:bg-white hover:text-navy-deep transition-all active:scale-95 whitespace-nowrap"
               >
                 {secondaryButtonText}
               </button>

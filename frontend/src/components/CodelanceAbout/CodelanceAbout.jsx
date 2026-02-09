@@ -183,7 +183,7 @@ const CodelanceAbout = ({
             {primaryButtonText && (
               <button
                 onClick={handlePrimaryClick}
-                className="bg-navy-deep dark:bg-white text-white dark:text-navy-deep px-8 py-4 rounded-xl font-bold hover:bg-navy-deep/90 dark:hover:bg-white/90 transition-all active:scale-95 shadow-lg shadow-navy-deep/20 dark:shadow-white/20"
+                className="bg-primary text-white text-base font-bold px-10 py-4 rounded-xl hover:shadow-xl hover:shadow-primary/40 transition-all active:scale-95 flex items-center gap-2"
               >
                 {primaryButtonText}
               </button>
@@ -191,7 +191,7 @@ const CodelanceAbout = ({
             {secondaryButtonText && (
               <button
                 onClick={handleSecondaryClick}
-                className="border-2 border-primary text-primary px-8 py-4 rounded-xl font-bold hover:bg-primary hover:text-white transition-all active:scale-95"
+                className="border-2 border-navy-deep dark:border-white/20 text-navy-deep dark:text-white text-base font-bold px-10 py-4 rounded-xl hover:bg-navy-deep hover:text-white dark:hover:bg-white dark:hover:text-navy-deep transition-all active:scale-95"
               >
                 {secondaryButtonText}
               </button>

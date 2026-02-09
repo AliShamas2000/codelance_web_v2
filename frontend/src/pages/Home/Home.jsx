@@ -386,13 +386,6 @@ const Home = () => {
     { label: "Contact", href: "#contact" }
   ]
 
-  // Client avatars - can be fetched from backend later
-  const clientAvatars = [
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDfv7s0BL7kpE8SISu54KVmV72eRDoDTpvQ8dhtMG1qQU5n_GK2Snd4Vjr55j0ooK1FEldAxM4bCBg4R0OqBqVhxlKvf8shv_n_fzUvdkPg30WnkCmfM_v_iOx3PsQiBgnKGEtdz1XXl35DISOiuH_HMAr2sZXbJ0qyqLCg4R9pd9rzf2dpnOATCWeEWgQW4lPyZPAjevyW4-eaFYuFq251ojBo-a7gKmU7zLWoDVzSVGFXUYm8K8Mb7tYty5nw3HzVt-0WE7LtqnM',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDDUvdthqBlOw2krhbdYetVoVNGO78DBhy4CqMC_iZM7rDvgJ1_9vEWbma35iVuge12fhxCdWA8zifXSrOAkwfcE-1pxC6XIvLzZbQWxPz1C4P_oOVWX7TCXk0FPp9ddniOUa7OgviV5QxiGKZzHqn3aE2XsKV87lYbXQnDd9VVcvVXuwA3SyQigHzhAvMS9ZHsIXdJJGL2XNe7OYq-RogQayWvr0C2qUVxls9w8Qx0G-a99Yv11iARhfLK-f6h7ki1Ez8-7EdjISA',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuA4sHYaTCtwN4xNJkvlxhkCYB7jPi5ow1w4AC1m-QZdcBJ5BZRxO9q2MWa4ZKNfqNhW5Hhqs-FeOLYFl7L-wP5Ilk6LD1ITMu_W4w9BKRmuYApYKlmws-saMeXvEDDlW14VknoKOQ6AJF2ywQJj7LxBkE3Q125GChnjZh09XmNh4dEcOJ_AwIh1Y38gZaxwTBPqzXlmHB1oagCYyloXE1ikBQXIAvGcSaH-HwX-HExE2Rrb_msDBTaiRmK5dQzB2w1BG9eO9LvTa_I'
-  ]
-
   const handleGetStarted = () => {
     navigate('/contact')
   }
@@ -473,9 +466,6 @@ const Home = () => {
         primaryButtonAction={handleStartProject}
         secondaryButtonText="See Our Work"
         secondaryButtonAction={handleSeeWork}
-        clientAvatars={clientAvatars}
-        clientCount="50+"
-        trustText="Trusted by global startups and enterprises"
         showIllustrations={true}
       />
 
