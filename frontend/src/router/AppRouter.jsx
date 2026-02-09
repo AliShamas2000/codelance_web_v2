@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import Layout from '../components/Layout/Layout'
+// import Layout from '../components/Layout/Layout'
 import Home from '../pages/Home/Home'
-import GalleryPage from '../pages/Gallery/Gallery'
-import AboutPage from '../pages/About/About'
-import ServicesPage from '../pages/Services/Services'
-import PricingPage from '../pages/Pricing/Pricing'
-import ContactPage from '../pages/Contact/Contact'
+// import GalleryPage from '../pages/Gallery/Gallery'
+// import AboutPage from '../pages/About/About'
+// import ServicesPage from '../pages/Services/Services'
+// import PricingPage from '../pages/Pricing/Pricing'
+// import ContactPage from '../pages/Contact/Contact'
 import LoginPage from '../pages/Admin/Login/Login'
-import UserLogin from '../pages/User/Login/Login'
-import ForgotPassword from '../pages/User/ForgotPassword/ForgotPassword'
-import OTP from '../pages/User/OTP/OTP'
-import ResetPassword from '../pages/User/ResetPassword/ResetPassword'
-import Register from '../pages/User/Register/Register'
-import UserProfile from '../pages/User/Profile/Profile'
+// import UserLogin from '../pages/User/Login/Login'
+// import ForgotPassword from '../pages/User/ForgotPassword/ForgotPassword'
+// import OTP from '../pages/User/OTP/OTP'
+// import ResetPassword from '../pages/User/ResetPassword/ResetPassword'
+// import Register from '../pages/User/Register/Register'
+// import UserProfile from '../pages/User/Profile/Profile'
 import Dashboard from '../pages/Admin/Dashboard/Dashboard'
 import Team from '../pages/Admin/Team/Team'
 import Services from '../pages/Admin/Services/Services'
@@ -26,20 +26,20 @@ import ContactSubmissions from '../pages/Admin/ContactSubmissions/ContactSubmiss
 import NewsletterSubscriptions from '../pages/Admin/NewsletterSubscriptions/NewsletterSubscriptions'
 import AboutUsContent from '../pages/Admin/AboutUsContent/AboutUsContent'
 import Settings from '../pages/Admin/Settings/Settings'
-import BarberDashboard from '../pages/Barber/Dashboard/BarberDashboard'
-import BarberAppointments from '../pages/Barber/Appointments/Appointments'
-import BarberSchedule from '../pages/Barber/Schedule/Schedule'
-import BarberClients from '../pages/Barber/Clients/Clients'
-import BarberHistory from '../pages/Barber/History/History'
-import BarberReviews from '../pages/Barber/Reviews/Reviews'
-import BarberAvailability from '../pages/Barber/Availability/Availability'
-import BarberSettings from '../pages/Barber/Settings/Settings'
-import BarberProfile from '../pages/Barber/Profile/Profile'
-import BarberLayout from '../components/BarberLayout/BarberLayout'
-import { BarberUserProvider } from '../contexts/BarberUserContext'
+// import BarberDashboard from '../pages/Barber/Dashboard/BarberDashboard'
+// import BarberAppointments from '../pages/Barber/Appointments/Appointments'
+// import BarberSchedule from '../pages/Barber/Schedule/Schedule'
+// import BarberClients from '../pages/Barber/Clients/Clients'
+// import BarberHistory from '../pages/Barber/History/History'
+// import BarberReviews from '../pages/Barber/Reviews/Reviews'
+// import BarberAvailability from '../pages/Barber/Availability/Availability'
+// import BarberSettings from '../pages/Barber/Settings/Settings'
+// import BarberProfile from '../pages/Barber/Profile/Profile'
+// import BarberLayout from '../components/BarberLayout/BarberLayout'
+// import { BarberUserProvider } from '../contexts/BarberUserContext'
 import AdminLayout from '../components/AdminLayout/AdminLayout'
 import { AdminUserProvider } from '../contexts/AdminUserContext'
-import ReviewPage from '../pages/Review/Review'
+// import ReviewPage from '../pages/Review/Review'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 import footerApi from '../api/footer'
 
@@ -102,7 +102,7 @@ const AppRouter = () => {
         />
 
         {/* Gallery Route */}
-        <Route
+        {/* <Route
           path="/gallery"
           element={
             <Layout
@@ -113,10 +113,10 @@ const AppRouter = () => {
               <GalleryPage />
             </Layout>
           }
-        />
+        /> */}
 
         {/* About Route */}
-        <Route
+        {/* <Route
           path="/about"
           element={
             <Layout
@@ -127,17 +127,17 @@ const AppRouter = () => {
               <AboutPage />
             </Layout>
           }
-        />
+        /> */}
 
 
         {/* Services Route - Uses its own header and footer */}
-        <Route
+        {/* <Route
           path="/services"
           element={<ServicesPage />}
-        />
+        /> */}
 
         {/* Pricing Route */}
-        <Route
+        {/* <Route
           path="/pricing"
           element={
             <Layout
@@ -148,10 +148,10 @@ const AppRouter = () => {
               <PricingPage />
             </Layout>
           }
-        />
+        /> */}
 
         {/* Contact/Appointment Route */}
-        <Route
+        {/* <Route
           path="/contact"
           element={
             <Layout
@@ -162,52 +162,52 @@ const AppRouter = () => {
               <ContactPage />
             </Layout>
           }
-        />
+        /> */}
 
         {/* Review Route (Public - No Layout) */}
-        <Route
+        {/* <Route
           path="/review/:appointmentId?"
           element={<ReviewPage />}
-        />
+        /> */}
 
         {/* User Login Route */}
-        <Route
+        {/* <Route
           path="/login"
           element={<UserLogin />}
-        />
+        /> */}
 
         {/* User Register Route */}
-        <Route
+        {/* <Route
           path="/register"
           element={<Register />}
-        />
+        /> */}
 
         {/* User Signup Route (alias) */}
-        <Route
+        {/* <Route
           path="/signup"
           element={<Register />}
-        />
+        /> */}
 
         {/* Forgot Password Route */}
-        <Route
+        {/* <Route
           path="/forgot-password"
           element={<ForgotPassword />}
-        />
+        /> */}
 
         {/* OTP Verification Route */}
-        <Route
+        {/* <Route
           path="/otp"
           element={<OTP />}
-        />
+        /> */}
 
         {/* Reset Password Route */}
-        <Route
+        {/* <Route
           path="/reset-password"
           element={<ResetPassword />}
-        />
+        /> */}
 
         {/* User Profile Route - Protected for clients */}
-        <Route
+        {/* <Route
           path="/profile"
           element={
             <ProtectedRoute requiredRole="client" redirectTo="/login">
@@ -220,7 +220,7 @@ const AppRouter = () => {
               </Layout>
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         {/* Admin Login Route */}
         <Route
@@ -256,7 +256,7 @@ const AppRouter = () => {
         </Route>
 
         {/* Barber Routes - Wrapped in shared layout with context */}
-        <Route
+        {/* <Route
           path="/barber"
           element={
             <ProtectedRoute requiredRole="barber" redirectTo="/admin/login">
@@ -277,7 +277,7 @@ const AppRouter = () => {
           <Route path="availability" element={<BarberAvailability />} />
           <Route path="settings" element={<BarberSettings />} />
           <Route path="profile" element={<BarberProfile />} />
-        </Route>
+        </Route> */}
 
         {/* Redirect any unknown routes to home */}
         <Route path="*" element={<Navigate to="/" replace />} />
