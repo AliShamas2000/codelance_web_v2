@@ -115,7 +115,7 @@ const AdminSidebar = ({
   })
 
   return (
-    <aside className={`w-64 flex-shrink-0 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col transition-colors duration-200 overflow-y-auto ${className}`}>
+    <aside className={`w-64 flex-shrink-0 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col transition-colors duration-200 h-screen ${className}`}>
       {/* Logo Section */}
       <div className="p-6">
         <div className="flex items-center space-x-3 mb-6">
@@ -144,7 +144,7 @@ const AdminSidebar = ({
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 space-y-1">
+      <nav className="flex-1 px-4 space-y-1 overflow-y-auto min-h-0">
         {filteredItems.map((item, index) => {
           if (item.type === "divider") {
             return (

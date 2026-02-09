@@ -9,7 +9,7 @@ import SuccessMessageModal from '../../../components/SuccessMessageModal/Success
 
 const Settings = () => {
   const navigate = useNavigate()
-  const { user: adminUser } = useAdminUserContext()
+  const { user: adminUser, refreshUser } = useAdminUserContext()
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false)
@@ -101,20 +101,43 @@ const Settings = () => {
     }
   }
 
-  // Handle photo upload
+  // Handle photo upload - auto-save to backend without needing Save button
   const handlePhotoUpload = async (file) => {
     try {
       setIsUploadingPhoto(true)
       setProfilePhoto(file)
-      // Create preview
+
+      // Optimistic preview
       const reader = new FileReader()
       reader.onloadend = () => {
         setPhotoPreview(reader.result)
       }
       reader.readAsDataURL(file)
+
+      // Immediately persist to backend
+      await settingsApi.updateProfile({
+        photo: file,
+        remove_photo: false
+      })
+
+      // Reload profile to ensure data stays in sync
+      await loadProfile()
+
+      // Refresh admin user context so sidebar avatar updates
+      if (refreshUser) {
+        await refreshUser()
+      }
+
+      // Optional success feedback
+      setSuccessMessage('Profile photo updated successfully!')
+      setIsSuccessModalOpen(true)
+      
+      // Clear local file reference so Save Changes doesn't need to resend it
+      setProfilePhoto(null)
     } catch (error) {
       console.error('Error uploading photo:', error)
-      alert('Failed to upload photo. Please try again.')
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to upload photo. Please try again.'
+      alert(errorMessage)
     } finally {
       setIsUploadingPhoto(false)
     }

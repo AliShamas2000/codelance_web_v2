@@ -98,6 +98,11 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         
         // Dashboard stats
         Route::get('dashboard/stats', [App\Http\Controllers\Api\Admin\DashboardController::class, 'stats']);
+        
+        // Admin profile management
+        Route::get('profile', [App\Http\Controllers\Api\Admin\ProfileController::class, 'index']);
+        Route::put('profile', [App\Http\Controllers\Api\Admin\ProfileController::class, 'update']);
+        Route::put('password', [App\Http\Controllers\Api\Admin\ProfileController::class, 'updatePassword']);
     });
     
     // Customer endpoints
