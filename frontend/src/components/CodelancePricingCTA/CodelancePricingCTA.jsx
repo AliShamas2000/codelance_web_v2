@@ -33,7 +33,7 @@ const CodelancePricingCTA = ({
   return (
     <section 
       ref={ref}
-      className={`max-w-[1400px] mx-auto px-6 lg:px-12 py-20 transition-all duration-1000 ease-out ${
+      className={`max-w-[1400px] mx-auto px-6 lg:px-12 lg:py-16 pb-10 transition-all duration-1000 ease-out ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'

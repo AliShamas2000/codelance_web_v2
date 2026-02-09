@@ -611,7 +611,7 @@ const Home = () => {
       </section>
 
       {/* Reviews / Testimonials Section */}
-      <section className="py-16 overflow-hidden bg-background-light dark:bg-background-dark" id="reviews">
+      <section className="lg:py-16 py-0 overflow-hidden bg-background-light dark:bg-background-dark" id="reviews">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <CodelanceReviewsHeader
             title="Client Success Stories"

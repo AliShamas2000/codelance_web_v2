@@ -34,7 +34,7 @@ const CodelanceFooter = ({
     <footer className={`bg-background-light dark:bg-background-dark border-t border-navy-deep/10 dark:border-white/10 pt-20 pb-10 ${className}`}>
       <div className="max-w-[1400px] mx-auto px-6 lg:px-20">
         {/* Main Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-navy-deep/5 dark:border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:pb-16 border-b border-navy-deep/5 dark:border-white/5">
           {/* Column 1: Identity */}
           <CodelanceFooterIdentity
             logoUrl={logoUrl}
