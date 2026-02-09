@@ -81,17 +81,6 @@ const CodelanceHeader = ({
               Get Started
             </button>
           )}
-          {userAvatar ? (
-            <div
-              className="size-10 rounded-full bg-cover bg-center border-2 border-primary"
-              style={{ backgroundImage: `url("${userAvatar}")` }}
-              alt="User profile avatar portrait"
-            />
-          ) : (
-            <div className="size-10 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center">
-              <span className="material-symbols-outlined text-primary">account_circle</span>
-            </div>
-          )}
         </div>
       </div>
     </header>
