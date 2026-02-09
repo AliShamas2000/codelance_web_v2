@@ -18,7 +18,7 @@ const CodelanceFooterIdentity = ({
           : 'opacity-0 translate-y-8'
       } ${className}`}
     >
-      <div className="flex items-center gap-3 text-navy-deep dark:text-white">
+      <div className="flex items-center gap-1 text-navy-deep dark:text-white">
         <img 
           src={logoUrl || "/logo.png"} 
           alt={brandName}
