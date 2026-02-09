@@ -76,9 +76,16 @@ const CodelanceHeader = ({
           {showGetStarted && (
             <button
               onClick={handleGetStarted}
-              className="hidden sm:flex bg-primary text-white text-sm font-bold px-6 py-2.5 rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95"
+              className="group relative hidden sm:flex bg-primary text-white text-sm font-bold px-6 py-2.5 rounded-xl overflow-hidden transition-all shadow-xl shadow-primary/30 active:scale-[0.98]"
             >
-              Get Started
+              <span className="relative z-10 flex items-center gap-2">
+                Get Started
+                <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">
+                  arrow_forward
+                </span>
+              </span>
+              {/* Shimmer Effect */}
+              <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
             </button>
           )}
         </div>

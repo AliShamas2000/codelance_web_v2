@@ -111,16 +111,20 @@ const CodelancePricingCard = ({
       {/* CTA Button */}
       <button
         onClick={handleButtonClick}
-        className={`mt-auto group flex items-center justify-center gap-2 rounded-xl h-14 w-full text-base font-bold tracking-tight transition-all ${
+        className={`mt-auto group relative flex items-center justify-center gap-2 rounded-xl h-14 w-full text-base font-bold tracking-tight overflow-hidden transition-all shadow-xl ${
           isHighlighted
-            ? 'bg-primary text-white hover:shadow-[0_0_20px_rgba(0,176,240,0.4)]'
-            : 'bg-navy-deep text-white hover:bg-navy-deep/90'
+            ? 'bg-primary text-white shadow-primary/30 active:scale-[0.98]'
+            : 'bg-navy-deep text-white shadow-navy-deep/30 active:scale-[0.98]'
         }`}
       >
-        <span>{buttonText}</span>
-        <span className="material-symbols-outlined cta-btn-arrow transition-transform text-[20px]">
-          arrow_forward
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          {buttonText}
+          <span className="material-symbols-outlined transition-transform group-hover:translate-x-1 text-[20px]">
+            arrow_forward
+          </span>
         </span>
+        {/* Shimmer Effect */}
+        <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
       </button>
     </div>
   )

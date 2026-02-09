@@ -59,9 +59,16 @@ const CodelancePricingCTA = ({
             {primaryButtonText && (
               <button
                 onClick={handlePrimaryClick}
-                className="bg-primary text-white text-base font-bold px-10 py-4 rounded-xl hover:shadow-xl hover:shadow-primary/40 transition-all active:scale-95"
+                className="group relative bg-primary text-white text-base font-bold px-10 py-4 rounded-xl overflow-hidden transition-all shadow-xl shadow-primary/30 active:scale-[0.98]"
               >
-                {primaryButtonText}
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {primaryButtonText}
+                  <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">
+                    arrow_forward
+                  </span>
+                </span>
+                {/* Shimmer Effect */}
+                <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
               </button>
             )}
             {secondaryButtonText && (
