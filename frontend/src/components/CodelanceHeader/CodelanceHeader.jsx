@@ -20,7 +20,14 @@ const CodelanceHeader = ({
     if (onGetStartedClick) {
       onGetStartedClick()
     } else {
-      navigate('/contact')
+      // Scroll to contact section
+      const contactSection = document.getElementById('contact')
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        // Fallback: navigate to contact page if section not found
+        navigate('/contact')
+      }
     }
   }
 

@@ -386,12 +386,23 @@ const Home = () => {
     { label: "Contact", href: "#contact" }
   ]
 
+  // Helper function to scroll to contact section
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      // Fallback: navigate to contact page if section not found
+      navigate('/contact')
+    }
+  }
+
   const handleGetStarted = () => {
-    navigate('/contact')
+    scrollToContact()
   }
 
   const handleStartProject = () => {
-    navigate('/contact')
+    scrollToContact()
   }
 
   const handleSeeWork = () => {
@@ -407,14 +418,8 @@ const Home = () => {
 
   // Handle service click
   const handleServiceClick = (service) => {
-    navigate('/contact', {
-      state: {
-        formData: {
-          serviceId: service.id,
-          serviceName: service.title || service.nameEn || service.name_en
-        }
-      }
-    })
+    scrollToContact()
+    // Note: Service data could be stored in state or URL params if needed for form pre-fill
   }
 
   // Handle portfolio filter change
@@ -547,9 +552,16 @@ const Home = () => {
             title="Have a visionary project in mind?"
             subtitle="From concept to deployment, we build the digital future of your business with precision and passion."
             primaryButtonText="Get Started"
-            primaryButtonAction={() => navigate('/contact')}
+            primaryButtonAction={scrollToContact}
             secondaryButtonText="Our Process"
-            secondaryButtonAction={() => navigate('/#process')}
+            secondaryButtonAction={() => {
+              const processSection = document.getElementById('process')
+              if (processSection) {
+                processSection.scrollIntoView({ behavior: 'smooth' })
+              } else {
+                navigate('/#process')
+              }
+            }}
           />
         </div>
       </section>
@@ -585,7 +597,7 @@ const Home = () => {
           title="Ready to build something amazing?"
           subtitle="Join dozens of successful companies scaling with our proven process."
           primaryButtonText="Contact Us Today"
-          primaryButtonAction={() => navigate('/contact')}
+          primaryButtonAction={scrollToContact}
           secondaryButtonText="View Portfolio"
           secondaryButtonAction={() => {
             const portfolioSection = document.getElementById('portfolio')
@@ -636,15 +648,8 @@ const Home = () => {
             <CodelancePricingGrid
               packages={packages}
               onPackageSelect={(pkg) => {
-                navigate('/contact', {
-                  state: {
-                    formData: {
-                      packageId: pkg.id,
-                      packageName: pkg.name,
-                      packagePrice: pkg.price
-                    }
-                  }
-                })
+                scrollToContact()
+                // Note: Package data could be stored in state or URL params if needed for form pre-fill
               }}
               columns={3}
             />
@@ -655,9 +660,16 @@ const Home = () => {
           title="Need a custom solution?"
           description="Our team can build a tailor-made package specifically for your enterprise requirements, including specialized integrations and dedicated server architecture."
           primaryButtonText="Schedule a Discovery Call"
-          primaryButtonAction={() => navigate('/contact')}
+          primaryButtonAction={scrollToContact}
           secondaryButtonText="View Full Services"
-          secondaryButtonAction={() => navigate('/services')}
+          secondaryButtonAction={() => {
+            const servicesSection = document.getElementById('services')
+            if (servicesSection) {
+              servicesSection.scrollIntoView({ behavior: 'smooth' })
+            } else {
+              navigate('/services')
+            }
+          }}
         />
       </section>
 
