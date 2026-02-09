@@ -56,7 +56,7 @@ const CodelanceContactSection = ({
       <div className="blob w-[500px] h-[500px] bg-primary/30 bottom-[-10%] right-[-5%] rounded-full"></div>
       <div className="blob w-72 h-72 bg-primary/20 top-1/2 left-1/3 rounded-full"></div>
 
-      <div className="relative z-10 w-full max-w-7xl px-6 md:px-20 grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 w-full max-w-[1400px] px-6 lg:px-12 grid lg:grid-cols-2 gap-16 items-center">
         {/* Left Side: Copy & Info */}
         <div className="space-y-12">
           <CodelanceContactHeader

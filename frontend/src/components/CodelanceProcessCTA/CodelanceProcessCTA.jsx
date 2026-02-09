@@ -34,7 +34,7 @@ const CodelanceProcessCTA = ({
   return (
     <section 
       ref={ref}
-      className={`max-w-[1200px] mx-auto px-6 py-24 transition-all duration-1000 ease-out ${
+      className={`max-w-[1400px] mx-auto px-6 lg:px-12 py-24 transition-all duration-1000 ease-out ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'

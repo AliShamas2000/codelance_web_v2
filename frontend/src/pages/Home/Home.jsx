@@ -511,7 +511,7 @@ const Home = () => {
       </section>
 
       {/* Portfolio Section */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 py-20" id="portfolio">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20" id="portfolio">
         <CodelancePortfolioHeader
           badge="Showcase"
           title="Our Portfolio"
@@ -553,7 +553,7 @@ const Home = () => {
       </section>
 
       {/* Team Section */}
-      <section className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-40 py-20" id="team">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20" id="team">
         <CodelanceTeamHeader
           badge="Our Team"
           title="Meet the Experts"
@@ -609,7 +609,7 @@ const Home = () => {
 
       {/* Reviews / Testimonials Section */}
       <section className="py-16 overflow-hidden bg-background-light dark:bg-background-dark" id="reviews">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
           <CodelanceReviewsHeader
             title="Client Success Stories"
             description="Hear from the innovative teams we've partnered with to build the future of digital infrastructure."
@@ -636,7 +636,7 @@ const Home = () => {
           description="Choose the perfect plan for your technical needs. Our flexible packages are designed to scale with your business and deliver premium GSAP-powered experiences."
         />
 
-        <section className="max-w-[1200px] mx-auto px-6 py-12">
+        <section className="max-w-[1400px] mx-auto px-6 lg:px-10 py-12">
           {isLoadingPackages ? (
             <div className="text-center py-12">
               <p className="text-[#5e808d] dark:text-gray-400">Loading packages...</p>
