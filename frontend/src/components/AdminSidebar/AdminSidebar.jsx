@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 const AdminSidebar = ({
   logoIcon = "bolt",
-  logoText = "CMS",
+  logoText = "Codelance",
   logoSubtext = "Admin Panel",
   navigationItems = [],
   user = {

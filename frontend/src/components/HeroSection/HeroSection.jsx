@@ -173,7 +173,7 @@ const HeroSection = ({
       <div className="relative z-10 max-w-2xl w-full">
         {/* Badge */}
         <span className="inline-block py-1 px-3 mb-4 rounded-full bg-primary/20 text-primary text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-primary/20">
-          Welcome to The Studio
+          Welcome to Codelance
         </span>
 
         {/* Title */}

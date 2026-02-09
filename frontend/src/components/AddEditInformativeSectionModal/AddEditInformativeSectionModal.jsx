@@ -319,7 +319,7 @@ const AddEditInformativeSectionModal = ({
                   rows="4"
                   value={formData.descriptionEn}
                   onChange={(e) => handleInputChange('descriptionEn', e.target.value)}
-                  placeholder="At The Studio, we believe that a haircut is more than just a routine—it's an experience."
+                  placeholder="At Codelance, we believe that great software is more than just code—it's an experience."
                 />
               </div>
               <div className="space-y-2" dir="rtl">

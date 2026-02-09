@@ -229,7 +229,7 @@ const Settings = () => {
           {/* Footer */}
           <div className="mt-10 text-center text-xs text-gray-400">
             <p>
-              BladeCMS v2.4.0 •{' '}
+              Codelance •{' '}
               <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a> •{' '}
               <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
             </p>

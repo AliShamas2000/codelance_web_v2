@@ -69,7 +69,7 @@ class TeamController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
+            'password' => 'nullable|string|min:8',
             'phone' => 'nullable|string|max:20',
             'job_title' => 'nullable|string|max:255',
             'bio' => 'nullable|string',
@@ -80,11 +80,14 @@ class TeamController extends Controller
             'social_links.*.url' => 'required|url',
         ]);
 
-        // Create user with role barber
+        // Determine password - generate a random one if not provided
+        $rawPassword = $validated['password'] ?? bin2hex(random_bytes(8));
+
+        // Create user with role barber (team member)
         $user = User::create([
             'name' => trim($validated['first_name'] . ' ' . $validated['last_name']),
             'email' => $validated['email'],
-            'password' => md5($validated['password']), // MD5 as requested
+            'password' => md5($rawPassword), // MD5 as requested
             'role' => 'barber', // Default role for team members
             'phone' => $validated['phone'] ?? null,
             'job_title' => $validated['job_title'] ?? null,

@@ -164,7 +164,7 @@ const getDefaultSections = () => [
     updated_at: new Date().toISOString(),
     titleEn: 'Why Choose Us?',
     titleAr: 'لماذا تختارنا؟',
-    descriptionEn: 'At The Studio, we believe that a haircut is more than just a routine—it\'s an experience. Our master barbers are dedicated to the craft, combining traditional techniques with modern trends to deliver exceptional results. We\'ve created a space where you can relax, unwind, and leave feeling your absolute best.',
+    descriptionEn: 'At Codelance, we believe that great software is more than just code—it\'s an experience. Our engineers are dedicated to the craft, combining robust architecture with beautiful design to deliver exceptional results. We\'ve created a process where you can relax, collaborate, and launch products you\'re proud of.',
     descriptionAr: 'في الاستوديو، نؤمن بأن قص الشعر أكثر من مجرد روتين - إنه تجربة. حلاقونا المحترفون مكرسون لهذه الحرفة، يجمعون بين التقنيات التقليدية والاتجاهات الحديثة لتقديم نتائج استثنائية. لقد أنشأنا مساحة يمكنك فيها الاسترخاء والاستجمام والمغادرة وأنت تشعر بأفضل ما لديك.',
     features: [
       {

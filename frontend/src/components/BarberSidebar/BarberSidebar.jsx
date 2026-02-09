@@ -23,9 +23,9 @@ const BarberSidebar = ({ user, onLogout }) => {
       {/* Logo */}
       <div className="px-8 mb-10 flex items-center gap-2">
         <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
-          B
+          C
         </div>
-        <span className="font-bold text-xl tracking-tight">BladeCMS</span>
+        <span className="font-bold text-xl tracking-tight">Codelance</span>
       </div>
 
       {/* Navigation */}

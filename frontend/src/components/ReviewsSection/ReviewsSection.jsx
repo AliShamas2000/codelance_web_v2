@@ -5,7 +5,7 @@ const ReviewsSection = ({
   // Header props
   badge = "Client Reviews",
   title = "What Our Clients Say",
-  description = "Join thousands of satisfied customers who have made The Studio their go-to destination for premium grooming.",
+  description = "Join hundreds of happy clients who trust Codelance to design, build, and maintain their digital products.",
   
   // Data props
   reviews = [],

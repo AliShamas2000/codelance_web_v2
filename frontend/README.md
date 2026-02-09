@@ -1,6 +1,6 @@
-# The Studio - Frontend
+# Codelance - Frontend
 
-Professional React + Vite frontend for The Studio barbershop website.
+Professional React + Vite frontend for the Codelance website.
 
 ## 🚀 Tech Stack
 
