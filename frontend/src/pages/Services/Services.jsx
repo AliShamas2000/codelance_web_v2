@@ -65,13 +65,13 @@ const Services = () => {
 
   // Handle service click
   const handleServiceClick = (service) => {
-    navigate('/contact', {
-      state: {
+    navigate('/contact', { 
+      state: { 
         formData: {
           serviceId: service.id,
           serviceName: service.title || service.nameEn || service.name_en
         }
-      }
+      } 
     })
   }
 
@@ -111,10 +111,10 @@ const Services = () => {
           </div>
         ) : (
           <CodelanceServicesGrid
-            services={services}
-            onServiceClick={handleServiceClick}
+      services={services}
+      onServiceClick={handleServiceClick}
             columns={4}
-          />
+    />
         )}
 
         <CodelanceServicesCTA

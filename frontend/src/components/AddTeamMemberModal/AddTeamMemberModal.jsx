@@ -13,13 +13,14 @@ const AddTeamMemberModal = ({
 }) => {
   const isEditMode = !!member
   const [formData, setFormData] = useState({
-    barberName: '',
+    teamMemberName: '',
     jobTitle: '',
     phone: '',
     email: '',
     password: '',
     confirmPassword: '',
-    isActive: true
+    isActive: true,
+    bio: ''
   })
   const [profilePhoto, setProfilePhoto] = useState(null)
   const [profilePhotoPreview, setProfilePhotoPreview] = useState(null)
@@ -42,13 +43,14 @@ const AddTeamMemberModal = ({
         // Edit mode - populate form with member data
         const fullName = `${member.firstName || ''} ${member.lastName || ''}`.trim() || member.name || ''
         setFormData({
-          barberName: fullName,
+          teamMemberName: fullName,
           jobTitle: member.jobTitle || member.job_title || '',
           phone: member.phone || '',
           email: member.email || '',
           password: '', // Don't populate password in edit mode
           confirmPassword: '',
-          isActive: member.status === 'active'
+          isActive: member.status === 'active',
+          bio: member.bio || ''
         })
         setProfilePhotoPreview(member.profilePhoto || member.avatar || null)
         
@@ -65,13 +67,14 @@ const AddTeamMemberModal = ({
       } else {
         // Add mode - reset form
         setFormData({
-          barberName: '',
+          teamMemberName: '',
           jobTitle: '',
           phone: '',
           email: '',
           password: '',
           confirmPassword: '',
-          isActive: true
+          isActive: true,
+          bio: ''
         })
         setProfilePhoto(null)
         setProfilePhotoPreview(null)
@@ -113,8 +116,8 @@ const AddTeamMemberModal = ({
     
     // Validation
     const newErrors = {}
-    if (!formData.barberName.trim()) {
-      newErrors.barberName = 'Barber name is required'
+    if (!formData.teamMemberName.trim()) {
+      newErrors.teamMemberName = 'Team member name is required'
     }
     if (!formData.jobTitle.trim()) {
       newErrors.jobTitle = 'Job title is required'
@@ -157,7 +160,7 @@ const AddTeamMemberModal = ({
 
     // Prepare data for submission
     // Split barber name into first and last name
-    const nameParts = formData.barberName.trim().split(' ')
+    const nameParts = formData.teamMemberName.trim().split(' ')
     const firstName = nameParts[0] || ''
     const lastName = nameParts.slice(1).join(' ') || ''
 
@@ -172,13 +175,15 @@ const AddTeamMemberModal = ({
     const submitData = {
       firstName,
       lastName,
-      name: formData.barberName.trim(),
+      name: formData.teamMemberName.trim(),
       jobTitle: formData.jobTitle.trim(),
       phone: formData.phone ? formData.phone.trim() : '',
       email: formData.email.trim(),
       status: formData.isActive ? 'active' : 'inactive',
+      bio: formData.bio ? formData.bio.trim() : '',
       profilePhoto: profilePhoto || undefined,
-      socialLinks: validSocialLinks.length > 0 ? validSocialLinks : undefined
+      // Always send socialLinks (can be empty array) so backend can clear them if needed
+      socialLinks: validSocialLinks
     }
 
     // Only include password if it's provided (for new members or password updates)
@@ -191,13 +196,14 @@ const AddTeamMemberModal = ({
 
   const handleClose = () => {
     setFormData({
-      barberName: '',
+      teamMemberName: '',
       jobTitle: '',
       phone: '',
       email: '',
       password: '',
       confirmPassword: '',
-      isActive: true
+      isActive: true,
+      bio: ''
     })
     setProfilePhoto(null)
     setProfilePhotoPreview(null)
@@ -233,7 +239,7 @@ const AddTeamMemberModal = ({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={isEditMode ? 'Edit Barber' : 'Add New Barber'}
+      title={isEditMode ? 'Edit Team Member' : 'Add Team Member'}
       titleIcon="person_add"
       maxWidth="max-w-2xl"
       footer={
@@ -299,26 +305,26 @@ const AddTeamMemberModal = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Barber Name */}
           <div className="col-span-1 md:col-span-1">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" htmlFor="barber-name">
-              Barber Name <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" htmlFor="team-member-name">
+              Team Member Name <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 pointer-events-none">
                 <span className="material-symbols-outlined text-lg">badge</span>
               </span>
               <input
-                id="barber-name"
+                id="team-member-name"
                 type="text"
-                value={formData.barberName}
-                onChange={(e) => handleInputChange('barberName', e.target.value)}
-                placeholder="e.g. David Fade"
+                value={formData.teamMemberName}
+                onChange={(e) => handleInputChange('teamMemberName', e.target.value)}
+                placeholder="e.g. John Doe"
                 className={`w-full bg-gray-50 dark:bg-gray-800 border ${
                   errors.barberName ? 'border-red-500' : 'border-gray-200 dark:border-gray-600'
                 } rounded-lg pl-10 pr-4 py-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none dark:text-white placeholder-gray-400 transition-colors`}
               />
             </div>
-            {errors.barberName && (
-              <p className="mt-1 text-xs text-red-500">{errors.barberName}</p>
+            {errors.teamMemberName && (
+              <p className="mt-1 text-xs text-red-500">{errors.teamMemberName}</p>
             )}
           </div>
 
@@ -439,6 +445,21 @@ const AddTeamMemberModal = ({
           </div>
         </div>
 
+        {/* Bio */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" htmlFor="bio">
+            Bio
+          </label>
+          <textarea
+            id="bio"
+            rows={3}
+            value={formData.bio}
+            onChange={(e) => handleInputChange('bio', e.target.value)}
+            placeholder="Short bio about this team member..."
+            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none dark:text-white placeholder-gray-400 transition-colors resize-none"
+          />
+        </div>
+
         {/* Social Media Links */}
         <div className="border-t border-gray-100 dark:border-gray-700 pt-5 mt-2">
           <div className="flex justify-between items-center mb-4">
@@ -510,7 +531,7 @@ const AddTeamMemberModal = ({
                 Active Status
               </span>
               <span className="block text-xs text-gray-500 dark:text-gray-400">
-                Toggle to enable or disable barber account access.
+                Toggle to enable or disable team member account access.
               </span>
             </div>
           </div>

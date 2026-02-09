@@ -135,7 +135,7 @@ const TeamMemberCard = ({
 
       {/* Job Title */}
       <p className="text-sm text-primary dark:text-gray-400 font-medium mb-1">
-        {member.jobTitle || member.role || 'Barber'}
+        {member.jobTitle || member.job_title || member.role || 'Team Member'}
       </p>
 
       {/* Bio */}
@@ -185,7 +185,7 @@ const TeamMemberCard = ({
       </div>
 
       {/* Actions */}
-      <div className="w-full border-t border-gray-100 dark:border-gray-700 pt-4 flex justify-between items-center">
+      <div className="w-full border-t border-gray-100 dark:border-gray-700 pt-4 flex justify-center items-center">
         <button
           onClick={() => onEdit && onEdit(member)}
           className="text-xs font-medium text-primary hover:text-gray-600 dark:text-white dark:hover:text-gray-300 flex items-center"
@@ -193,14 +193,6 @@ const TeamMemberCard = ({
           <span className="material-symbols-outlined text-sm mr-1">edit</span>
           Edit
         </button>
-        {onViewDetails && (
-          <button
-            onClick={() => onViewDetails(member)}
-            className="text-gray-400 hover:text-primary dark:hover:text-white transition-colors"
-          >
-            <span className="material-symbols-outlined">visibility</span>
-          </button>
-        )}
       </div>
     </div>
   )

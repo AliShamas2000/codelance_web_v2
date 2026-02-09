@@ -52,12 +52,12 @@ const Team = () => {
       }))
     } catch (error) {
       console.error('Error fetching team members:', error)
-      // Use default data if API fails
-      setTeamMembers(getDefaultTeamMembers())
+      // If API fails, show empty state instead of hardcoded demo data
+      setTeamMembers([])
       setPagination(prev => ({
         ...prev,
         totalPages: 1,
-        totalItems: getDefaultTeamMembers().length
+        totalItems: 0
       }))
     } finally {
       setIsLoading(false)
@@ -166,6 +166,7 @@ const Team = () => {
         email: formData.email,
         status: formData.status,
         profilePhoto: formData.profilePhoto,
+        bio: formData.bio,
         socialLinks: formData.socialLinks || []
       }
       
@@ -213,6 +214,13 @@ const Team = () => {
       {isLoading ? (
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">
           <p>Loading team members...</p>
+        </div>
+      ) : teamMembers.length === 0 ? (
+        <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+          <p>No team members found. Click &quot;Add Team Member&quot; to create your first team member.</p>
+          <div className="mt-6 flex justify-center">
+            <AddTeamMemberCard onClick={handleAddNew} />
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -267,56 +275,6 @@ const Team = () => {
     </>
   )
 }
-
-// Default team members data (fallback when API is not available)
-const getDefaultTeamMembers = () => [
-  {
-    id: 1,
-    firstName: 'Alex',
-    lastName: 'Fade',
-    name: 'Alex Fade',
-    jobTitle: 'Senior Barber',
-    status: 'active',
-    bio: 'Expert in fades and classic cuts.',
-    email: 'alex@barbershop.com',
-    instagramHandle: 'alexfade',
-    isFeatured: true,
-    profilePhoto: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCwTxv0wJ7SdOyrOoWVfUdOPwqurVhqTh0PxIslcOpIzkGl2NX_lhQld0ne2D38mTJBk4ctbHpr3qyOywpaWluTCeigjsId9k4gqNm7YAEyxQFCK9tTIJMz_i_umgy3c5DfKsIV61uXy61fIt_B8kXkMTUD4Ix4gy4mOJBDECscWh5XsdvCgK3TQX97XHANovSCwRay_Zec39XrCSdqNs08mZ61jRVedXmnOy0BitdOyOF0XAgfhJPZfi0ydkhEgXxNsS_Vc8TZwbM'
-  },
-  {
-    id: 2,
-    firstName: 'Sam',
-    lastName: 'Cut',
-    name: 'Sam Cut',
-    jobTitle: 'Shave Specialist',
-    status: 'active',
-    bio: 'Hot towel shaves & beard trims.',
-    phone: '+1234567890',
-    profilePhoto: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBFOm0i5Zoo2dO8bofPR4bOQvsW8kopFn-oBieXmXOG_OFystJoz1vfGdS67T8ecyUumSs9PdNlygb73ugIT0d4Lw55TxxIizhLYGtVmX7Cn9oyZzOlWutovt5pPzRqRX9wsEEZIE40a_iTIQ1E02Z0FBrOQaYx3DZAz-nl4xpWx4vTV9vvpa4FxOWdwBhxbBVdjkjrTcisN0QoUhC7xCgKEVLPp7sbf-9xNNddT3orcX8koL3PpuhNenurwAXn4CQ00Wr0HGApl0M'
-  },
-  {
-    id: 3,
-    firstName: 'Mike',
-    lastName: 'Razor',
-    name: 'Mike Razor',
-    jobTitle: 'Junior Barber',
-    status: 'active',
-    bio: 'Passionate about modern styles.',
-    email: 'mike@barbershop.com',
-    instagramHandle: 'mikerazor',
-    profilePhoto: 'https://lh3.googleusercontent.com/aida-public/AB6AXuASoGYTDtAMXUVcZXUyetjVtYAVTTU_isTyKWhdkNzaSjcF3Uzb1LjZvDlA1mpHAQ4eozx5GtBtB5ecUJ04bnQ31CrFbUzzFC-igt9xw9uPfxcwuLcfmr-vXAi9yMGKk2ixYZ_rl9kQ1kEXUE8BWuAaefoDpX-XhYc88wnfM3GhtiyAUyiYgQqFdZd3ROapaBpqpjQFMuEg5ANBo4Ltj-tU8Jc54fcMSH3GbR32Sllks7s7cpQd4mJn0C1k29n_iTt8mQGbarBIx3k'
-  },
-  {
-    id: 4,
-    firstName: 'Danny',
-    lastName: 'Rookie',
-    name: 'Danny Rookie',
-    jobTitle: 'Apprentice',
-    status: 'inactive',
-    bio: 'Learning the trade.',
-    profilePhoto: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCOBmrsxfynUR0w_7yRqmCmLiQZ9L7k5KqdPz8w4XvFjdkq3vXXhUTy7VstyvnoBQ3_XciEDqko0hqKxNMX7JQsrQsDCFlvHoLZl1BU6cjivWZnT-tBkD74iwYT94l99qFSn-5hVDG2bNh0o2IL7QRGJS3fd47l4Cz8xCjugnrrla3mcvUVUMSFzpp_NX2YXqgaQnUD3liaoabeQYAIF_eWTHC_jqvZo8viv7nHz-wQbbjCLy-wCzf2etwL0kOKlhnGD9i8jQR9l5A'
-  }
-]
 
 export default Team
 

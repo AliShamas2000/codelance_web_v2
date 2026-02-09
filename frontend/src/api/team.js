@@ -96,10 +96,15 @@ const teamApi = {
       
       // Add social media links
       if (teamData.socialLinks && Array.isArray(teamData.socialLinks)) {
-        teamData.socialLinks.forEach((link, index) => {
-          formData.append(`social_links[${index}][platform]`, link.platform)
-          formData.append(`social_links[${index}][url]`, link.url)
-        })
+        if (teamData.socialLinks.length > 0) {
+          teamData.socialLinks.forEach((link, index) => {
+            formData.append(`social_links[${index}][platform]`, link.platform)
+            formData.append(`social_links[${index}][url]`, link.url)
+          })
+        } else {
+          // Explicitly signal that social links should be cleared
+          formData.append('clear_social_links', '1')
+        }
       }
 
       const response = await axios.post(`${API_BASE_URL}/admin/team`, formData, {
@@ -125,6 +130,8 @@ const teamApi = {
     try {
       const token = localStorage.getItem('auth_token')
       const formData = new FormData()
+      // Laravel method spoofing so POST can hit the PUT route
+      formData.append('_method', 'PUT')
       if (teamData.firstName) formData.append('first_name', teamData.firstName)
       if (teamData.lastName) formData.append('last_name', teamData.lastName)
       if (teamData.jobTitle !== undefined) formData.append('job_title', teamData.jobTitle || '')
@@ -190,6 +197,7 @@ const teamApi = {
     try {
       const token = localStorage.getItem('auth_token')
       const formData = new FormData()
+      formData.append('_method', 'PUT')
       formData.append('profile_photo', photo)
 
       const response = await axios.post(`${API_BASE_URL}/admin/team/${id}`, formData, {

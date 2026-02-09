@@ -199,12 +199,12 @@ class TeamController extends Controller
 
         $member->save();
 
-        // Handle social media links
+        // Handle social media links: always sync from request
+        // Delete existing links
+        $member->socialMediaLinks()->delete();
+
+        // Re-create links if provided
         if ($request->has('social_links') && is_array($request->social_links)) {
-            // Delete existing links
-            $member->socialMediaLinks()->delete();
-            
-            // Create new links
             foreach ($request->social_links as $link) {
                 SocialMediaLink::create([
                     'user_id' => $member->id,

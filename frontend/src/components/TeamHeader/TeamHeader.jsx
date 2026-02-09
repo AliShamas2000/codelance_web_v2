@@ -11,7 +11,7 @@ const TeamHeader = ({
           Team Management
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Manage your barbers, their details, and availability status.
+          Manage your team members, their details, and availability status.
         </p>
       </div>
       <div className="flex items-center gap-3">
@@ -20,7 +20,7 @@ const TeamHeader = ({
           className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 text-white font-semibold rounded-xl text-sm px-6 py-3 shadow-lg shadow-gray-200 dark:shadow-none transition-all transform hover:-translate-y-0.5 flex items-center"
         >
           <span className="material-symbols-outlined mr-2">person_add</span>
-          Add New Barber
+          Add Team Member
         </button>
       </div>
     </header>

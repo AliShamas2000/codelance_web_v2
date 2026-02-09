@@ -79,8 +79,15 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         // Services management
         Route::apiResource('services', App\Http\Controllers\Api\Admin\ServiceController::class);
         
-        // Barbers/Team management (uses TeamController)
+        // Team management (was previously 'barbers')
+        Route::apiResource('team', App\Http\Controllers\Api\Admin\TeamController::class);
+        // Backwards-compatible alias for old barbers route (optional)
         Route::apiResource('barbers', App\Http\Controllers\Api\Admin\TeamController::class);
+        // Extra team endpoints
+        Route::get('team/{id}/details', [App\Http\Controllers\Api\Admin\TeamController::class, 'details']);
+        Route::get('team/{id}/stats', [App\Http\Controllers\Api\Admin\TeamController::class, 'stats']);
+        Route::get('team/{id}/appointments', [App\Http\Controllers\Api\Admin\TeamController::class, 'appointments']);
+        Route::get('team/{id}/availability', [App\Http\Controllers\Api\Admin\TeamController::class, 'availability']);
         
         // Appointments management
         Route::get('appointments', [App\Http\Controllers\Api\Admin\AppointmentController::class, 'index']);
