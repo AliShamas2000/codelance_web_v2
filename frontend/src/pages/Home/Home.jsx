@@ -12,8 +12,7 @@ import CodelancePortfolioHeader from '../../components/CodelancePortfolioHeader/
 import CodelancePortfolioFilters from '../../components/CodelancePortfolioFilters/CodelancePortfolioFilters'
 import CodelancePortfolioGrid from '../../components/CodelancePortfolioGrid/CodelancePortfolioGrid'
 import CodelancePortfolioCTA from '../../components/CodelancePortfolioCTA/CodelancePortfolioCTA'
-import CodelanceTeamHeader from '../../components/CodelanceTeamHeader/CodelanceTeamHeader'
-import CodelanceTeamGrid from '../../components/CodelanceTeamGrid/CodelanceTeamGrid'
+import CodelanceTeamShowcase from '../../components/CodelanceTeamShowcase/CodelanceTeamShowcase'
 import CodelanceReviewsHeader from '../../components/CodelanceReviewsHeader/CodelanceReviewsHeader'
 import CodelanceReviewsCarousel from '../../components/CodelanceReviewsCarousel/CodelanceReviewsCarousel'
 import CodelancePricingHeader from '../../components/CodelancePricingHeader/CodelancePricingHeader'
@@ -556,24 +555,13 @@ const Home = () => {
       </section>
 
       {/* Team Section */}
-      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20" id="team">
-        <CodelanceTeamHeader
-          badge="Our Team"
-          title="Meet the Experts"
-        />
-
-        {isLoadingTeam ? (
-          <div className="text-center py-12">
-            <p className="text-[#5e808d] dark:text-gray-400">Loading team members...</p>
-          </div>
-        ) : (
-          <CodelanceTeamGrid
-            teamMembers={teamMembers}
-            onMemberClick={handleTeamMemberClick}
-            columns={4}
-          />
-        )}
-      </section>
+      {isLoadingTeam ? (
+        <div className="text-center py-24">
+          <p className="text-[#5e808d] dark:text-gray-400">Loading team members...</p>
+        </div>
+      ) : (
+        <CodelanceTeamShowcase teamMembers={teamMembers} />
+      )}
 
       {/* How We Work / Process Section */}
       <section id="process">
