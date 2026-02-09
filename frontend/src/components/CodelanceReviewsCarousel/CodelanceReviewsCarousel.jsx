@@ -112,7 +112,7 @@ const CodelanceReviewsCarousel = ({
         <div className="flex items-center gap-6 py-8">
           {visibleReviews.map((review, index) => (
             <CodelanceReviewCard
-              key={review.id || index}
+              key={`${review.id ?? 'review'}-${index}`}
               quote={review.quote}
               authorName={review.authorName}
               authorTitle={review.authorTitle}

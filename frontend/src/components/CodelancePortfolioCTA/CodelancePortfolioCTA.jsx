@@ -33,13 +33,13 @@ const CodelancePortfolioCTA = ({
   return (
     <div 
       ref={ref}
-      className={`mt-24 transition-all duration-1000 ease-out ${
+      className={`mt-24 w-full transition-all duration-1000 ease-out ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'
       } ${className}`}
     >
-      <div className="bg-navy-deep dark:bg-gray-900 rounded-2xl p-12 lg:p-16 text-center text-white relative overflow-hidden group">
+      <div className="w-full bg-navy-deep dark:bg-gray-900 rounded-2xl p-12 lg:p-16 text-center text-white relative overflow-hidden group">
         <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-all duration-700"></div>
         <div className="relative z-10">
           {title && (

@@ -380,6 +380,7 @@ const Home = () => {
 
   // Navigation items - can be fetched from backend later
   const navigationItems = [
+    { label: "Home", href: "#home" },
     { label: "Services", href: "#services" },
     { label: "Portfolio", href: "#portfolio" },
     { label: "About", href: "#about" },
@@ -490,7 +491,7 @@ const Home = () => {
       />
 
       {/* Services Section */}
-      <section className="max-w-[1400px] mx-auto px-6 lg:px-10 py-16 lg:py-24" id="services">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 lg:py-24" id="services">
         <CodelanceServicesHeader
           badge="Our Expertise"
           title="Our Services"
@@ -511,49 +512,51 @@ const Home = () => {
       </section>
 
       {/* Portfolio Section */}
-      <section className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20" id="portfolio">
-        <CodelancePortfolioHeader
-          badge="Showcase"
-          title="Our Portfolio"
-        />
-
-        <CodelancePortfolioFilters
-          filters={projectCategories.length > 0 ? projectCategories : [
-            { id: 'all', label: 'All Projects' },
-            { id: 'website', label: 'Websites' },
-            { id: 'mobile', label: 'Mobile Apps' },
-            { id: 'pos', label: 'POS' },
-            { id: 'dashboard', label: 'Dashboards' }
-          ]}
-          activeFilter={activePortfolioFilter}
-          onFilterChange={handlePortfolioFilterChange}
-        />
-
-        {isLoadingProjects ? (
-          <div className="text-center py-12">
-            <p className="text-[#5e808d] dark:text-gray-400">Loading projects...</p>
-          </div>
-        ) : (
-          <CodelancePortfolioGrid
-            projects={projects}
-            activeFilter={activePortfolioFilter}
-            onProjectClick={handleProjectClick}
-            columns={3}
+      <section className="py-20" id="portfolio">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <CodelancePortfolioHeader
+            badge="Showcase"
+            title="Our Portfolio"
           />
-        )}
 
-        <CodelancePortfolioCTA
-          title="Have a visionary project in mind?"
-          subtitle="From concept to deployment, we build the digital future of your business with precision and passion."
-          primaryButtonText="Get Started"
-          primaryButtonAction={() => navigate('/contact')}
-          secondaryButtonText="Our Process"
-          secondaryButtonAction={() => navigate('/#process')}
-        />
+          <CodelancePortfolioFilters
+            filters={projectCategories.length > 0 ? projectCategories : [
+              { id: 'all', label: 'All Projects' },
+              { id: 'website', label: 'Websites' },
+              { id: 'mobile', label: 'Mobile Apps' },
+              { id: 'pos', label: 'POS' },
+              { id: 'dashboard', label: 'Dashboards' }
+            ]}
+            activeFilter={activePortfolioFilter}
+            onFilterChange={handlePortfolioFilterChange}
+          />
+
+          {isLoadingProjects ? (
+            <div className="text-center py-12">
+              <p className="text-[#5e808d] dark:text-gray-400">Loading projects...</p>
+            </div>
+          ) : (
+            <CodelancePortfolioGrid
+              projects={projects}
+              activeFilter={activePortfolioFilter}
+              onProjectClick={handleProjectClick}
+              columns={3}
+            />
+          )}
+
+          <CodelancePortfolioCTA
+            title="Have a visionary project in mind?"
+            subtitle="From concept to deployment, we build the digital future of your business with precision and passion."
+            primaryButtonText="Get Started"
+            primaryButtonAction={() => navigate('/contact')}
+            secondaryButtonText="Our Process"
+            secondaryButtonAction={() => navigate('/#process')}
+          />
+        </div>
       </section>
 
       {/* Team Section */}
-      <section className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20" id="team">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20" id="team">
         <CodelanceTeamHeader
           badge="Our Team"
           title="Meet the Experts"
@@ -609,7 +612,7 @@ const Home = () => {
 
       {/* Reviews / Testimonials Section */}
       <section className="py-16 overflow-hidden bg-background-light dark:bg-background-dark" id="reviews">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <CodelanceReviewsHeader
             title="Client Success Stories"
             description="Hear from the innovative teams we've partnered with to build the future of digital infrastructure."
@@ -636,7 +639,7 @@ const Home = () => {
           description="Choose the perfect plan for your technical needs. Our flexible packages are designed to scale with your business and deliver premium GSAP-powered experiences."
         />
 
-        <section className="max-w-[1400px] mx-auto px-6 lg:px-10 py-12">
+        <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
           {isLoadingPackages ? (
             <div className="text-center py-12">
               <p className="text-[#5e808d] dark:text-gray-400">Loading packages...</p>
@@ -697,30 +700,6 @@ const Home = () => {
             icon: 'location_on'
           }
         ]}
-        socialLinks={[
-          {
-            name: 'LinkedIn',
-            icon: 'linkedin',
-            href: '#'
-          },
-          {
-            name: 'GitHub',
-            icon: 'github',
-            href: '#'
-          },
-          {
-            name: 'Twitter',
-            icon: 'twitter',
-            href: '#'
-          }
-        ]}
-        services={[
-          { value: 'web', label: 'Web Development' },
-          { value: 'mobile', label: 'Mobile App Development' },
-          { value: 'design', label: 'UI/UX Design' },
-          { value: 'cloud', label: 'Cloud Solutions' }
-        ]}
-        onSubmit={null} // Frontend-only for now
       />
 
       <CodelanceFooter

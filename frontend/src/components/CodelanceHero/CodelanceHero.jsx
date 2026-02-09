@@ -35,6 +35,7 @@ const CodelanceHero = ({
 
   return (
     <main 
+      id="home"
       ref={ref}
       className={`relative min-h-screen flex items-center pt-20 bg-mesh overflow-hidden transition-all duration-1000 ease-out ${
         isVisible 

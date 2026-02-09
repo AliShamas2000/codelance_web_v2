@@ -28,30 +28,28 @@ const CodelancePortfolioGrid = ({
     })
   }, [projects, activeFilter])
 
-  if (filteredProjects.length === 0) {
-    return (
-      <div className="text-center py-12 text-[#5e808d] dark:text-gray-400">
-        <p>No projects found in this category.</p>
-      </div>
-    )
-  }
-
   return (
     <div className={`grid ${gridCols[columns] || gridCols[3]} gap-8 lg:gap-10 ${className}`}>
-      {filteredProjects.map((project, index) => (
-        <CodelancePortfolioCard
-          key={project.id || index}
-          id={project.id}
-          title={project.title || project.name || "Project"}
-          imageUrl={project.imageUrl || project.image || project.thumbnail || project.thumbnail_url}
-          imageAlt={project.imageAlt || project.title || "Project image"}
-          tags={project.tags || project.technologies || project.tech_stack || []}
-          category={project.category || project.type || null}
-          projectUrl={project.projectUrl || project.project_url || null}
-          onClick={onProjectClick}
-          className=""
-        />
-      ))}
+      {filteredProjects.length === 0 ? (
+        <div className="col-span-full text-center py-12 text-[#5e808d] dark:text-gray-400">
+          <p>No projects found in this category.</p>
+        </div>
+      ) : (
+        filteredProjects.map((project, index) => (
+          <CodelancePortfolioCard
+            key={project.id || index}
+            id={project.id}
+            title={project.title || project.name || "Project"}
+            imageUrl={project.imageUrl || project.image || project.thumbnail || project.thumbnail_url}
+            imageAlt={project.imageAlt || project.title || "Project image"}
+            tags={project.tags || project.technologies || project.tech_stack || []}
+            category={project.category || project.type || null}
+            projectUrl={project.projectUrl || project.project_url || null}
+            onClick={onProjectClick}
+            className=""
+          />
+        ))
+      )}
     </div>
   )
 }
