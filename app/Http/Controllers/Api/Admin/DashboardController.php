@@ -27,44 +27,58 @@ class DashboardController extends Controller
             $fromDate = $request->get('from_date');
             $toDate = $request->get('to_date');
 
-            // Contact Submissions Statistics
-            $contactSubmissionsQuery = ContactSubmission::query();
+            // Contact Submissions Statistics (respect date filters)
+            $contactSubmissionsBase = ContactSubmission::query();
             if ($fromDate) {
-                $contactSubmissionsQuery->whereDate('created_at', '>=', $fromDate);
+                $contactSubmissionsBase->whereDate('created_at', '>=', $fromDate);
             }
             if ($toDate) {
-                $contactSubmissionsQuery->whereDate('created_at', '<=', $toDate);
+                $contactSubmissionsBase->whereDate('created_at', '<=', $toDate);
             }
-            $contactSubmissionsTotal = ContactSubmission::count();
-            $contactSubmissionsNew = ContactSubmission::where('status', 'new')->count();
-            $contactSubmissionsRead = ContactSubmission::where('status', 'read')->count();
-            $contactSubmissionsReplied = ContactSubmission::where('status', 'replied')->count();
-            $contactSubmissionsRecent = ContactSubmission::orderBy('created_at', 'desc')->limit(5)->get();
+            $contactSubmissionsTotal = (clone $contactSubmissionsBase)->count();
+            $contactSubmissionsNew = (clone $contactSubmissionsBase)->where('status', 'new')->count();
+            $contactSubmissionsRead = (clone $contactSubmissionsBase)->where('status', 'read')->count();
+            $contactSubmissionsReplied = (clone $contactSubmissionsBase)->where('status', 'replied')->count();
+            $contactSubmissionsRecent = (clone $contactSubmissionsBase)->orderBy('created_at', 'desc')->limit(5)->get();
 
-            // Newsletter Subscriptions Statistics
-            $newsletterQuery = NewsletterSubscription::query();
+            // Newsletter Subscriptions Statistics (respect date filters)
+            $newsletterBase = NewsletterSubscription::query();
             if ($fromDate) {
-                $newsletterQuery->whereDate('subscribed_at', '>=', $fromDate);
+                $newsletterBase->whereDate('subscribed_at', '>=', $fromDate);
             }
             if ($toDate) {
-                $newsletterQuery->whereDate('subscribed_at', '<=', $toDate);
+                $newsletterBase->whereDate('subscribed_at', '<=', $toDate);
             }
-            $newsletterTotal = NewsletterSubscription::count();
-            $newsletterActive = NewsletterSubscription::where('status', 'active')->count();
-            $newsletterUnsubscribed = NewsletterSubscription::where('status', 'unsubscribed')->count();
-            $newsletterRecent = NewsletterSubscription::orderBy('subscribed_at', 'desc')->limit(5)->get();
+            $newsletterTotal = (clone $newsletterBase)->count();
+            $newsletterActive = (clone $newsletterBase)->where('status', 'active')->count();
+            $newsletterUnsubscribed = (clone $newsletterBase)->where('status', 'unsubscribed')->count();
+            $newsletterRecent = (clone $newsletterBase)->orderBy('subscribed_at', 'desc')->limit(5)->get();
 
-            // Projects Statistics
-            $projectsTotal = Project::count();
-            $projectsActive = Project::where('is_active', true)->count();
-            $projectsFeatured = Project::where('is_featured', true)->count();
-            $projectsRecent = Project::orderBy('created_at', 'desc')->limit(5)->get();
+            // Projects Statistics (respect date filters)
+            $projectsBase = Project::query();
+            if ($fromDate) {
+                $projectsBase->whereDate('created_at', '>=', $fromDate);
+            }
+            if ($toDate) {
+                $projectsBase->whereDate('created_at', '<=', $toDate);
+            }
+            $projectsTotal = (clone $projectsBase)->count();
+            $projectsActive = (clone $projectsBase)->where('is_active', true)->count();
+            $projectsFeatured = (clone $projectsBase)->where('is_featured', true)->count();
+            $projectsRecent = (clone $projectsBase)->orderBy('created_at', 'desc')->limit(5)->get();
 
-            // Reviews Statistics
-            $reviewsTotal = Review::count();
-            $reviewsActive = Review::where('is_active', true)->count();
-            $reviewsFeatured = Review::where('is_featured', true)->count();
-            $reviewsRecent = Review::orderBy('created_at', 'desc')->limit(5)->get();
+            // Reviews Statistics (respect date filters)
+            $reviewsBase = Review::query();
+            if ($fromDate) {
+                $reviewsBase->whereDate('created_at', '>=', $fromDate);
+            }
+            if ($toDate) {
+                $reviewsBase->whereDate('created_at', '<=', $toDate);
+            }
+            $reviewsTotal = (clone $reviewsBase)->count();
+            $reviewsActive = (clone $reviewsBase)->where('is_active', true)->count();
+            $reviewsFeatured = (clone $reviewsBase)->where('is_featured', true)->count();
+            $reviewsRecent = (clone $reviewsBase)->orderBy('created_at', 'desc')->limit(5)->get();
 
             // Services Statistics
             $servicesTotal = Service::count();
