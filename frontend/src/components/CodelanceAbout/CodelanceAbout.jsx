@@ -69,13 +69,13 @@ const CodelanceAbout = ({
   return (
     <section 
       ref={sectionRef}
-      className="min-h-screen py-32 flex items-center bg-background-light dark:bg-background-dark overflow-hidden" 
+      className="min-h-screen lg:py-32 py-16 flex items-center bg-background-light dark:bg-background-dark overflow-hidden" 
       id="about"
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full grid lg:grid-cols-2 gap-16 items-center">
         {/* Left Side: Illustrations */}
         {showIllustrations && (
-          <div className={`relative h-[600px] flex items-center justify-center lg:order-1 order-2 transition-all duration-1000 ease-out ${
+          <div className={`relative h-[600px] flex items-center justify-center lg:order-1 order-1 transition-all duration-1000 ease-out ${
             isVisible 
               ? 'opacity-100 translate-x-0' 
               : 'opacity-0 -translate-x-8'
@@ -132,7 +132,7 @@ const CodelanceAbout = ({
         )}
 
         {/* Right Side: Content */}
-        <div className="flex flex-col space-y-10 lg:order-2 order-1">
+        <div className="flex flex-col space-y-10 lg:order-2 order-2 text-center lg:text-left">
           <div className={`space-y-6 transition-all duration-1000 ease-out delay-200 ${
             isVisible 
               ? 'opacity-100 translate-x-0' 
@@ -152,11 +152,11 @@ const CodelanceAbout = ({
 
           {/* Stats Grid */}
           {stats && stats.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 w-full">
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className={`glass-card p-6 rounded-3xl border border-white/60 dark:border-white/10 shadow-sm flex flex-col gap-2 transition-all duration-1000 ease-out ${
+                  className={`glass-card p-6 rounded-3xl border border-white/60 dark:border-white/10 shadow-sm flex flex-col gap-2 transition-all duration-1000 ease-out w-full ${
                     statsVisible[index]
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-8'
@@ -175,7 +175,7 @@ const CodelanceAbout = ({
           )}
 
           {/* Action Buttons */}
-          <div className={`flex items-center gap-4 pt-2 transition-all duration-1000 ease-out delay-500 ${
+          <div className={`flex flex-nowrap items-center gap-2 md:gap-4 pt-2 transition-all duration-1000 ease-out delay-500 ${
             isVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-8'
@@ -183,7 +183,7 @@ const CodelanceAbout = ({
             {primaryButtonText && (
               <button
                 onClick={handlePrimaryClick}
-                className="group relative bg-primary text-white text-base font-bold px-10 py-4 rounded-xl overflow-hidden transition-all shadow-xl shadow-primary/30 active:scale-[0.98] flex items-center gap-2"
+                className="group relative bg-primary text-white text-sm md:text-base font-bold px-4 md:px-10 py-3 md:py-4 rounded-xl overflow-hidden transition-all shadow-xl shadow-primary/30 active:scale-[0.98] flex items-center justify-center gap-1 md:gap-2 w-full md:w-auto"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   {primaryButtonText}
@@ -198,7 +198,7 @@ const CodelanceAbout = ({
             {secondaryButtonText && (
               <button
                 onClick={handleSecondaryClick}
-                className="border-2 border-navy-deep dark:border-white/20 text-navy-deep dark:text-white text-base font-bold px-10 py-4 rounded-xl hover:bg-navy-deep hover:text-white dark:hover:bg-white dark:hover:text-navy-deep transition-all active:scale-95"
+                className="border-2 border-navy-deep dark:border-white/20 text-navy-deep dark:text-white text-sm md:text-base font-bold px-4 md:px-10 py-3 md:py-4 rounded-xl hover:bg-navy-deep hover:text-white dark:hover:bg-white dark:hover:text-navy-deep transition-all active:scale-95 w-full md:w-auto"
               >
                 {secondaryButtonText}
               </button>
