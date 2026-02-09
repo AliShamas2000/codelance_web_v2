@@ -5,7 +5,7 @@ import useScrollReveal from '../../hooks/useScrollReveal'
 const CodelancePricingCTA = ({
   title = "Need a custom solution?",
   description = "Our team can build a tailor-made package specifically for your enterprise requirements, including specialized integrations and dedicated server architecture.",
-  primaryButtonText = "Schedule a Discovery Call",
+  primaryButtonText = "Schedule a Call",
   primaryButtonAction = null,
   secondaryButtonText = "View Full Services",
   secondaryButtonAction = null,
