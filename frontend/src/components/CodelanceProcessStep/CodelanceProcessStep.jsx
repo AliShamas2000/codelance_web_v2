@@ -68,7 +68,7 @@ const CodelanceProcessStep = ({
           {/* Marker */}
           <div 
             ref={markerRef}
-            className={`relative flex items-center justify-center w-12 h-12 md:order-2 my-6 md:my-0 transition-all duration-1000 ease-out delay-500 ${
+            className={`relative flex items-center justify-center w-12 h-12 md:order-2 mt-0 mb-[4.5rem] md:my-0 transition-all duration-1000 ease-out delay-500 ${
               isVisible 
                 ? 'opacity-100 scale-100' 
                 : 'opacity-0 scale-0'
@@ -90,7 +90,7 @@ const CodelanceProcessStep = ({
           {/* Marker */}
           <div 
             ref={markerRef}
-            className={`relative flex items-center justify-center w-12 h-12 md:order-2 my-6 md:my-0 transition-all duration-1000 ease-out delay-500 ${
+            className={`relative flex items-center justify-center w-12 h-12 md:order-2 mt-0 mb-[4.5rem] md:my-0 transition-all duration-1000 ease-out delay-500 ${
               isVisible 
                 ? 'opacity-100 scale-100' 
                 : 'opacity-0 scale-0'

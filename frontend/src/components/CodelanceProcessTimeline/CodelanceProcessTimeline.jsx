@@ -185,7 +185,7 @@ const CodelanceProcessTimeline = ({
         ></div>
       </div>
 
-      <div className="space-y-24 relative z-10">
+      <div className="space-y-20 md:space-y-24 relative z-10">
         {processSteps.map((step, index) => (
           <div
             key={index}
