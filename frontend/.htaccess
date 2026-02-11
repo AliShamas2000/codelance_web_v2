@@ -1,4 +1,4 @@
-# Enable compression
+# Enable compression (Hostinger Apache)
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
 </IfModule>
@@ -29,5 +29,21 @@
   <FilesMatch "\.(html|htm)$">
     Header set Cache-Control "max-age=0, must-revalidate"
   </FilesMatch>
+</IfModule>
+
+# React Router - Handle client-side routing
+# Redirect all requests to index.html except for existing files
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Don't rewrite files that exist
+  RewriteCond %{REQUEST_FILENAME} !-f
+  # Don't rewrite directories that exist
+  RewriteCond %{REQUEST_FILENAME} !-d
+  # Don't rewrite API calls (if your API is on the same domain)
+  RewriteCond %{REQUEST_URI} !^/api/
+  # Rewrite everything else to index.html
+  RewriteRule . /index.html [L]
 </IfModule>
 

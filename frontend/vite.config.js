@@ -1,9 +1,27 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { copyFileSync } from 'fs'
+import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Copy .htaccess to dist folder after build (for Hostinger)
+    {
+      name: 'copy-htaccess',
+      closeBundle() {
+        try {
+          copyFileSync(
+            resolve(__dirname, '.htaccess'),
+            resolve(__dirname, 'dist/.htaccess')
+          )
+        } catch (err) {
+          // Silently fail if .htaccess doesn't exist
+        }
+      },
+    },
+  ],
   server: {
     port: 3000,
     host: true,
