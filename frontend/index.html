@@ -54,18 +54,6 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <!-- Preload critical resources -->
-    <script>
-      // Preload critical API endpoints
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-          const link = document.createElement('link')
-          link.rel = 'prefetch'
-          link.href = 'http://localhost:8000/api/v1/services'
-          document.head.appendChild(link)
-        })
-      }
-    </script>
   </body>
 </html>
 
