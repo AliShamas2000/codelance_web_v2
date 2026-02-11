@@ -1,3 +1,9 @@
+# MIME types - Ensure JS files are served with correct content type
+<IfModule mod_mime.c>
+  AddType application/javascript js mjs
+  AddType text/css css
+</IfModule>
+
 # Enable compression (Hostinger Apache)
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
@@ -37,6 +43,11 @@
   RewriteEngine On
   RewriteBase /
   
+  # CRITICAL: Check file extensions FIRST before checking if file exists
+  # This prevents JS/CSS files from being rewritten even if they don't exist yet
+  RewriteCond %{REQUEST_URI} \.(js|mjs|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|map)$ [NC]
+  RewriteRule ^ - [L]
+  
   # Don't rewrite existing files (JS, CSS, images, etc.) - serve them directly
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
@@ -47,10 +58,6 @@
   
   # Don't rewrite API calls
   RewriteCond %{REQUEST_URI} ^/api/
-  RewriteRule ^ - [L]
-  
-  # Don't rewrite file extensions (JS, CSS, images, fonts, etc.)
-  RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json)$ [NC]
   RewriteRule ^ - [L]
   
   # Don't rewrite Laravel routes
