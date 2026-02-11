@@ -8,7 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# dist - Allow dist folder to be committed for deployment
+# dist
 dist-ssr
 *.local
 
