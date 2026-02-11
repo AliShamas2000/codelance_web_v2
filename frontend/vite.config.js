@@ -30,6 +30,8 @@ export default defineConfig({
   build: {
     // Enable minification with aggressive settings
     minify: 'terser',
+    // Use production mode to load .env.production
+    mode: 'production',
     terserOptions: {
       compress: {
         drop_console: true, // Remove console.log in production
