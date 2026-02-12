@@ -28,49 +28,13 @@ export default defineConfig({
     open: true
   },
   build: {
-    // Enable minification with aggressive settings
-    minify: 'terser',
+    // Use Vite/Rollup defaults for safest production output on shared hosting
+    // (avoids chunk ordering/circular import issues seen with aggressive manual chunking)
+    minify: 'esbuild',
     // Use production mode to load .env.production
     mode: 'production',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.log in production
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug'],
-        passes: 2, // Multiple passes for better minification
-      },
-      mangle: {
-        safari10: true,
-      },
-      format: {
-        comments: false, // Remove all comments
-      },
-    },
-    // Optimize chunk splitting - more aggressive
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // React and React DOM
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'react-vendor'
-          }
-          // React Router
-          if (id.includes('node_modules/react-router')) {
-            return 'router-vendor'
-          }
-          // Axios
-          if (id.includes('node_modules/axios')) {
-            return 'axios-vendor'
-          }
-          // Phone number input (if used)
-          if (id.includes('node_modules/react-phone-number-input')) {
-            return 'phone-vendor'
-          }
-          // All other node_modules
-          if (id.includes('node_modules')) {
-            return 'vendor'
-          }
-        },
         // Optimize chunk file names
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
