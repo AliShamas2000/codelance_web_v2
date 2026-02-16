@@ -83,14 +83,14 @@ const CodelanceHeader = ({
             : undefined
         }
       >
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex h-20 items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 flex h-16 md:h-20 items-center justify-between">
         <div className="flex items-center gap-1">
           <img 
             src={logoUrl || "/logo.png"} 
             alt={brandName} 
-            className="size-9 object-contain"
+            className="size-8 md:size-9 object-contain"
           />
-          <h2 className="text-xl font-extrabold tracking-tighter text-navy-deep dark:text-white">
+          <h2 className="text-lg md:text-xl font-extrabold tracking-tighter text-navy-deep dark:text-white">
             {brandName}
           </h2>
         </div>
