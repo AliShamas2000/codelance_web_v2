@@ -1,53 +1,50 @@
-# Hostinger Deploy (Git Pull Only)
+# Hostinger Deploy (Auto-Copy After git pull)
 
-This project is configured so Hostinger serves:
-- Frontend from `frontend/dist/*`
-- API from Laravel `public/index.php`
+This project uses a git hook so every `git pull` auto-publishes `frontend/dist` to live root.
 
-After this setup, you do **not** copy `dist` files into root anymore.
+## One-Time Setup On Server
 
-## One-Time Server Setup
-
-1. Make sure your domain document root is:
-`~/domains/codelancelb.com/public_html`
-
-2. Make sure this file exists at project root:
-`~/domains/codelancelb.com/public_html/.htaccess`
-
-3. Pull latest once:
 ```bash
 cd ~/domains/codelancelb.com/public_html
 git pull
+
+# enable repo hooks
+git config core.hooksPath .githooks
+
+# allow execution
+chmod +x .githooks/post-merge scripts/deploy_frontend.sh
+
+# run once now
+./scripts/deploy_frontend.sh
 ```
 
-## Normal Update Flow
+## Normal Release Flow
 
 1. Local machine:
 ```bash
 cd frontend
 npm run build
-```
-
-2. Commit and push:
-```bash
-git add frontend/dist frontend/src .htaccess
+git add frontend/dist frontend/src
 git commit -m "Update frontend"
 git push
 ```
 
-3. Server:
+2. Server:
 ```bash
 cd ~/domains/codelancelb.com/public_html
 git pull
 ```
 
-That is all. No `cp -r frontend/dist/* .` required.
+`post-merge` runs automatically and updates:
+- `index.html`
+- `js/`
+- `assets/`
+- optional `img/`, `fonts/`, `logo.png`, `favicon.png`
 
-## Quick Verification
+## Emergency Recovery (If White Screen)
 
 ```bash
 cd ~/domains/codelancelb.com/public_html
-grep -n 'script type="module"' frontend/dist/index.html
-curl -I https://codelancelb.com/
-curl -I https://codelancelb.com/api/v1/services
+./scripts/deploy_frontend.sh
+grep -n "index-.*\\.js" index.html
 ```
