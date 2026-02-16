@@ -27,7 +27,6 @@ cp -f "$DIST_DIR/index.html" ./index.html
 # Optional root files used by frontend.
 [ -f "$DIST_DIR/favicon.png" ] && cp -f "$DIST_DIR/favicon.png" ./favicon.png
 [ -f "$DIST_DIR/logo.png" ] && cp -f "$DIST_DIR/logo.png" ./logo.png
-[ -f "$DIST_DIR/.htaccess" ] && cp -f "$DIST_DIR/.htaccess" ./.htaccess
 
 ENTRY_JS="$(grep -o 'index-[^\"]*\.js' ./index.html | head -n 1 || true)"
 if [ -n "$ENTRY_JS" ] && [ -f "./js/$ENTRY_JS" ]; then
@@ -35,4 +34,3 @@ if [ -n "$ENTRY_JS" ] && [ -f "./js/$ENTRY_JS" ]; then
 else
   echo "[deploy_frontend] WARNING: entry bundle not found in ./js"
 fi
-
