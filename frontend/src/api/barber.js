@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Barber API Service
  * 
  * Handles all API calls related to barber dashboard and operations
@@ -6,7 +6,7 @@
 
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || (window.location.origin + '/api/v1'))
 
 const barberApi = {
   /**
@@ -141,12 +141,12 @@ const barberApi = {
           
           // Verify slots exists
           if (!('slots' in normalizedDay)) {
-            console.error(`❌ Day ${index} (${normalizedDay.day}) MISSING slots property!`)
+            console.error(`âŒ Day ${index} (${normalizedDay.day}) MISSING slots property!`)
             normalizedDay.slots = []
           }
           
           if (!Array.isArray(normalizedDay.slots)) {
-            console.error(`❌ Day ${index} (${normalizedDay.day}) slots is NOT an array!`, normalizedDay.slots)
+            console.error(`âŒ Day ${index} (${normalizedDay.day}) slots is NOT an array!`, normalizedDay.slots)
             normalizedDay.slots = []
           }
           
@@ -166,7 +166,7 @@ const barberApi = {
       // Verify all days have slots
       const missingSlots = availabilityData.days?.filter((day, index) => !('slots' in day) || !Array.isArray(day.slots))
       if (missingSlots && missingSlots.length > 0) {
-        console.error('❌ DAYS WITH MISSING/INVALID SLOTS:', missingSlots)
+        console.error('âŒ DAYS WITH MISSING/INVALID SLOTS:', missingSlots)
         throw new Error('Data validation failed: Some days are missing slots array')
       }
       
@@ -826,4 +826,6 @@ const barberApi = {
 }
 
 export default barberApi
+
+
 

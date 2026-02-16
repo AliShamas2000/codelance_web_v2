@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Packages API Service
  * 
  * Handles all API calls related to packages management
@@ -6,7 +6,7 @@
 
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || (window.location.origin + '/api/v1'))
 
 const packagesApi = {
   /**
@@ -269,4 +269,6 @@ const packagesApi = {
 }
 
 export default packagesApi
+
+
 

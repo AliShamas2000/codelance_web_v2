@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HistoryHeader from '../../../components/HistoryHeader/HistoryHeader'
 import HistoryFilters from '../../../components/HistoryFilters/HistoryFilters'
@@ -434,7 +434,7 @@ const History = () => {
       // Call the export endpoint
       const token = localStorage.getItem('auth_token')
       // Use the same API base URL as appointmentsApi
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
+      const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || (window.location.origin + '/api/v1'))
       
       const response = await axios.get(`${API_BASE_URL}/barber/history/export`, {
         params: {
@@ -527,4 +527,6 @@ const History = () => {
 }
 
 export default History
+
+
 

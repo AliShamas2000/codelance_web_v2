@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+﻿import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PasswordInput from '../../../components/PasswordInput/PasswordInput'
 import PhoneInput from '../../../components/PhoneInput/PhoneInput'
@@ -63,7 +63,7 @@ const Profile = () => {
       
       if (profileData.avatar || profileData.profile_photo) {
         const avatarUrl = profileData.avatar || profileData.profile_photo
-        setAvatarPreview(avatarUrl.startsWith('http') ? avatarUrl : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}${avatarUrl}`)
+        setAvatarPreview(avatarUrl.startsWith('http') ? avatarUrl : `${(import.meta.env.VITE_API_BASE_URL || window.location.origin)}${avatarUrl}`)
       }
     } catch (error) {
       console.error('Error fetching profile:', error)
@@ -539,7 +539,7 @@ const Profile = () => {
                     name="currentPassword"
                     value={passwordData.currentPassword}
                     onChange={handlePasswordChange}
-                    placeholder="••••••••"
+                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                     error={passwordErrors.currentPassword}
                     className="w-full"
                   />
@@ -561,7 +561,7 @@ const Profile = () => {
                     name="confirmPassword"
                     value={passwordData.confirmPassword}
                     onChange={handlePasswordChange}
-                    placeholder="••••••••"
+                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                     error={passwordErrors.confirmPassword}
                     className="w-full"
                   />
@@ -656,4 +656,5 @@ const Profile = () => {
 }
 
 export default Profile
+
 
