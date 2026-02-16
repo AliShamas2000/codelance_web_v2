@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const CodelanceHeader = ({ 
@@ -16,6 +16,17 @@ const CodelanceHeader = ({
 }) => {
   const navigate = useNavigate()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 8)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -57,8 +68,14 @@ const CodelanceHeader = ({
         />
       )}
       
-      <header className="fixed top-0 left-0 right-0 z-50 glass-header border-b border-navy-deep/5 dark:border-white/5">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex h-20 items-center justify-between bg-white">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 border-b border-navy-deep/5 dark:border-white/5 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-white/70 dark:bg-[#10221c]/70 backdrop-blur-xl shadow-sm'
+            : 'bg-white dark:bg-[#10221c]'
+        }`}
+      >
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex h-20 items-center justify-between">
         <div className="flex items-center gap-1">
           <img 
             src={logoUrl || "/logo.png"} 
@@ -180,4 +197,3 @@ const CodelanceHeader = ({
 }
 
 export default CodelanceHeader
-
