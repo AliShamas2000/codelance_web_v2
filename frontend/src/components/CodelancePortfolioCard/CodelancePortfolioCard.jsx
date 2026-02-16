@@ -43,16 +43,16 @@ const CodelancePortfolioCard = ({
           <div className={`absolute inset-0 bg-slate-950/45 backdrop-blur-md transition-opacity duration-500 ${
             isHovered ? 'opacity-100' : 'opacity-0'
           }`} />
-          <div className={`relative z-10 w-[min(92vw,1280px)] h-[min(86vh,820px)] rounded-3xl overflow-hidden shadow-[0_50px_120px_rgba(2,8,23,0.6)] border border-white/15 transition-all duration-500 ${
+          <div className={`relative z-10 max-w-[94vw] max-h-[86vh] transition-all duration-500 ${
             isHovered ? 'scale-100 translate-y-0' : 'scale-95 translate-y-6'
           }`}>
             <img
               src={imageUrl}
               alt={imageAlt || title}
-              className="w-full h-full object-cover"
+              className="block w-auto h-auto max-w-[94vw] max-h-[86vh] object-contain rounded-3xl shadow-[0_50px_120px_rgba(2,8,23,0.6)] border border-white/15 bg-slate-950/20"
               loading="lazy"
             />
-            <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/75 to-transparent">
+            <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/75 via-black/30 to-transparent rounded-b-3xl">
               <p className="text-white/90 text-sm tracking-[0.15em] uppercase">Preview</p>
               <h4 className="text-white text-2xl font-bold mt-1">{title}</h4>
             </div>
