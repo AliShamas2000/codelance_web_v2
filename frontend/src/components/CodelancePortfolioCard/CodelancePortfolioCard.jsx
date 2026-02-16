@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import useScrollReveal from '../../hooks/useScrollReveal'
+import Lightbox from 'yet-another-react-lightbox'
+import Zoom from 'yet-another-react-lightbox/plugins/zoom'
+import 'yet-another-react-lightbox/styles.css'
 
 const CodelancePortfolioCard = ({
   id,
@@ -13,12 +16,21 @@ const CodelancePortfolioCard = ({
   className = ""
 }) => {
   const [isVisible, ref] = useScrollReveal({ threshold: 0.1 })
-  const [isHovered, setIsHovered] = useState(false)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
   const handleClick = () => {
     if (onClick) {
       onClick({ id, title, imageUrl, tags, category })
     }
+  }
+
+  const handleOpenPreview = (event) => {
+    event.stopPropagation()
+    setIsPreviewOpen(true)
+  }
+
+  const handleClosePreview = () => {
+    setIsPreviewOpen(false)
   }
 
   return (
@@ -32,34 +44,7 @@ const CodelancePortfolioCard = ({
           : 'opacity-0 translate-y-8'
       } ${className}`}
       onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Fullscreen-style image preview on hover (desktop only) */}
-      {imageUrl && (
-        <div className={`pointer-events-none fixed inset-0 z-[70] hidden lg:flex items-center justify-center transition-all duration-500 ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        }`}>
-          <div className={`absolute inset-0 bg-slate-950/45 backdrop-blur-md transition-opacity duration-500 ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`} />
-          <div className={`relative z-10 max-w-[94vw] max-h-[86vh] transition-all duration-500 ${
-            isHovered ? 'scale-100 translate-y-0' : 'scale-95 translate-y-6'
-          }`}>
-            <img
-              src={imageUrl}
-              alt={imageAlt || title}
-              className="block w-auto h-auto max-w-[94vw] max-h-[86vh] object-contain rounded-3xl shadow-[0_50px_120px_rgba(2,8,23,0.6)] border border-white/15 bg-slate-950/20"
-              loading="lazy"
-            />
-            <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/75 via-black/30 to-transparent rounded-b-3xl">
-              <p className="text-white/90 text-sm tracking-[0.15em] uppercase">Preview</p>
-              <h4 className="text-white text-2xl font-bold mt-1">{title}</h4>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center transition-all duration-700">
         {imageUrl ? (
@@ -77,6 +62,19 @@ const CodelancePortfolioCard = ({
               image
             </span>
           </div>
+        )}
+
+        {imageUrl && (
+          <button
+            type="button"
+            aria-label={`Expand preview for ${title}`}
+            onClick={handleOpenPreview}
+            className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-white/85 dark:bg-slate-900/85 text-navy-deep dark:text-white backdrop-blur-md border border-white/40 dark:border-white/20 shadow-lg transition-all duration-300 hover:scale-110 hover:bg-white dark:hover:bg-slate-800"
+          >
+            <span className="material-symbols-outlined text-[22px] leading-none">
+              open_in_full
+            </span>
+          </button>
         )}
       </div>
 
@@ -119,6 +117,35 @@ const CodelancePortfolioCard = ({
           )}
         </div>
       </div>
+
+      {/* Lightbox-style preview */}
+      {imageUrl && (
+        <Lightbox
+          open={isPreviewOpen}
+          close={handleClosePreview}
+          slides={[
+            {
+              src: imageUrl,
+              alt: imageAlt || title || 'Portfolio preview',
+            },
+          ]}
+          plugins={[Zoom]}
+          carousel={{ finite: true }}
+          controller={{ closeOnBackdropClick: true }}
+          zoom={{
+            maxZoomPixelRatio: 3,
+            zoomInMultiplier: 2,
+            wheelZoomDistanceFactor: 140,
+          }}
+          render={{
+            buttonPrev: () => null,
+            buttonNext: () => null,
+          }}
+          styles={{
+            container: { backgroundColor: 'rgba(2, 8, 23, 0.90)' },
+          }}
+        />
+      )}
     </article>
   )
 }
