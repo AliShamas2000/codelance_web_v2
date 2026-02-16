@@ -35,7 +35,7 @@ const CodelancePortfolioCard = ({
       onClick={handleClick}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center p-8 transition-all duration-700">
+      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center transition-all duration-700">
         {imageUrl ? (
           <img
             alt={imageAlt || title}

@@ -1,98 +1,53 @@
-# Hostinger Deployment - Correct Process
+# Hostinger Deploy (Git Pull Only)
 
-## ❌ Don't Build on Server
-Hostinger shared hosting **does NOT have Node.js/npm** installed. You cannot run `npm run build` on the server.
+This project is configured so Hostinger serves:
+- Frontend from `frontend/dist/*`
+- API from Laravel `public/index.php`
 
-## ✅ Correct Deployment Process
+After this setup, you do **not** copy `dist` files into root anymore.
 
-### Step 1: Build Locally (On Your Mac)
+## One-Time Server Setup
 
+1. Make sure your domain document root is:
+`~/domains/codelancelb.com/public_html`
+
+2. Make sure this file exists at project root:
+`~/domains/codelancelb.com/public_html/.htaccess`
+
+3. Pull latest once:
 ```bash
-# On your local machine (Mac)
-cd /Users/alishamas/Documents/Websites/codelance_web/frontend
-npm run build
+cd ~/domains/codelancelb.com/public_html
+git pull
 ```
 
-This creates a `dist` folder with all production files.
+## Normal Update Flow
 
-### Step 2: Upload Built Files to Hostinger
-
-**Option A: Using File Manager (Easiest)**
-1. Log into Hostinger hPanel
-2. Go to **File Manager**
-3. Navigate to `public_html` (or `domains/codelancelb.com/public_html`)
-4. **Delete everything** in `public_html` (or backup first)
-5. Upload **ALL contents** from `frontend/dist/` folder:
-   - Select all files in `dist/` folder
-   - Upload to `public_html/`
-
-**Option B: Using FTP (FileZilla, etc.)**
-1. Connect to Hostinger via FTP
-2. Navigate to `public_html`
-3. Upload all files from `frontend/dist/` folder
-
-**Option C: Using SSH + SCP (Command Line)**
-```bash
-# From your local Mac terminal
-cd /Users/alishamas/Documents/Websites/codelance_web/frontend
-npm run build
-
-# Upload dist folder to Hostinger
-scp -r -P 65002 dist/* u335424066@de-fra-web2063:~/domains/codelancelb.com/public_html/
-```
-
-### Step 3: Set File Permissions
-
-In Hostinger File Manager:
-1. Select all files
-2. Right-click → **Change Permissions**
-3. Set:
-   - **Files**: `644`
-   - **Folders**: `755`
-   - Check "Recurse into subdirectories"
-4. Click **Change**
-
-### Step 4: Verify Files Are Uploaded
-
-Your `public_html` should contain:
-```
-public_html/
-├── .htaccess          ← Important!
-├── index.html         ← Important!
-├── favicon.png
-├── logo.png
-├── js/
-│   ├── index-[hash].js
-│   └── ...
-└── assets/ or img/
-    └── ...
-```
-
-### Step 5: Test Your Site
-
-Visit `https://codelancelb.com` - it should work now!
-
-## Quick Commands Summary
-
-**Local (Mac):**
+1. Local machine:
 ```bash
 cd frontend
 npm run build
-# Then upload dist/ folder contents to Hostinger
 ```
 
-**On Hostinger (SSH):**
+2. Commit and push:
 ```bash
-# Just verify files are there
-cd ~/domains/codelancelb.com/public_html
-ls -la
-# Should see index.html, .htaccess, js/, etc.
+git add frontend/dist frontend/src .htaccess
+git commit -m "Update frontend"
+git push
 ```
 
-## Important Notes
+3. Server:
+```bash
+cd ~/domains/codelancelb.com/public_html
+git pull
+```
 
-- ✅ Build on your **local machine** (Mac)
-- ✅ Upload the **dist folder contents** to Hostinger
-- ✅ Never run `npm` commands on Hostinger shared hosting
-- ✅ The `.htaccess` file will be automatically in `dist/` folder after build
+That is all. No `cp -r frontend/dist/* .` required.
 
+## Quick Verification
+
+```bash
+cd ~/domains/codelancelb.com/public_html
+grep -n 'script type="module"' frontend/dist/index.html
+curl -I https://codelancelb.com/
+curl -I https://codelancelb.com/api/v1/services
+```

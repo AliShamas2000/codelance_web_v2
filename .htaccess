@@ -1,0 +1,81 @@
+# Combined React SPA + Laravel API routing (git-pull friendly)
+#
+# Production strategy:
+# - Frontend is served from frontend/dist/*
+# - Backend API is served by Laravel public/index.php
+# - After "git pull", latest committed frontend/dist is live automatically
+
+# MIME types
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Browser caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/javascript "access plus 1 month"
+  ExpiresByType application/json "access plus 0 seconds"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Cache-Control headers
+<IfModule mod_headers.c>
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+    Header set Cache-Control "max-age=31536000, public"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|mjs)$">
+    Header set Cache-Control "max-age=2592000, public"
+  </FilesMatch>
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Forward Authorization header to PHP (needed for Bearer tokens)
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # Frontend static assets from frontend/dist
+  RewriteRule ^js/(.*)$ frontend/dist/js/$1 [L,NC]
+  RewriteRule ^assets/(.*)$ frontend/dist/assets/$1 [L,NC]
+  RewriteRule ^img/(.*)$ frontend/dist/img/$1 [L,NC]
+  RewriteRule ^fonts/(.*)$ frontend/dist/fonts/$1 [L,NC]
+  RewriteRule ^favicon\.png$ frontend/dist/favicon.png [L,NC]
+  RewriteRule ^logo\.png$ frontend/dist/logo.png [L,NC]
+  RewriteRule ^index\.html$ frontend/dist/index.html [L,NC]
+
+  # Storage files without symlink (shared hosting friendly)
+  RewriteRule ^storage/(?!app/public/)(.*)$ storage/app/public/$1 [L,NC]
+
+  # Laravel API/Sanctum routes
+  RewriteRule ^(api|sanctum)(/.*)?$ public/index.php [L,QSA,NC]
+
+  # Serve real files/directories from document root
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # React SPA fallback
+  RewriteRule ^ frontend/dist/index.html [L]
+</IfModule>
