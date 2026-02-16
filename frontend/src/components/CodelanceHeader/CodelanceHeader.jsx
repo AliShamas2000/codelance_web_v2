@@ -74,6 +74,14 @@ const CodelanceHeader = ({
             ? 'bg-white/70 dark:bg-[#10221c]/70 backdrop-blur-xl shadow-sm'
             : 'bg-white dark:bg-[#10221c]'
         }`}
+        style={
+          isScrolled
+            ? {
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+              }
+            : undefined
+        }
       >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex h-20 items-center justify-between">
         <div className="flex items-center gap-1">
