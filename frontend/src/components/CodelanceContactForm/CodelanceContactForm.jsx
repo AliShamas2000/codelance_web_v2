@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import SuccessModal from '../SuccessModal/SuccessModal'
 import contactSubmissionsApi from '../../api/contactSubmissions'
 
 const CodelanceContactForm = ({
-  projects = [],
+  services = [],
   onSubmit = null,
   className = ""
 }) => {
+  const serviceOptions = Array.isArray(services) ? services : []
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    project_id: '',
+    service_id: '',
+    service_name: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -21,6 +23,18 @@ const CodelanceContactForm = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target
+
+    if (name === 'service_id') {
+      const selectedService = serviceOptions.find((service) => String(service.id) === String(value))
+      const selectedName = selectedService?.title || selectedService?.name || selectedService?.nameEn || ''
+      setFormData(prev => ({
+        ...prev,
+        service_id: value,
+        service_name: selectedName
+      }))
+      return
+    }
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -38,7 +52,8 @@ const CodelanceContactForm = ({
         setFormData({
           name: '',
           email: '',
-          project_id: '',
+          service_id: '',
+          service_name: '',
           message: ''
         })
         // Show success modal
@@ -56,14 +71,17 @@ const CodelanceContactForm = ({
         await contactSubmissionsApi.submitContactForm({
           name: formData.name,
           email: formData.email,
-          project_id: formData.project_id ? parseInt(formData.project_id) : null,
-          message: formData.message
+          project_id: null,
+          message: formData.service_name
+            ? `Service Requested: ${formData.service_name}\n\n${formData.message}`
+            : formData.message,
         })
         // Reset form after successful submission
         setFormData({
           name: '',
           email: '',
-          project_id: '',
+          service_id: '',
+          service_name: '',
           message: ''
         })
         // Show success modal
@@ -122,16 +140,16 @@ const CodelanceContactForm = ({
             Required Service
           </label>
           <select
-            name="project_id"
-            value={formData.project_id}
+            name="service_id"
+            value={formData.service_id}
             onChange={handleChange}
             className="w-full px-5 py-4 rounded-lg bg-white/50 dark:bg-background-dark/50 border border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none cursor-pointer"
             required
           >
             <option disabled value="">Select a service</option>
-            {projects.map((project) => (
-              <option key={project.id} value={project.id}>
-                {project.title}
+            {serviceOptions.map((service) => (
+              <option key={service.id} value={service.id}>
+                {service.title || service.name || service.nameEn}
               </option>
             ))}
           </select>
@@ -190,4 +208,3 @@ const CodelanceContactForm = ({
 }
 
 export default CodelanceContactForm
-

@@ -292,11 +292,15 @@ const Home = () => {
   // Handle contact form submission
   const handleContactSubmit = useCallback(async (formData) => {
     try {
+      const messageWithService = formData.service_name
+        ? `Service Requested: ${formData.service_name}\n\n${formData.message}`
+        : formData.message
+
       await contactSubmissionsApi.submitContactForm({
         name: formData.name,
         email: formData.email,
-        project_id: formData.project_id ? parseInt(formData.project_id) : null,
-        message: formData.message
+        project_id: null,
+        message: messageWithService
       })
       // Success is handled by the form component's SuccessModal
     } catch (error) {
@@ -660,7 +664,7 @@ const Home = () => {
           title="Let's Build"
           titleHighlight="Something Great"
           description="Have a vision for the next big thing? Our team of experts is ready to transform your ideas into world-class digital solutions."
-          projects={projects}
+          services={services}
           onSubmit={handleContactSubmit}
           contactItems={[
             {

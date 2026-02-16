@@ -29,7 +29,7 @@ const CodelanceContactSection = ({
     }
   ],
   socialLinks = [],
-  projects = [],
+  services = [],
   onSubmit = null,
   className = ""
 }) => {
@@ -60,7 +60,7 @@ const CodelanceContactSection = ({
 
         {/* Right Side: Contact Form */}
         <CodelanceContactForm
-          projects={projects}
+          services={services}
           onSubmit={onSubmit}
           key="contact-form" // Force re-render if onSubmit changes
         />
@@ -70,4 +70,3 @@ const CodelanceContactSection = ({
 }
 
 export default CodelanceContactSection
-
