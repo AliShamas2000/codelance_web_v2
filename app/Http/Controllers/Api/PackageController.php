@@ -23,6 +23,11 @@ class PackageController extends Controller
             $query->where('billing_period', $request->billing_period);
         }
 
+        // Optional: filter by category
+        if ($request->has('category') && $request->category !== 'all') {
+            $query->where('category', $request->category);
+        }
+
         // Optional: filter by featured
         if ($request->has('is_featured') && $request->boolean('is_featured')) {
             $query->where('is_featured', true);
@@ -106,6 +111,8 @@ class PackageController extends Controller
             'originalPrice' => $package->original_price ? (float) $package->original_price : null,
             'original_price' => $package->original_price ? (float) $package->original_price : null,
             'currency' => $currency,
+            'category' => $package->category,
+            'packageCategory' => $package->category,
             'billingPeriod' => $billingPeriod,
             'billing_period' => $billingPeriod,
             'pricePeriod' => $pricePeriod,
@@ -135,4 +142,3 @@ class PackageController extends Controller
         };
     }
 }
-

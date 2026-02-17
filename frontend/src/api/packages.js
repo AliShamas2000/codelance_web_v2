@@ -14,6 +14,7 @@ const packagesApi = {
    * @param {Object} params - Query parameters
    * @param {number} params.limit - Limit number of packages
    * @param {string} params.billing_period - Filter by billing period
+   * @param {string} params.category - Filter by category
    * @param {boolean} params.is_featured - Filter by featured status
    * @returns {Promise} API response
    */
@@ -23,6 +24,7 @@ const packagesApi = {
         params: {
           limit: params.limit,
           billing_period: params.billing_period || 'all',
+          category: params.category || 'all',
           is_featured: params.is_featured,
         }
       })
@@ -40,6 +42,7 @@ const packagesApi = {
    * @param {number} params.per_page - Items per page (default: 10)
    * @param {string} params.search - Search query
    * @param {string} params.billing_period - Filter by billing period
+   * @param {string} params.category - Filter by category
    * @param {boolean} params.is_active - Filter by active status
    * @param {boolean} params.is_featured - Filter by featured status
    * @param {string} params.sort - Sort field
@@ -55,6 +58,7 @@ const packagesApi = {
           per_page: params.per_page || 10,
           search: params.search || '',
           billing_period: params.billing_period || 'all',
+          category: params.category || 'all',
           is_active: params.is_active,
           is_featured: params.is_featured,
           sort: params.sort || 'order',
@@ -122,6 +126,9 @@ const packagesApi = {
       if (packageData.currency) {
         formData.append('currency', packageData.currency)
       }
+      if (packageData.category) {
+        formData.append('category', packageData.category)
+      }
       if (packageData.billing_period) {
         formData.append('billing_period', packageData.billing_period)
       }
@@ -182,6 +189,9 @@ const packagesApi = {
       }
       if (packageData.currency !== undefined) {
         formData.append('currency', packageData.currency)
+      }
+      if (packageData.category !== undefined) {
+        formData.append('category', packageData.category)
       }
       if (packageData.billing_period !== undefined) {
         formData.append('billing_period', packageData.billing_period)

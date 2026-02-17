@@ -32,6 +32,11 @@ class PackageController extends Controller
             $query->where('billing_period', $request->billing_period);
         }
 
+        // Filter by category
+        if ($request->has('category') && $request->category !== 'all') {
+            $query->where('category', $request->category);
+        }
+
         // Filter by active status
         if ($request->has('is_active')) {
             $query->where('is_active', $request->boolean('is_active'));
@@ -88,6 +93,7 @@ class PackageController extends Controller
             'price' => 'required|numeric|min:0',
             'original_price' => 'nullable|numeric|min:0',
             'currency' => 'nullable|string|max:3',
+            'category' => 'nullable|string|in:website,mobile,pos,dashboard,other',
             'billing_period' => 'nullable|string|in:monthly,yearly,one-time',
             'badge' => 'nullable|string|max:255',
             'is_featured' => 'nullable|boolean',
@@ -109,6 +115,7 @@ class PackageController extends Controller
             'price' => $validated['price'],
             'original_price' => $validated['original_price'] ?? null,
             'currency' => $validated['currency'] ?? 'USD',
+            'category' => $validated['category'] ?? 'website',
             'billing_period' => $validated['billing_period'] ?? 'monthly',
             'features' => $features,
             'badge' => $validated['badge'] ?? null,
@@ -162,6 +169,7 @@ class PackageController extends Controller
             'price' => 'sometimes|required|numeric|min:0',
             'original_price' => 'nullable|numeric|min:0',
             'currency' => 'nullable|string|max:3',
+            'category' => 'nullable|string|in:website,mobile,pos,dashboard,other',
             'billing_period' => 'nullable|string|in:monthly,yearly,one-time',
             'badge' => 'nullable|string|max:255',
             'is_featured' => 'nullable|boolean',
@@ -200,6 +208,9 @@ class PackageController extends Controller
         }
         if (isset($validated['currency'])) {
             $package->currency = $validated['currency'];
+        }
+        if (isset($validated['category'])) {
+            $package->category = $validated['category'];
         }
         if (isset($validated['billing_period'])) {
             $package->billing_period = $validated['billing_period'];
@@ -286,6 +297,8 @@ class PackageController extends Controller
             'originalPrice' => $package->original_price ? (float) $package->original_price : null,
             'original_price' => $package->original_price ? (float) $package->original_price : null, // Keep for backward compatibility
             'currency' => $package->currency,
+            'category' => $package->category,
+            'packageCategory' => $package->category,
             'billingPeriod' => $package->billing_period,
             'billing_period' => $package->billing_period, // Keep for backward compatibility
             'features' => $package->features ?? [],
@@ -304,4 +317,3 @@ class PackageController extends Controller
         ];
     }
 }
-

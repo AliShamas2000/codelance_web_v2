@@ -12,6 +12,7 @@ class Package extends Model
         'price',
         'original_price',
         'currency',
+        'category',
         'billing_period',
         'features',
         'badge',
@@ -30,4 +31,3 @@ class Package extends Model
         'order' => 'integer',
     ];
 }
-

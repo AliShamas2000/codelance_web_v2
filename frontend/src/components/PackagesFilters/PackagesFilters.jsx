@@ -3,12 +3,14 @@ import React, { useState, useRef, useEffect } from 'react'
 const PackagesFilters = ({
   search = '',
   billingPeriod = 'all',
+  category = 'all',
   isActive = null,
   isFeatured = null,
   sortBy = 'order',
   sortOrder = 'asc',
   onSearchChange,
   onBillingPeriodChange,
+  onCategoryChange,
   onActiveStatusChange,
   onFeaturedStatusChange,
   onSort,
@@ -89,6 +91,19 @@ const PackagesFilters = ({
           <option value="monthly">Monthly</option>
           <option value="yearly">Yearly</option>
           <option value="one-time">One-Time</option>
+        </select>
+
+        <select
+          value={category}
+          onChange={(e) => onCategoryChange(e.target.value)}
+          className="px-4 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-700 dark:text-gray-200"
+        >
+          <option value="all">All Categories</option>
+          <option value="website">Website</option>
+          <option value="mobile">Mobile</option>
+          <option value="pos">POS</option>
+          <option value="dashboard">Dashboard</option>
+          <option value="other">Other</option>
         </select>
 
         {/* Active Status Filter */}
@@ -196,4 +211,3 @@ const PackagesFilters = ({
 }
 
 export default PackagesFilters
-

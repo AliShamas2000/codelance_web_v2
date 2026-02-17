@@ -13,6 +13,7 @@ const AddEditPackageModal = ({
     price: '',
     original_price: '',
     currency: 'USD',
+    category: 'website',
     billing_period: 'monthly',
     features: [],
     badge: '',
@@ -35,6 +36,7 @@ const AddEditPackageModal = ({
         price: pkg.price || '',
         original_price: pkg.originalPrice || pkg.original_price || '',
         currency: pkg.currency || 'USD',
+        category: pkg.category || pkg.packageCategory || 'website',
         billing_period: pkg.billingPeriod || pkg.billing_period || 'monthly',
         features: Array.isArray(pkg.features) ? pkg.features : [],
         badge: pkg.badge || '',
@@ -51,6 +53,7 @@ const AddEditPackageModal = ({
         price: '',
         original_price: '',
         currency: 'USD',
+        category: 'website',
         billing_period: 'monthly',
         features: [],
         badge: '',
@@ -161,6 +164,7 @@ const AddEditPackageModal = ({
         price: parseFloat(formData.price),
         original_price: formData.original_price ? parseFloat(formData.original_price) : null,
         currency: formData.currency,
+        category: formData.category,
         billing_period: formData.billing_period,
         features: formData.features,
         badge: formData.badge.trim() || null,
@@ -196,6 +200,7 @@ const AddEditPackageModal = ({
       price: '',
       original_price: '',
       currency: 'USD',
+      category: 'website',
       billing_period: 'monthly',
       features: [],
       badge: '',
@@ -382,8 +387,24 @@ const AddEditPackageModal = ({
               </div>
             </div>
 
-            {/* Billing Period & Badge */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Category, Billing Period & Badge */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Category
+                </label>
+                <select
+                  className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#10221c] text-gray-900 dark:text-gray-100 focus:border-primary focus:ring-primary sm:text-sm p-2.5"
+                  value={formData.category}
+                  onChange={(e) => handleInputChange('category', e.target.value)}
+                >
+                  <option value="website">Website</option>
+                  <option value="mobile">Mobile</option>
+                  <option value="pos">POS</option>
+                  <option value="dashboard">Dashboard</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Billing Period
@@ -529,4 +550,3 @@ const AddEditPackageModal = ({
 }
 
 export default AddEditPackageModal
-

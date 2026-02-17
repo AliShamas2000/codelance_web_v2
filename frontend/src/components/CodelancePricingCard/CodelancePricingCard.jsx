@@ -34,7 +34,7 @@ const CodelancePricingCard = ({
   return (
     <div
       ref={ref}
-      className={`pricing-card flex flex-col gap-8 rounded-lg p-8 shadow-sm transition-all ${
+      className={`pricing-card flex h-full flex-col gap-6 rounded-lg p-8 shadow-sm transition-all ${
         isHighlighted
           ? 'border-2 border-primary bg-white dark:bg-gray-900 scale-105 z-10 relative'
           : 'border border-transparent bg-white dark:bg-gray-900'
@@ -59,7 +59,7 @@ const CodelancePricingCard = ({
       </div>
 
       {/* Header */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 min-h-[170px]">
         {name && (
           <h3 className="text-gray-500 dark:text-gray-400 text-sm font-bold uppercase tracking-widest">
             {name}
@@ -93,7 +93,7 @@ const CodelancePricingCard = ({
 
       {/* Features */}
       {features.length > 0 && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 flex-1">
           {features.map((feature, index) => (
             <div
               key={index}
@@ -131,4 +131,3 @@ const CodelancePricingCard = ({
 }
 
 export default CodelancePricingCard
-

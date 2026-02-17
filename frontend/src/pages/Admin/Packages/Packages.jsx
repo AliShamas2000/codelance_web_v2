@@ -13,6 +13,7 @@ const Packages = () => {
   const [filters, setFilters] = useState({
     search: '',
     billing_period: 'all',
+    category: 'all',
     is_active: null,
     is_featured: null,
     sort: 'order',
@@ -39,6 +40,7 @@ const Packages = () => {
         per_page: pagination.itemsPerPage,
         search: filters.search,
         billing_period: filters.billing_period,
+        category: filters.category,
         is_active: filters.is_active,
         is_featured: filters.is_featured,
         sort: filters.sort,
@@ -75,6 +77,11 @@ const Packages = () => {
 
   const handleBillingPeriodChange = (value) => {
     setFilters(prev => ({ ...prev, billing_period: value }))
+    setPagination(prev => ({ ...prev, currentPage: 1 }))
+  }
+
+  const handleCategoryChange = (value) => {
+    setFilters(prev => ({ ...prev, category: value }))
     setPagination(prev => ({ ...prev, currentPage: 1 }))
   }
 
@@ -295,6 +302,15 @@ const Packages = () => {
       }
     },
     {
+      key: 'category',
+      header: 'Category',
+      render: (pkg) => (
+        <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">
+          {pkg.category || 'website'}
+        </span>
+      )
+    },
+    {
       key: 'features',
       header: 'Features',
       render: (pkg) => {
@@ -370,12 +386,14 @@ const Packages = () => {
       <PackagesFilters
         search={filters.search}
         billingPeriod={filters.billing_period}
+        category={filters.category}
         isActive={filters.is_active}
         isFeatured={filters.is_featured}
         sortBy={filters.sort}
         sortOrder={filters.order}
         onSearchChange={handleSearchChange}
         onBillingPeriodChange={handleBillingPeriodChange}
+        onCategoryChange={handleCategoryChange}
         onActiveStatusChange={handleActiveStatusChange}
         onFeaturedStatusChange={handleFeaturedStatusChange}
         onSort={handleSort}
@@ -496,4 +514,3 @@ const Packages = () => {
 }
 
 export default Packages
-

@@ -187,6 +187,7 @@ const Home = () => {
             return {
               id: pkg.id,
               name: pkg.name,
+              category: pkg.category || pkg.packageCategory || pkg.type || null,
               price: formattedPrice,
               originalPrice: originalPriceNumeric, // Pass numeric value for calculation
               originalPriceFormatted: formattedOriginalPrice, // Pass formatted string for display
