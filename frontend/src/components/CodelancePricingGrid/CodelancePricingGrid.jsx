@@ -5,6 +5,7 @@ import { Navigation, Pagination, A11y } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import './CodelancePricingGrid.css'
 
 const CodelancePricingGrid = ({
   packages = [],
@@ -156,6 +157,7 @@ const CodelancePricingGrid = ({
           modules={[Navigation, Pagination, A11y]}
           slidesPerView={1}
           spaceBetween={24}
+          autoHeight={false}
           navigation
           pagination={{ clickable: true }}
           breakpoints={{
@@ -166,7 +168,7 @@ const CodelancePricingGrid = ({
           className="pricing-swiper"
         >
           {filteredPackages.map((pkg, index) => (
-            <SwiperSlide key={pkg.id || index} className="h-auto pb-12">
+            <SwiperSlide key={pkg.id || index} className="pricing-slide pb-12">
               <CodelancePricingCard
                 id={pkg.id}
                 name={pkg.name || pkg.title}

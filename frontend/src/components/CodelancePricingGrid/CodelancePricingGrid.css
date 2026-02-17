@@ -1,0 +1,26 @@
+.pricing-swiper {
+  overflow: visible;
+}
+
+.pricing-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+.pricing-swiper .swiper-slide.pricing-slide {
+  height: auto;
+  display: flex;
+}
+
+.pricing-swiper .swiper-slide.pricing-slide > * {
+  width: 100%;
+}
+
+.pricing-swiper .swiper-button-prev,
+.pricing-swiper .swiper-button-next {
+  color: #37a8e4;
+}
+
+.pricing-swiper .swiper-pagination-bullet-active {
+  background: #37a8e4;
+}
+

@@ -34,7 +34,7 @@ const CodelancePricingCard = ({
   return (
     <div
       ref={ref}
-      className={`pricing-card flex h-full flex-col gap-6 rounded-lg p-8 shadow-sm transition-all ${
+      className={`pricing-card flex h-full min-h-[620px] flex-col gap-6 rounded-lg p-8 shadow-sm transition-all overflow-visible ${
         isHighlighted
           ? 'border-2 border-primary bg-white dark:bg-gray-900 scale-105 z-10 relative'
           : 'border border-transparent bg-white dark:bg-gray-900'
@@ -45,7 +45,7 @@ const CodelancePricingCard = ({
       } ${className}`}
     >
       {/* Badges */}
-      <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex flex-col gap-2 items-center">
+      <div className="flex min-h-6 items-center justify-center gap-2">
         {hasDiscount && discountPercentage > 0 && (
           <span className="inline-flex items-center rounded-full bg-red-500 px-3 py-1 text-xs font-black uppercase tracking-wider text-white shadow-lg">
             {discountPercentage}% OFF
@@ -85,7 +85,7 @@ const CodelancePricingCard = ({
           </div>
         </div>
         {description && (
-          <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
+          <p className="text-gray-600 dark:text-gray-400 text-sm mt-2 min-h-12">
             {description}
           </p>
         )}
@@ -93,7 +93,7 @@ const CodelancePricingCard = ({
 
       {/* Features */}
       {features.length > 0 && (
-        <div className="flex flex-col gap-4 flex-1">
+        <div className="flex flex-col gap-4 flex-1 overflow-y-auto pr-1">
           {features.map((feature, index) => (
             <div
               key={index}
