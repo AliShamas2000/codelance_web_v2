@@ -12,6 +12,7 @@ class Project extends Model
         'title',
         'description',
         'image',
+        'images',
         'tags',
         'client_name',
         'project_date',
@@ -23,6 +24,7 @@ class Project extends Model
     ];
 
     protected $casts = [
+        'images' => 'array',
         'tags' => 'array',
         'project_date' => 'date',
         'is_featured' => 'boolean',

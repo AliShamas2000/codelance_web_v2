@@ -243,7 +243,9 @@ const Projects = () => {
       header: 'Image',
       width: '16',
       render: (project) => {
-        const imageUrl = project.image || project.image_url
+        const imageUrl = (Array.isArray(project.images) && project.images.length > 0)
+          ? project.images[0]
+          : (project.image || project.image_url)
         
         return (
           <div className="flex items-center relative">
@@ -499,4 +501,3 @@ const Projects = () => {
 }
 
 export default Projects
-

@@ -8,7 +8,7 @@ const AddEditProjectModal = ({
   categories = [],
   onSuccess
 }) => {
-  const [formData, setFormData] = useState({
+  const getInitialFormData = () => ({
     title: '',
     description: '',
     project_category_id: null,
@@ -20,16 +20,35 @@ const AddEditProjectModal = ({
     is_featured: false,
     is_active: true,
     order: 0,
-    image: null,
-    imagePreview: null
+    images: [],
+    imagePreviews: [],
+    existingImages: [],
+    existingImagePaths: []
+  })
+
+  const [formData, setFormData] = useState({
+    ...getInitialFormData()
   })
   const [tagInput, setTagInput] = useState('')
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const fileInputRef = useRef(null)
 
+  const cleanupNewPreviews = useCallback((previews) => {
+    previews.forEach((url) => URL.revokeObjectURL(url))
+  }, [])
+
   useEffect(() => {
     if (project) {
+      const projectImageUrls = Array.isArray(project.images)
+        ? project.images
+        : (project.image || project.image_url ? [project.image || project.image_url] : [])
+      const projectImagePaths = Array.isArray(project.image_paths) && project.image_paths.length > 0
+        ? project.image_paths
+        : projectImageUrls
+            .map((url) => (typeof url === 'string' && url.includes('/storage/') ? url.split('/storage/')[1] : null))
+            .filter(Boolean)
+
       setFormData({
         title: project.title || '',
         description: project.description || '',
@@ -42,25 +61,13 @@ const AddEditProjectModal = ({
         is_featured: project.isFeatured !== undefined ? project.isFeatured : (project.is_featured !== undefined ? project.is_featured : false),
         is_active: project.isActive !== undefined ? project.isActive : (project.is_active !== undefined ? project.is_active : true),
         order: project.order || 0,
-        image: null,
-        imagePreview: project.image || project.image_url || null
+        images: [],
+        imagePreviews: [],
+        existingImages: projectImageUrls,
+        existingImagePaths: projectImagePaths
       })
     } else {
-      setFormData({
-        title: '',
-        description: '',
-        project_category_id: null,
-        tags: [],
-        client_name: '',
-        project_date: '',
-        project_url: '',
-        github_url: '',
-        is_featured: false,
-        is_active: true,
-        order: 0,
-        image: null,
-        imagePreview: null
-      })
+      setFormData(getInitialFormData())
     }
     setTagInput('')
     setErrors({})
@@ -94,45 +101,60 @@ const AddEditProjectModal = ({
     }))
   }
 
-  const handleFileSelect = (file) => {
-    if (file) {
-      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
-      if (!validTypes.includes(file.type)) {
-        setErrors(prev => ({ ...prev, image: 'Please upload a valid image file (PNG, JPG, GIF, WEBP)' }))
-        return
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        setErrors(prev => ({ ...prev, image: 'Image size must be less than 5MB' }))
-        return
-      }
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setFormData(prev => ({
-          ...prev,
-          image: file,
-          imagePreview: reader.result
-        }))
-      }
-      reader.readAsDataURL(file)
-      if (errors.image) {
-        setErrors(prev => {
-          const newErrors = { ...prev }
-          delete newErrors.image
-          return newErrors
-        })
-      }
-    }
-  }
+  const handleFileSelect = (fileList) => {
+    const selectedFiles = Array.from(fileList || [])
+    if (selectedFiles.length === 0) return
 
-  const handleRemoveImage = () => {
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']
+    const invalidTypeFile = selectedFiles.find((file) => !validTypes.includes(file.type))
+    if (invalidTypeFile) {
+      setErrors(prev => ({ ...prev, images: 'Please upload valid image files (PNG, JPG, GIF, WEBP, SVG)' }))
+      return
+    }
+
+    const oversizedFile = selectedFiles.find((file) => file.size > 5 * 1024 * 1024)
+    if (oversizedFile) {
+      setErrors(prev => ({ ...prev, images: 'Each image size must be less than 5MB' }))
+      return
+    }
+
     setFormData(prev => ({
       ...prev,
-      image: null,
-      imagePreview: null
+      images: [...prev.images, ...selectedFiles],
+      imagePreviews: [...prev.imagePreviews, ...selectedFiles.map((file) => URL.createObjectURL(file))]
     }))
+
+    setErrors(prev => {
+      const newErrors = { ...prev }
+      delete newErrors.images
+      return newErrors
+    })
+
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
+  }
+
+  const handleRemoveExistingImage = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      existingImages: prev.existingImages.filter((_, i) => i !== index),
+      existingImagePaths: prev.existingImagePaths.filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleRemoveNewImage = (index) => {
+    setFormData(prev => {
+      const previewToRemove = prev.imagePreviews[index]
+      if (previewToRemove) {
+        URL.revokeObjectURL(previewToRemove)
+      }
+      return {
+        ...prev,
+        images: prev.images.filter((_, i) => i !== index),
+        imagePreviews: prev.imagePreviews.filter((_, i) => i !== index)
+      }
+    })
   }
 
   const validateForm = () => {
@@ -156,11 +178,12 @@ const AddEditProjectModal = ({
     try {
       const submitData = {
         ...formData,
-        project_category_id: formData.project_category_id || null
+        project_category_id: formData.project_category_id || null,
+        existing_images: formData.existingImagePaths
       }
 
       if (project) {
-        if (!formData.imagePreview && project.image) {
+        if (formData.existingImages.length === 0 && formData.images.length === 0) {
           submitData.remove_image = true
         }
         await projectsApi.updateProject(project.id, submitData)
@@ -168,6 +191,7 @@ const AddEditProjectModal = ({
         await projectsApi.createProject(submitData)
       }
 
+      cleanupNewPreviews(formData.imagePreviews)
       if (onSuccess) {
         onSuccess()
       }
@@ -182,25 +206,12 @@ const AddEditProjectModal = ({
   }
 
   const handleCancel = useCallback(() => {
-    setFormData({
-      title: '',
-      description: '',
-      project_category_id: null,
-      tags: [],
-      client_name: '',
-      project_date: '',
-      project_url: '',
-      github_url: '',
-      is_featured: false,
-      is_active: true,
-      order: 0,
-      image: null,
-      imagePreview: null
-    })
+    cleanupNewPreviews(formData.imagePreviews)
+    setFormData(getInitialFormData())
     setTagInput('')
     setErrors({})
     onClose()
-  }, [onClose])
+  }, [cleanupNewPreviews, formData.imagePreviews, onClose])
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -294,45 +305,67 @@ const AddEditProjectModal = ({
             {/* Image Upload */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Project Image
+                Project Images
               </label>
-              {formData.imagePreview ? (
-                <div className="relative">
-                  <img
-                    src={formData.imagePreview}
-                    alt="Preview"
-                    className="w-full h-64 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-sm">close</span>
-                  </button>
-                </div>
-              ) : (
-                <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileSelect(e.target.files[0])}
-                    className="hidden"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="text-primary hover:text-[#0eb37d] font-medium"
-                  >
-                    Click to upload image
-                  </button>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                    PNG, JPG, GIF, WEBP up to 5MB
-                  </p>
+              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => handleFileSelect(e.target.files)}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-primary hover:text-[#0eb37d] font-medium"
+                >
+                  Click to upload images
+                </button>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                  PNG, JPG, GIF, WEBP, SVG up to 5MB each
+                </p>
+              </div>
+
+              {(formData.existingImages.length > 0 || formData.imagePreviews.length > 0) && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
+                  {formData.existingImages.map((imageUrl, index) => (
+                    <div key={`existing-${index}`} className="relative">
+                      <img
+                        src={imageUrl}
+                        alt={`Existing preview ${index + 1}`}
+                        className="w-full h-36 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveExistingImage(index)}
+                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-sm">close</span>
+                      </button>
+                    </div>
+                  ))}
+
+                  {formData.imagePreviews.map((previewUrl, index) => (
+                    <div key={`new-${index}`} className="relative">
+                      <img
+                        src={previewUrl}
+                        alt={`New preview ${index + 1}`}
+                        className="w-full h-36 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveNewImage(index)}
+                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-sm">close</span>
+                      </button>
+                    </div>
+                  ))}
                 </div>
               )}
-              {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
+              {errors.images && <p className="text-sm text-red-500">{errors.images}</p>}
             </div>
 
             {/* Tags */}
@@ -515,4 +548,3 @@ const AddEditProjectModal = ({
 }
 
 export default AddEditProjectModal
-

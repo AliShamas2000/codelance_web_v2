@@ -88,6 +88,8 @@ class ProjectController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
             'tags' => 'nullable',
             'client_name' => 'nullable|string|max:255',
             'project_date' => 'nullable|date',
@@ -98,16 +100,27 @@ class ProjectController extends Controller
             'order' => 'nullable|integer|min:0',
         ]);
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('projects/images', 'public');
+        $storedImages = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $storedImages[] = $imageFile->store('projects/images', 'public');
+            }
         }
+
+        if ($request->hasFile('image')) {
+            $storedImages[] = $request->file('image')->store('projects/images', 'public');
+        }
+
+        $storedImages = array_values(array_unique($storedImages));
+        $primaryImage = count($storedImages) > 0 ? $storedImages[0] : null;
 
         $project = Project::create([
             'project_category_id' => $validated['project_category_id'] ?? null,
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
-            'image' => $imagePath,
+            'image' => $primaryImage,
+            'images' => count($storedImages) > 0 ? $storedImages : null,
             'tags' => $tags,
             'client_name' => $validated['client_name'] ?? null,
             'project_date' => $validated['project_date'] ?? null,
@@ -157,6 +170,10 @@ class ProjectController extends Controller
             'title' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'existing_images' => 'nullable|array',
+            'existing_images.*' => 'string',
             'tags' => 'nullable',
             'client_name' => 'nullable|string|max:255',
             'project_date' => 'nullable|date',
@@ -168,18 +185,54 @@ class ProjectController extends Controller
             'remove_image' => 'nullable|boolean',
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($project->image) {
-                Storage::disk('public')->delete($project->image);
+        $currentImages = is_array($project->images) ? $project->images : [];
+        if (empty($currentImages) && $project->image) {
+            $currentImages = [$project->image];
+        }
+
+        $incomingExistingImages = null;
+        if ($request->has('existing_images')) {
+            $incomingExistingImages = array_values(array_filter(
+                $validated['existing_images'] ?? [],
+                fn ($path) => is_string($path) && $path !== ''
+            ));
+            $incomingExistingImages = array_values(array_intersect($currentImages, $incomingExistingImages));
+        }
+
+        $nextImages = $incomingExistingImages ?? $currentImages;
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $nextImages[] = $imageFile->store('projects/images', 'public');
             }
-            $validated['image'] = $request->file('image')->store('projects/images', 'public');
-        } elseif ($request->boolean('remove_image') && $project->image) {
-            Storage::disk('public')->delete($project->image);
-            $validated['image'] = null;
+        }
+
+        if ($request->hasFile('image')) {
+            $nextImages[] = $request->file('image')->store('projects/images', 'public');
+        }
+
+        $nextImages = array_values(array_unique($nextImages));
+
+        if ($request->boolean('remove_image') && !$request->has('existing_images') && !$request->hasFile('images') && !$request->hasFile('image')) {
+            $nextImages = [];
+        }
+
+        $removedImages = array_values(array_diff($currentImages, $nextImages));
+        foreach ($removedImages as $removedImagePath) {
+            Storage::disk('public')->delete($removedImagePath);
+        }
+
+        if (count($nextImages) > 0) {
+            $validated['images'] = $nextImages;
+            $validated['image'] = $nextImages[0];
         } else {
+            $validated['images'] = null;
+            $validated['image'] = null;
+        }
+
+        if (!$request->hasFile('image') && !$request->hasFile('images') && !$request->has('existing_images') && !$request->boolean('remove_image')) {
             unset($validated['image']);
+            unset($validated['images']);
         }
 
         // Handle tags update
@@ -204,8 +257,13 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         // Delete image if exists
-        if ($project->image) {
-            Storage::disk('public')->delete($project->image);
+        $allImages = is_array($project->images) ? $project->images : [];
+        if (empty($allImages) && $project->image) {
+            $allImages = [$project->image];
+        }
+
+        foreach (array_values(array_unique($allImages)) as $imagePath) {
+            Storage::disk('public')->delete($imagePath);
         }
 
         $project->delete();
@@ -243,12 +301,17 @@ class ProjectController extends Controller
      */
     private function formatProject(Project $project)
     {
-        // Generate image URL - use the same approach as ServiceController
-        $imageUrl = null;
-        if ($project->image) {
-            // Use URL::asset() same as services do - this generates correct relative URLs
-            $imageUrl = URL::asset('storage/' . $project->image);
+        $imagePaths = is_array($project->images) ? $project->images : [];
+        if (empty($imagePaths) && $project->image) {
+            $imagePaths = [$project->image];
         }
+        $imagePaths = array_values(array_unique(array_filter($imagePaths)));
+
+        $imageUrls = array_map(function ($path) {
+            return URL::asset('storage/' . $path);
+        }, $imagePaths);
+
+        $imageUrl = count($imageUrls) > 0 ? $imageUrls[0] : null;
         
         return [
             'id' => $project->id,
@@ -256,6 +319,8 @@ class ProjectController extends Controller
             'description' => $project->description,
             'image' => $imageUrl,
             'image_url' => $imageUrl, // Keep for backward compatibility
+            'images' => $imageUrls,
+            'image_paths' => $imagePaths,
             'tags' => $project->tags ?? [],
             'categoryId' => $project->project_category_id,
             'category_id' => $project->project_category_id, // Keep for backward compatibility

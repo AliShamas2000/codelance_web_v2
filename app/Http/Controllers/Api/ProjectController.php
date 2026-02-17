@@ -108,13 +108,24 @@ class ProjectController extends Controller
             $categorySlug = $project->category->slug;
         }
 
+        $imagePaths = is_array($project->images) ? $project->images : [];
+        if (empty($imagePaths) && $project->image) {
+            $imagePaths = [$project->image];
+        }
+        $imagePaths = array_values(array_unique(array_filter($imagePaths)));
+        $imageUrls = array_map(function ($path) {
+            return URL::asset('storage/' . $path);
+        }, $imagePaths);
+        $coverImage = count($imageUrls) > 0 ? $imageUrls[0] : null;
+
         return [
             'id' => $project->id,
             'title' => $project->title,
             'description' => $project->description,
-            'image' => $project->image ? URL::asset('storage/' . $project->image) : null,
-            'imageUrl' => $project->image ? URL::asset('storage/' . $project->image) : null, // Keep for backward compatibility
-            'image_url' => $project->image ? URL::asset('storage/' . $project->image) : null, // Keep for backward compatibility
+            'image' => $coverImage,
+            'imageUrl' => $coverImage, // Keep for backward compatibility
+            'image_url' => $coverImage, // Keep for backward compatibility
+            'images' => $imageUrls,
             'tags' => $tags,
             'category' => $categorySlug,
             'categoryId' => $project->project_category_id,
@@ -134,4 +145,3 @@ class ProjectController extends Controller
         ];
     }
 }
-

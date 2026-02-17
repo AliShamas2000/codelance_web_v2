@@ -109,6 +109,11 @@ const projectsApi = {
       if (projectData.image) {
         formData.append('image', projectData.image)
       }
+      if (projectData.images && Array.isArray(projectData.images)) {
+        projectData.images.forEach((file) => {
+          formData.append('images[]', file)
+        })
+      }
 
       const token = localStorage.getItem('auth_token')
       const response = await axios.post(
@@ -170,6 +175,16 @@ const projectsApi = {
       }
       if (projectData.image) {
         formData.append('image', projectData.image)
+      }
+      if (projectData.images && Array.isArray(projectData.images)) {
+        projectData.images.forEach((file) => {
+          formData.append('images[]', file)
+        })
+      }
+      if (projectData.existing_images && Array.isArray(projectData.existing_images)) {
+        projectData.existing_images.forEach((path) => {
+          formData.append('existing_images[]', path)
+        })
       }
       if (projectData.remove_image) {
         formData.append('remove_image', '1')
