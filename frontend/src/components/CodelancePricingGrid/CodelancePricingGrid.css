@@ -15,12 +15,6 @@
   width: 100%;
 }
 
-.pricing-swiper .swiper-button-prev,
-.pricing-swiper .swiper-button-next {
-  color: #37a8e4;
-}
-
 .pricing-swiper .swiper-pagination-bullet-active {
   background: #37a8e4;
 }
-

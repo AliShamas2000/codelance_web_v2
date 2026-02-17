@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import CodelancePricingCard from '../CodelancePricingCard/CodelancePricingCard'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, A11y } from 'swiper/modules'
+import { Pagination, A11y } from 'swiper/modules'
 import 'swiper/css'
-import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import './CodelancePricingGrid.css'
 
@@ -154,15 +153,15 @@ const CodelancePricingGrid = ({
         </div>
       ) : (
         <Swiper
-          modules={[Navigation, Pagination, A11y]}
+          modules={[Pagination, A11y]}
           slidesPerView={1}
-          spaceBetween={24}
+          spaceBetween={30}
           autoHeight={false}
-          navigation
           pagination={{ clickable: true }}
           breakpoints={{
             1024: {
-              slidesPerView: 3
+              slidesPerView: 3,
+              spaceBetween: 30
             }
           }}
           className="pricing-swiper"
