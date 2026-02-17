@@ -41,6 +41,7 @@ const CodelancePortfolioGrid = ({
             id={project.id}
             title={project.title || project.name || "Project"}
             imageUrl={project.imageUrl || project.image || project.thumbnail || project.thumbnail_url}
+            imageUrls={Array.isArray(project.images) ? project.images : []}
             imageAlt={project.imageAlt || project.title || "Project image"}
             tags={project.tags || project.technologies || project.tech_stack || []}
             category={project.category || project.type || null}
@@ -55,4 +56,3 @@ const CodelancePortfolioGrid = ({
 }
 
 export default CodelancePortfolioGrid
-

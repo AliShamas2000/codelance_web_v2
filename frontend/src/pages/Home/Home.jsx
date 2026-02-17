@@ -83,6 +83,7 @@ const Home = () => {
             id: project.id,
             title: project.title || '',
             imageUrl: project.image || project.imageUrl || project.image_url || null,
+            images: Array.isArray(project.images) ? project.images : [],
             imageAlt: project.title || 'Project image',
             tags: project.tags || [],
             category: project.category || project.categorySlug || null,

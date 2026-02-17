@@ -8,6 +8,7 @@ const CodelancePortfolioCard = ({
   id,
   title,
   imageUrl,
+  imageUrls = [],
   imageAlt = "",
   tags = [],
   category = null,
@@ -17,10 +18,13 @@ const CodelancePortfolioCard = ({
 }) => {
   const [isVisible, ref] = useScrollReveal({ threshold: 0.1 })
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+  const galleryImages = Array.isArray(imageUrls) && imageUrls.length > 0
+    ? imageUrls
+    : (imageUrl ? [imageUrl] : [])
 
   const handleClick = () => {
     if (onClick) {
-      onClick({ id, title, imageUrl, tags, category })
+      onClick({ id, title, imageUrl, imageUrls: galleryImages, tags, category })
     }
   }
 
@@ -119,28 +123,26 @@ const CodelancePortfolioCard = ({
       </div>
 
       {/* Lightbox-style preview */}
-      {imageUrl && (
+      {galleryImages.length > 0 && (
         <Lightbox
           open={isPreviewOpen}
           close={handleClosePreview}
-          slides={[
-            {
-              src: imageUrl,
-              alt: imageAlt || title || 'Portfolio preview',
-            },
-          ]}
+          slides={galleryImages.map((src) => ({
+            src,
+            alt: imageAlt || title || 'Portfolio preview',
+          }))}
           plugins={[Zoom]}
-          carousel={{ finite: true }}
+          carousel={{ finite: galleryImages.length <= 1 }}
           controller={{ closeOnBackdropClick: true }}
           zoom={{
             maxZoomPixelRatio: 3,
             zoomInMultiplier: 2,
             wheelZoomDistanceFactor: 140,
           }}
-          render={{
+          render={galleryImages.length <= 1 ? {
             buttonPrev: () => null,
             buttonNext: () => null,
-          }}
+          } : undefined}
           styles={{
             container: { backgroundColor: 'rgba(2, 8, 23, 0.90)' },
           }}
