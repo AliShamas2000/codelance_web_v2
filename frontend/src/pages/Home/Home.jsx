@@ -161,10 +161,13 @@ const Home = () => {
     try {
       setIsLoadingPackages(true)
       const response = await packagesApi.getPublicPackages({ limit: 6 })
-      const packagesData = response.data || response || []
+      const raw = response?.data ?? response
+      const packagesData = Array.isArray(raw) ? raw : (Array.isArray(raw?.data) ? raw.data : [])
+      const activePackages = packagesData.filter(
+        (pkg) => pkg.isActive !== false && pkg.is_active !== false
+      )
       // Transform packages to match CodelancePricingCard format
-      const transformedPackages = Array.isArray(packagesData)
-        ? packagesData.map(pkg => {
+      const transformedPackages = activePackages.map(pkg => {
             // Format price - extract currency symbol and format number
             const priceRaw = pkg.priceRaw || 0
             const originalPrice = pkg.originalPrice || pkg.original_price || null
@@ -199,7 +202,6 @@ const Home = () => {
               buttonText: 'Get Started'
             }
           })
-        : []
       setPackages(transformedPackages)
     } catch (error) {
       // Silently handle errors
@@ -367,6 +369,8 @@ const Home = () => {
   const handleStartProject = () => {
     scrollToContact()
   }
+
+  const showPackagesSection = !isLoadingPackages && packages.length > 0
 
   const handleSeeWork = () => {
     // Scroll to portfolio section on home page
@@ -613,8 +617,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Pricing / Packages Section */}
-      {!isLoadingPackages && packages.length > 0 && (
+      {/* Pricing / Packages Section - hidden when database has no active packages */}
+      {showPackagesSection && (
         <section className="bg-background-light dark:bg-background-dark" id="packages">
           <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
             <CodelancePricingHeader
@@ -696,7 +700,7 @@ const Home = () => {
           { label: "Home", href: "/" },
           { label: "Services", href: "#services" },
           { label: "Portfolio", href: "#portfolio" },
-          ...(!isLoadingPackages && packages.length > 0 ? [{ label: "Packages", href: "#packages" }] : []),
+          ...(showPackagesSection ? [{ label: "Packages", href: "#packages" }] : []),
           { label: "Contact", href: "#contact" }
         ]}
         serviceLinks={[

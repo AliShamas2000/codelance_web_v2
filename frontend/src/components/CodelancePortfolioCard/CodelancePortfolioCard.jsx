@@ -40,7 +40,7 @@ const CodelancePortfolioCard = ({
   return (
     <article
       ref={ref}
-      className={`relative overflow-visible bg-white dark:bg-gray-900 rounded-xl transition-all duration-500 ease-out group ${
+      className={`relative overflow-hidden bg-white dark:bg-gray-900 rounded-xl transition-all duration-500 ease-out group ${
         projectUrl ? 'hover:-translate-y-2 hover:shadow-[0_25px_50px_-12px_rgba(0,43,73,0.15)] dark:hover:shadow-[0_25px_50px_-12px_rgba(0,176,240,0.15)]' : ''
       } ${
         isVisible 
@@ -50,18 +50,22 @@ const CodelancePortfolioCard = ({
       onClick={handleClick}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center transition-all duration-700">
+      <div className={`relative aspect-[4/3] overflow-hidden ${
+        category === 'mobile'
+          ? 'bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center'
+          : ''
+      }`}>
         {imageUrl ? (
           <img
             alt={imageAlt || title}
-            className={`w-full h-full object-cover rounded-lg shadow-2xl transition-transform duration-700 ${
-              category === 'mobile' ? 'w-[60%] rounded-[2.5rem]' : ''
-            } group-hover:scale-110`}
+            className={`h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+              category === 'mobile' ? 'w-[60%] rounded-[2.5rem] shadow-2xl' : 'w-full'
+            }`}
             src={imageUrl}
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full bg-primary/10 rounded-lg flex items-center justify-center">
+          <div className="w-full h-full bg-primary/10 flex items-center justify-center">
             <span className="material-symbols-outlined text-6xl text-primary/30">
               image
             </span>
