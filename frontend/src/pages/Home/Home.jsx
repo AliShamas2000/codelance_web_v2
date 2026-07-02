@@ -614,20 +614,16 @@ const Home = () => {
       </section>
 
       {/* Pricing / Packages Section */}
-      <section className="bg-background-light dark:bg-background-dark" id="packages">
-        <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
-          <CodelancePricingHeader
-            title="Pricing Packages"
-            description="Choose the perfect plan for your technical needs. Our flexible packages are designed to scale with your business and deliver premium GSAP-powered experiences."
-          />
-        </Suspense>
+      {!isLoadingPackages && packages.length > 0 && (
+        <section className="bg-background-light dark:bg-background-dark" id="packages">
+          <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+            <CodelancePricingHeader
+              title="Pricing Packages"
+              description="Choose the perfect plan for your technical needs. Our flexible packages are designed to scale with your business and deliver premium GSAP-powered experiences."
+            />
+          </Suspense>
 
-        <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
-          {isLoadingPackages ? (
-            <div className="text-center py-12">
-              <p className="text-[#5e808d] dark:text-gray-400">Loading packages...</p>
-            </div>
-          ) : (
+          <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12">
             <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
               <CodelancePricingGrid
                 packages={packages}
@@ -638,27 +634,27 @@ const Home = () => {
                 columns={3}
               />
             </Suspense>
-          )}
-        </section>
+          </section>
 
-        <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
-          <CodelancePricingCTA
-            title="Need a custom solution?"
-            description="Our team can build a tailor-made package specifically for your enterprise requirements, including specialized integrations and dedicated server architecture."
-            primaryButtonText="Schedule a Call"
-            primaryButtonAction={scrollToContact}
-            secondaryButtonText="View Full Services"
-            secondaryButtonAction={() => {
-              const servicesSection = document.getElementById('services')
-              if (servicesSection) {
-                servicesSection.scrollIntoView({ behavior: 'smooth' })
-              } else {
-                navigate('/services')
-              }
-            }}
-          />
-        </Suspense>
-      </section>
+          <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
+            <CodelancePricingCTA
+              title="Need a custom solution?"
+              description="Our team can build a tailor-made package specifically for your enterprise requirements, including specialized integrations and dedicated server architecture."
+              primaryButtonText="Schedule a Call"
+              primaryButtonAction={scrollToContact}
+              secondaryButtonText="View Full Services"
+              secondaryButtonAction={() => {
+                const servicesSection = document.getElementById('services')
+                if (servicesSection) {
+                  servicesSection.scrollIntoView({ behavior: 'smooth' })
+                } else {
+                  navigate('/services')
+                }
+              }}
+            />
+          </Suspense>
+        </section>
+      )}
 
       {/* Contact Section */}
       <Suspense fallback={<div className="text-center py-12"><p className="text-[#5e808d] dark:text-gray-400">Loading...</p></div>}>
@@ -700,7 +696,7 @@ const Home = () => {
           { label: "Home", href: "/" },
           { label: "Services", href: "#services" },
           { label: "Portfolio", href: "#portfolio" },
-          { label: "Packages", href: "#packages" },
+          ...(!isLoadingPackages && packages.length > 0 ? [{ label: "Packages", href: "#packages" }] : []),
           { label: "Contact", href: "#contact" }
         ]}
         serviceLinks={[

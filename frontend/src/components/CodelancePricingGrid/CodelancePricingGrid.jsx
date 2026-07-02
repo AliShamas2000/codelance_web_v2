@@ -38,65 +38,9 @@ const CodelancePricingGrid = ({
     return 'other'
   }
 
-  // Default packages if none provided
-  const defaultPackages = [
-    {
-      id: 1,
-      name: "Starter",
-      price: "$999",
-      pricePeriod: "/project",
-      description: "Perfect for single landings and MVP launches.",
-      features: [
-        { text: "5 Core Features", isBold: false },
-        { text: "Email Support", isBold: false },
-        { text: "Basic GSAP Animations", isBold: false },
-        { text: "48h Response Time", isBold: false },
-        { text: "Standard Security", isBold: false }
-      ],
-      category: "website",
-      buttonText: "Get Started"
-    },
-    {
-      id: 2,
-      name: "Business",
-      price: "$2,499",
-      pricePeriod: "/month",
-      description: "Scalable solutions for growing tech brands.",
-      badge: "Most Popular",
-      isHighlighted: true,
-      features: [
-        { text: "All Starter Features", isBold: true },
-        { text: "Priority Slack Support", isBold: false },
-        { text: "Advanced GSAP Interactivity", isBold: false },
-        { text: "24h Response Time", isBold: false },
-        { text: "Premium Security Audits", isBold: false },
-        { text: "Custom API Integration", isBold: false }
-      ],
-      category: "mobile",
-      buttonText: "Choose Business"
-    },
-    {
-      id: 3,
-      name: "Enterprise",
-      price: "Custom",
-      pricePeriod: "quote",
-      description: "Bespoke infrastructure for high-traffic apps.",
-      features: [
-        { text: "Unlimited Features", isBold: false },
-        { text: "Dedicated Project Manager", isBold: false },
-        { text: "24/7 Priority Support", isBold: false },
-        { text: "Custom Infrastructure", isBold: false },
-        { text: "SLA Guarantee", isBold: false }
-      ],
-      category: "pos",
-      buttonText: "Contact Sales"
-    }
-  ]
-
-  const displayPackages = packages.length > 0 ? packages : defaultPackages
   const normalizedPackages = useMemo(
-    () => displayPackages.map((pkg) => ({ ...pkg, normalizedCategory: detectCategory(pkg) })),
-    [displayPackages]
+    () => packages.map((pkg) => ({ ...pkg, normalizedCategory: detectCategory(pkg) })),
+    [packages]
   )
   const availableTabs = useMemo(() => {
     const orderedCategories = ['website', 'mobile', 'pos', 'dashboard', 'other']
@@ -120,7 +64,7 @@ const CodelancePricingGrid = ({
     return normalizedPackages.filter((pkg) => pkg.normalizedCategory === activeTab)
   }, [normalizedPackages, activeTab])
 
-  if (displayPackages.length === 0) {
+  if (packages.length === 0) {
     return (
       <div className="text-center py-12 text-gray-600 dark:text-gray-400">
         <p>No packages available at the moment.</p>
