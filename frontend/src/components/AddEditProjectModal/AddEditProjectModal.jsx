@@ -112,12 +112,6 @@ const AddEditProjectModal = ({
       return
     }
 
-    const oversizedFile = selectedFiles.find((file) => file.size > 5 * 1024 * 1024)
-    if (oversizedFile) {
-      setErrors(prev => ({ ...prev, images: 'Each image size must be less than 5MB' }))
-      return
-    }
-
     setFormData(prev => ({
       ...prev,
       images: [...prev.images, ...selectedFiles],
@@ -324,7 +318,7 @@ const AddEditProjectModal = ({
                   Click to upload images
                 </button>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  PNG, JPG, GIF, WEBP, SVG up to 5MB each
+                  PNG, JPG, GIF, WEBP, SVG
                 </p>
               </div>
 
