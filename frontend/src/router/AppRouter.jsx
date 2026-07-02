@@ -41,6 +41,7 @@ import AdminLayout from '../components/AdminLayout/AdminLayout'
 import { AdminUserProvider } from '../contexts/AdminUserContext'
 // import ReviewPage from '../pages/Review/Review'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
+import WhatsAppFloatButton from '../components/WhatsAppFloatButton/WhatsAppFloatButton'
 
 const AppRouter = () => {
   const navigationItems = [
@@ -66,6 +67,7 @@ const AppRouter = () => {
         v7_relativeSplatPath: true,
       }}
     >
+      <WhatsAppFloatButton />
       <Routes>
         {/* Default/Home Route - Uses its own header and footer */}
         <Route

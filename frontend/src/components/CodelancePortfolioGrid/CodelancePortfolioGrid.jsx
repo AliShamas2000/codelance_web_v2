@@ -29,7 +29,7 @@ const CodelancePortfolioGrid = ({
   }, [projects, activeFilter])
 
   return (
-    <div className={`grid ${gridCols[columns] || gridCols[3]} gap-8 lg:gap-10 ${className}`}>
+    <div className={`grid ${gridCols[columns] || gridCols[3]} gap-8 lg:gap-10 items-start ${className}`}>
       {filteredProjects.length === 0 ? (
         <div className="col-span-full text-center py-12 text-[#5e808d] dark:text-gray-400">
           <p>No projects found in this category.</p>

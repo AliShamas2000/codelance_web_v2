@@ -50,17 +50,21 @@ const CodelancePortfolioCard = ({
       onClick={handleClick}
     >
       {/* Image Container */}
-      <div className={`relative aspect-[4/3] overflow-hidden ${
-        category === 'mobile'
-          ? 'bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center'
-          : ''
-      }`}>
+      <div
+        className={
+          category === 'mobile'
+            ? 'relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center'
+            : 'relative overflow-hidden bg-slate-100/70 dark:bg-slate-800/50'
+        }
+      >
         {imageUrl ? (
           <img
             alt={imageAlt || title}
-            className={`h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
-              category === 'mobile' ? 'w-[60%] rounded-[2.5rem] shadow-2xl' : 'w-full'
-            }`}
+            className={
+              category === 'mobile'
+                ? 'h-full w-[60%] rounded-[2.5rem] shadow-2xl object-cover transition-transform duration-700 group-hover:scale-110'
+                : 'block w-full h-auto object-contain object-top transition-transform duration-700 group-hover:scale-[1.02]'
+            }
             src={imageUrl}
             loading="lazy"
           />
