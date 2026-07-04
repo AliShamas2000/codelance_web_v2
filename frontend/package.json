@@ -11,6 +11,9 @@
     "preview:prod": "npm run build && vite preview --port 3000"
   },
   "dependencies": {
+    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource-variable/material-symbols-outlined": "^5.2.45",
+    "@fontsource/inter": "^5.2.8",
     "axios": "^1.7.7",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",

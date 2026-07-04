@@ -26,7 +26,7 @@ export default {
         "text-dark": "#F9FAFB",
       },
       fontFamily: {
-        "display": ["Manrope", "Inter", "sans-serif"]
+        "display": ["Manrope Variable", "Manrope", "Inter", "sans-serif"]
       },
       borderRadius: {
         "DEFAULT": "0.5rem",
@@ -36,7 +36,16 @@ export default {
       },
       boxShadow: {
         'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
-      }
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 1.5s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
