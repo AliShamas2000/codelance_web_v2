@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import useScrollReveal from '../../hooks/useScrollReveal'
+import MaterialIcon from '../Icon/MaterialIcon'
 
 const CodelanceHero = ({
   badge = "Innovating the Digital Future",
@@ -93,7 +94,7 @@ const CodelanceHero = ({
                 </div>
                 <div className="flex-1 rounded-xl bg-gradient-to-br from-primary/10 to-primary/30 border border-primary/10 flex items-center justify-center">
                   <div className="size-10 lg:size-16 rounded-full bg-white/80 shadow-lg flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined !text-2xl lg:!text-4xl">play_arrow</span>
+                    <MaterialIcon name="play_arrow" className="text-primary" size={32} />
                   </div>
                 </div>
               </div>
@@ -105,7 +106,7 @@ const CodelanceHero = ({
               <div className="p-3 lg:p-6 h-full flex flex-col bg-white dark:bg-[#1a2c33]">
                 <div className="mt-4 lg:mt-8 space-y-3 lg:space-y-6">
                   <div className="h-20 lg:h-32 w-full bg-primary/10 rounded-xl lg:rounded-2xl flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary !text-3xl lg:!text-5xl">cloud_queue</span>
+                    <MaterialIcon name="cloud_queue" className="text-primary" size={40} />
                   </div>
                   <div className="h-4 lg:h-6 w-full bg-navy-deep/10 rounded-lg"></div>
                   <div className="h-3 lg:h-4 w-[80%] bg-navy-deep/5 rounded-lg"></div>
@@ -160,9 +161,11 @@ const CodelanceHero = ({
               >
                 <span className="relative z-10 flex items-center gap-2">
                   {primaryButtonText}
-                  <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">
-                    arrow_forward
-                  </span>
+                  <MaterialIcon
+                    name="arrow_forward"
+                    className="transition-transform group-hover:translate-x-1 w-5 h-5"
+                    size={20}
+                  />
                 </span>
                 {/* Shimmer Effect */}
                 <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>

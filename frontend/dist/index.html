@@ -33,9 +33,23 @@
       content="We build fast, modern digital experiences: websites, mobile apps, POS systems, AI solutions, and more."
     />
 
+    <!-- Icon font: preload from public so icons render instantly on hard refresh -->
+    <link
+      rel="preload"
+      href="/fonts/material-symbols-outlined.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      html:not(.icons-loaded) .material-symbols-outlined {
+        color: transparent !important;
+        overflow: hidden;
+      }
+    </style>
     <!-- Fonts are bundled locally via src/styles/fonts.css (no external CDN) -->
-    <script type="module" crossorigin src="/js/index-DWBCcn6L.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D58snEl2.css">
+    <script type="module" crossorigin src="/js/index-BTdFtzog.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-K-pNoqyt.css">
   </head>
   <body>
     <div id="root"></div>

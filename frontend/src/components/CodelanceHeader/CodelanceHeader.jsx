@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import MaterialIcon from '../Icon/MaterialIcon'
 
 const CodelanceHeader = ({ 
   logoUrl = null,
@@ -122,9 +123,11 @@ const CodelanceHeader = ({
             >
               <span className="relative z-10 flex items-center gap-2">
                 Get Started
-                <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">
-                  arrow_forward
-                </span>
+                <MaterialIcon
+                  name="arrow_forward"
+                  className="transition-transform group-hover:translate-x-1 w-4 h-4"
+                  size={16}
+                />
               </span>
               {/* Shimmer Effect */}
               <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
@@ -138,9 +141,11 @@ const CodelanceHeader = ({
             aria-label="Toggle mobile menu"
             aria-expanded={isMobileMenuOpen}
           >
-            <span className="material-symbols-outlined text-3xl">
-              {isMobileMenuOpen ? 'close' : 'menu'}
-            </span>
+            <MaterialIcon
+              name={isMobileMenuOpen ? 'close' : 'menu'}
+              className="w-8 h-8"
+              size={28}
+            />
           </button>
         </div>
       </div>
@@ -189,9 +194,11 @@ const CodelanceHeader = ({
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   Get Started
-                  <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">
-                    arrow_forward
-                  </span>
+                  <MaterialIcon
+                    name="arrow_forward"
+                    className="transition-transform group-hover:translate-x-1 w-4 h-4"
+                    size={16}
+                  />
                 </span>
                 {/* Shimmer Effect */}
                 <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
