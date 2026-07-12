@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import Lightbox from 'yet-another-react-lightbox'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import 'yet-another-react-lightbox/styles.css'
+import Shimmer from '../Shimmer/Shimmer'
 
 const CodelancePortfolioCard = ({
   id,
@@ -18,9 +19,22 @@ const CodelancePortfolioCard = ({
 }) => {
   const [isVisible, ref] = useScrollReveal({ threshold: 0.1 })
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+  const [isImageError, setIsImageError] = useState(false)
   const galleryImages = Array.isArray(imageUrls) && imageUrls.length > 0
     ? imageUrls
     : (imageUrl ? [imageUrl] : [])
+
+  useEffect(() => {
+    setIsImageLoaded(false)
+    setIsImageError(false)
+  }, [imageUrl])
+
+  const handleImageRef = (node) => {
+    if (node?.complete && node.naturalHeight > 0) {
+      setIsImageLoaded(true)
+    }
+  }
 
   const handleClick = () => {
     if (onClick) {
@@ -54,29 +68,55 @@ const CodelancePortfolioCard = ({
         className={
           category === 'mobile'
             ? 'relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center'
-            : 'relative overflow-hidden bg-slate-100/70 dark:bg-slate-800/50'
+            : 'relative overflow-hidden bg-slate-100/70 dark:bg-slate-800/50 min-h-[280px]'
         }
       >
+        {imageUrl && !isImageLoaded && !isImageError && (
+          <Shimmer
+            className={`absolute inset-0 w-full h-full ${
+              category === 'mobile' ? '' : 'min-h-[280px]'
+            }`}
+            rounded="rounded-none"
+          />
+        )}
+
         {imageUrl ? (
           <img
+            ref={handleImageRef}
             alt={imageAlt || title}
             className={
               category === 'mobile'
-                ? 'h-full w-[60%] rounded-[2.5rem] shadow-2xl object-cover transition-transform duration-700 group-hover:scale-110'
-                : 'block w-full h-auto object-contain object-top transition-transform duration-700 group-hover:scale-[1.02]'
+                ? `h-full w-[60%] rounded-[2.5rem] shadow-2xl object-cover transition-all duration-500 group-hover:scale-110 ${
+                    isImageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`
+                : `block w-full transition-all duration-500 group-hover:scale-[1.02] ${
+                    isImageLoaded
+                      ? 'relative h-auto object-contain object-top opacity-100'
+                      : 'absolute inset-0 h-full w-full object-cover opacity-0'
+                  }`
             }
             src={imageUrl}
             loading="lazy"
+            decoding="async"
+            onLoad={() => setIsImageLoaded(true)}
+            onError={() => setIsImageError(true)}
           />
         ) : (
-          <div className="w-full h-full bg-primary/10 flex items-center justify-center">
+          <div className="w-full min-h-[280px] bg-primary/10 flex items-center justify-center">
             <span className="material-symbols-outlined text-6xl text-primary/30">
               image
             </span>
           </div>
         )}
 
-        {imageUrl && (
+        {imageUrl && isImageError && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-100/90 dark:bg-slate-800/90 text-[#5e808d] dark:text-gray-400">
+            <span className="material-symbols-outlined text-4xl text-primary/40">broken_image</span>
+            <span className="text-sm font-medium">Image unavailable</span>
+          </div>
+        )}
+
+        {imageUrl && isImageLoaded && (
           <button
             type="button"
             aria-label={`Expand preview for ${title}`}
