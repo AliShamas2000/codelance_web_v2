@@ -68,14 +68,14 @@ const CodelancePortfolioCard = ({
         className={
           category === 'mobile'
             ? 'relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center'
-            : 'relative overflow-hidden bg-slate-100/70 dark:bg-slate-800/50 min-h-[280px]'
+            : `relative overflow-hidden bg-slate-100/70 dark:bg-slate-800/50 ${
+                imageUrl && !isImageLoaded && !isImageError ? 'min-h-[280px]' : ''
+              }`
         }
       >
         {imageUrl && !isImageLoaded && !isImageError && (
           <Shimmer
-            className={`absolute inset-0 w-full h-full ${
-              category === 'mobile' ? '' : 'min-h-[280px]'
-            }`}
+            className="absolute inset-0 w-full h-full"
             rounded="rounded-none"
           />
         )}
@@ -86,13 +86,11 @@ const CodelancePortfolioCard = ({
             alt={imageAlt || title}
             className={
               category === 'mobile'
-                ? `h-full w-[60%] rounded-[2.5rem] shadow-2xl object-cover transition-all duration-500 group-hover:scale-110 ${
+                ? `h-full w-[60%] rounded-[2.5rem] shadow-2xl object-cover transition-opacity duration-500 group-hover:scale-110 ${
                     isImageLoaded ? 'opacity-100' : 'opacity-0'
                   }`
-                : `block w-full transition-all duration-500 group-hover:scale-[1.02] ${
-                    isImageLoaded
-                      ? 'relative h-auto object-contain object-top opacity-100'
-                      : 'absolute inset-0 h-full w-full object-cover opacity-0'
+                : `block w-full h-auto object-contain object-top transition-opacity duration-500 group-hover:scale-[1.02] ${
+                    isImageLoaded ? 'opacity-100' : 'opacity-0 absolute inset-0 h-full w-full object-cover'
                   }`
             }
             src={imageUrl}
